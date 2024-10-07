@@ -4,7 +4,7 @@ from comtypes import CLSCTX_ALL
 from ctypes import cast, POINTER
 
 
-class Audio_controller:
+class AudioController:
 
     def __init__(self):
         self.devices = AudioUtilities.GetSpeakers()  # Получаем основное аудиоустройство (например, динамики или наушники)
@@ -38,7 +38,7 @@ class Audio_controller:
 
 
 if __name__ == "__main__":
-    ac = Audio_controller()
+    ac = AudioController()
     ac.set_system_volume(40)
     ac.volume_off()
     ac.volume_on()
