@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="506c790d-3922-4e34-8cad-de3304770d1f" name="Changes" comment="added: audio command, error_log&#10;+hotfix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UI/main_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/main_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sys_commands.py" beforeDir="false" afterPath="$PROJECT_DIR$/sys_commands.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,12 +28,12 @@
     &quot;assignee&quot;: &quot;Patrick-002&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Patrick-002/Monica.git",
-    "accountId": "ca133718-cc80-424b-aadf-843304dad242"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Patrick-002/Monica.git&quot;,
+    &quot;accountId&quot;: &quot;ca133718-cc80-424b-aadf-843304dad242&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -131,9 +129,9 @@
     <option name="LAST_COMMIT_MESSAGE" value="added: audio command, error_log&#10;+hotfix" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Monica$main_page.coverage" NAME="main_page Coverage Results" MODIFIED="1728336117735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
     <SUITE FILE_PATH="coverage/Monica$sys_commands.coverage" NAME="sys_commands Coverage Results" MODIFIED="1728330589802" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Monica$sys_comands.coverage" NAME="sys_comands Coverage Results" MODIFIED="1728325197227" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Monica$main_page.coverage" NAME="main_page Coverage Results" MODIFIED="1728336117735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/UI" />
-    <SUITE FILE_PATH="coverage/Monica$main.coverage" NAME="main Coverage Results" MODIFIED="1728423296564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Monica$main.coverage" NAME="main Coverage Results" MODIFIED="1728425311936" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
