@@ -23,18 +23,27 @@ class AudioController:
     def volume_up(self, value: int):
         value /= 100
         current_volume = self.get_volume()
-        self.volume.SetMasterVolumeLevelScalar(current_volume + value, None)
+        if current_volume + value > 1:
+            self.volume.SetMasterVolumeLevelScalar(1, None)
+        else:
+            self.volume.SetMasterVolumeLevelScalar(current_volume + value, None)
 
     def volume_down(self, value: int):
         value /= 100
         current_volume = self.get_volume()
-        self.volume.SetMasterVolumeLevelScalar(current_volume - value, None)
+        if current_volume - value < 0:
+            self.volume.SetMasterVolumeLevelScalar(0, None)
+        else:
+            self.volume.SetMasterVolumeLevelScalar(current_volume - value, None)
 
     def volume_off(self):
         self.volume.SetMute(1, None)
 
     def volume_on(self):
         self.volume.SetMute(0, None)
+
+    def volume_max(self):
+        self.volume.SetMasterVolumeLevelScalar(1, None)
 
 
 if __name__ == "__main__":

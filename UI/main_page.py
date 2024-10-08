@@ -56,7 +56,7 @@ class MonicaUI(QWidget):
 
     def set_system_volume(self):
         volume_value = self.volume_input_box.text()
-        volume_value = float(volume_value)
+        volume_value = int(volume_value)
         if 0 <= volume_value <= 100:
             print(f"Громкость установлена на: {volume_value}%")
             self.ac.set_system_volume(volume_value)
@@ -66,3 +66,7 @@ class MonicaUI(QWidget):
     def volume_off(self):
         print("Звук выключен!")
         self.ac.volume_off()
+
+    def volume_max(self):
+        print('Установлена максимальная громкость!')
+        self.ac.volume_max()
