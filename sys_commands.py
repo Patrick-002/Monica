@@ -15,7 +15,7 @@ class AudioController:
         current_volume = self.volume.GetMasterVolumeLevelScalar()
         return current_volume
 
-    def set_system_volume(self, value: int):
+    def volume_set(self, value: int):
         # Уровень громкости должен быть от 0.0 до 1.0
         value /= 100
         self.volume.SetMasterVolumeLevelScalar(value, None)
@@ -48,7 +48,7 @@ class AudioController:
 
 if __name__ == "__main__":
     ac = AudioController()
-    ac.set_system_volume(40)
+    ac.volume_set(40)
     ac.volume_off()
     ac.volume_on()
     ac.volume_up(20)

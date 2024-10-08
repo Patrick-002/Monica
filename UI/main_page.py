@@ -20,7 +20,7 @@ class MonicaUI(QWidget):
 
         # Кнопка для установки громкости
         self.set_volume_button = QPushButton('Set Volume')
-        self.set_volume_button.clicked.connect(self.set_system_volume)
+        self.set_volume_button.clicked.connect(self.volume_set)
         layout.addWidget(self.set_volume_button)
 
         # Остальные кнопки
@@ -47,19 +47,30 @@ class MonicaUI(QWidget):
         self.ac.volume_on()
 
     def volume_up(self):
-        print("Громкость повышена!")
-        self.ac.volume_up(5)
+        volume_value = self.volume_input_box.text()
+        if volume_value == '':
+            volume_value = 5
+        volume_value = int(volume_value)
+        print(f"Громкость повышена на {volume_value}!")
+        self.ac.volume_up(volume_value)
 
     def volume_down(self):
-        print("Громкость понижена!")
-        self.ac.volume_down(5)
-
-    def set_system_volume(self):
         volume_value = self.volume_input_box.text()
+        if volume_value == '':
+            volume_value = 5
+        volume_value = int(volume_value)
+        print(f"Громкость понижена на {volume_value}!")
+        self.ac.volume_down(volume_value)
+
+    def volume_set(self):
+        volume_value = self.volume_input_box.text()
+        if volume_value == '':
+            print("Пожалуйста, введите значение от 0 до 100.")
+            return False
         volume_value = int(volume_value)
         if 0 <= volume_value <= 100:
             print(f"Громкость установлена на: {volume_value}%")
-            self.ac.set_system_volume(volume_value)
+            self.ac.volume_set(volume_value)
         else:
             print("Пожалуйста, введите значение от 0 до 100.")
 
