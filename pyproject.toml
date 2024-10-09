@@ -10,6 +10,7 @@ python = "^3.12"
 comtypes = "^1.4.7"
 pycaw = "^20240210"
 qtwidgets = "^1.1"
+num2words = "^0.5.13"
 
 
 [build-system]
