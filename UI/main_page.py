@@ -1,12 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QSizePolicy
-from sys_commands import AudioController  # Убедитесь, что этот импорт корректен
+from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QSizePolicy, QVBoxLayout, QLabel
+from sys_commands import AudioController
 
-class MonicaUI(QWidget):
-    def __init__(self):
+
+class MainPage(QWidget):
+    def __init__(self, page_manager):
         super().__init__()
 
+        self.page_manager = page_manager  # Сохраняем экземпляр PageManager
+        self.page_manager.register_page(self.__class__.__name__, self)
+
+        layout = QVBoxLayout()
         self.ac = AudioController()  # Инициализация контроллера звука
-        self.setWindowTitle('Monica Assistant')
         self.init_ui()
 
     def init_ui(self):
@@ -130,6 +134,7 @@ class MonicaUI(QWidget):
     def volume_off(self):
         print("Звук выключен!")
         self.ac.volume_off()
+        self.page_manager.show_page('SettingsPage')
 
     def volume_max(self):
         print('Установлена максимальная громкость!')

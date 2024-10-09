@@ -1,17 +1,35 @@
 import sys
-from PyQt5.QtWidgets import QApplication
-from UI.main_page import MonicaUI
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
+from UI.main_page import MainPage
+from UI.settings_page import SettingsPage
 import traceback
 from datetime import datetime
+import sys
+from page_manager import PageManager
+
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        # Создаем PageManager
+        self.page_manager = PageManager()
+
+        # Создаем страницы, которые автоматически регистрируются
+        MainPage(self.page_manager)  # Регистрация MainPage
+        SettingsPage(self.page_manager)  # Регистрация SecondPage
+
+        # Устанавливаем QStackedWidget в главное окно
+        self.setCentralWidget(self.page_manager.stacked_widget)
+
 
 if __name__ == '__main__':
     try:
         app = QApplication(sys.argv)
 
-        window = MonicaUI()
+        window = MainWindow()
         window.resize(800, 600)
-        window.setWindowTitle('Monica Assistant')
         window.setStyleSheet("background-color: rgb(36, 19, 59);")
+        window.setWindowTitle('Monica Assistant')
         window.show()
 
         sys.exit(app.exec_())
