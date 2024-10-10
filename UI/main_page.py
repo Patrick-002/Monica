@@ -1,141 +1,147 @@
-from PyQt5.QtWidgets import QWidget, QGridLayout, QPushButton, QLineEdit, QSizePolicy, QVBoxLayout, QLabel
-from sys_commands import AudioController
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'main_page.ui'
+##
+## Created by: Qt User Interface Compiler version 6.8.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, Qt)
+from PySide6.QtWidgets import (QLabel, QListWidget, QListWidgetItem,
+                               QStackedWidget, QVBoxLayout, QHBoxLayout, QWidget, QSizePolicy)
 
 
-class MainPage(QWidget):
+class SettingsPage(QWidget):
     def __init__(self, page_manager):
         super().__init__()
 
         self.page_manager = page_manager  # Сохраняем экземпляр PageManager
-        self.page_manager.register_page(self.__class__.__name__, self)
+        self.page_manager.register_page(self.__class__.__name__, self)  # Регистрация страницы
 
-        layout = QVBoxLayout()
-        self.ac = AudioController()  # Инициализация контроллера звука
-        self.init_ui()
+        # Настройка пользовательского интерфейса
+        self.ui = Ui_FormDock(page_manager)
+        self.ui.setupUi(self)
 
-    def init_ui(self):
-        layout = QGridLayout()
+    def retranslateUi(self):
+        self.ui.retranslateUi(self)
 
-        button_style = """
-        QPushButton {
-            background-color: rgb(85, 170, 255);
-            color: white;
-            border-radius: 10px;
-            padding: 5px;
-        }
-        QPushButton:hover {
-            background-color: rgb(100, 180, 255);
-        }
-        """
 
-        # Стиль для текстового поля
-        text_box_style = """
-        QLineEdit {
-            background-color: lightyellow;  /* Цвет фона */
-            color: darkblue;                /* Цвет текста */
-            font-size: 16px;                /* Размер текста */
-            border: 2px solid gray;         /* Толщина и цвет границы */
-            border-radius: 5px;             /* Радиус скругления углов */
-        }
-        """
+class Ui_FormDock(object):
+    def __init__(self, page_manager):
+        self.page_manager = page_manager  # Сохраняем экземпляр PageManager
 
-        # Создаем текстовое поле для ввода громкости
-        self.volume_input_box = QLineEdit(self)
-        self.volume_input_box.setPlaceholderText("Введите громкость (0-100)")
-        self.volume_input_box.setStyleSheet(text_box_style)  # Применяем стиль
+    def setupUi(self, FormDock):
+        if not FormDock.objectName():
+            FormDock.setObjectName(u"FormDock")
+        FormDock.resize(900, 550)
+        FormDock.setStyleSheet(u"""
+                background: qlineargradient(
+                    spread:pad, 
+                    x1:0, y1:0, x2:1, y2:1, 
+                    stop:0 #4B0082, 
+                    stop:0.5 #3C3F41, 
+                    stop:1 #2E8B57
+                );
+                font-family: 'Segoe UI'; 
+                font-size: 12pt;         
+                color: white;
+        """)
 
-        # Устанавливаем политику размеров
-        self.volume_input_box.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        # Главный вертикальный layout
+        self.verticalLayout = QVBoxLayout(FormDock)
+        self.verticalLayout.setContentsMargins(10, 10, 10, 10)
 
-        # Кнопка для установки громкости
-        self.set_volume_button = QPushButton('Set Volume')
-        self.set_volume_button.setStyleSheet(button_style)
-        self.set_volume_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.set_volume_button.clicked.connect(self.volume_set)  # Привязываем обработчик события
+        # Горизонтальный layout для списка категорий и контента
+        self.horizontalLayout = QHBoxLayout()
 
-        # Остальные кнопки
-        self.volume_up_button = QPushButton('Volume Up')
-        self.volume_up_button.setStyleSheet(button_style)
-        self.volume_up_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.volume_up_button.clicked.connect(self.volume_up)  # Привязываем обработчик события
+        # Список категорий
+        self.category_list = QListWidget(FormDock)
+        font = self.category_list.font()
+        font.setPointSize(11)
+        self.category_list.setFont(font)
 
-        self.volume_down_button = QPushButton('Volume Down')
-        self.volume_down_button.setStyleSheet(button_style)
-        self.volume_down_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.volume_down_button.clicked.connect(self.volume_down)  # Привязываем обработчик события
+        # Устанавливаем политику размеров для списка категорий
+        self.category_list.setSizePolicy(QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding))
+        self.category_list.setMaximumWidth(250)
 
-        self.volume_off_button = QPushButton('Mute')
-        self.volume_off_button.setStyleSheet(button_style)
-        self.volume_off_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.volume_off_button.clicked.connect(self.volume_off)  # Привязываем обработчик события
+        # Добавляем элементы в список категорий
+        self.add_list_items()
 
-        self.volume_on_button = QPushButton('Unmute')
-        self.volume_on_button.setStyleSheet(button_style)
-        self.volume_on_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.volume_on_button.clicked.connect(self.volume_on)  # Привязываем обработчик события
+        # Добавляем список категорий в горизонтальный layout
+        self.horizontalLayout.addWidget(self.category_list)
 
-        # Добавляем виджеты в сетку
-        layout.addWidget(self.volume_input_box, 0, 0, 1, 2)  # Растягиваем на 2 колонки
-        layout.addWidget(self.set_volume_button, 1, 0, 1, 2)
+        # Добавляем область для контента (QStackedWidget)
+        self.page_dock = QStackedWidget(FormDock)
+        self.page_dock.setSizePolicy(QSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding))
 
-        layout.addWidget(self.volume_up_button, 2, 0)
-        layout.addWidget(self.volume_down_button, 2, 1)
-        layout.addWidget(self.volume_off_button, 3, 0)
-        layout.addWidget(self.volume_on_button, 3, 1)
+        # Добавляем страницы в QStackedWidget
+        self.add_pages()
 
-        # Устанавливаем растяжение для строк и столбцов
-        layout.setRowStretch(0, 1)
-        layout.setRowStretch(1, 2)
-        layout.setRowStretch(2, 1)
-        layout.setRowStretch(3, 1)
+        # Добавляем QStackedWidget в горизонтальный layout
+        self.horizontalLayout.addWidget(self.page_dock)
 
-        layout.setColumnStretch(0, 1)
-        layout.setColumnStretch(1, 1)
+        # Добавляем горизонтальный layout в вертикальный layout
+        self.verticalLayout.addLayout(self.horizontalLayout)
 
-        # Устанавливаем минимальные отступы (margins) для всего layout
-        layout.setContentsMargins(30, 30, 30, 30)
-        layout.setSpacing(40)
+        # Настраиваем начальную страницу
+        self.page_dock.setCurrentIndex(0)
 
-        # Устанавливаем сетку в качестве основного layout
-        self.setLayout(layout)
+    def add_list_items(self):
+        # Добавляем пункты в список категорий
+        categories = [
+            QCoreApplication.translate("FormDock", u"Настройки Моники", None),
+            QCoreApplication.translate("FormDock", u"Настройки голосовой модели", None),
+            QCoreApplication.translate("FormDock", u"Настройки интерфейса", None),
+            QCoreApplication.translate("FormDock", u"Прочие настройки", None)
+        ]
+        for category in categories:
+            item = QListWidgetItem(category)
+            self.category_list.addItem(item)
 
-    def volume_on(self):
-        print("Звук включен!")
-        self.ac.volume_on()
+    def add_pages(self):
+        # Создаем страницы и добавляем их в page_dock
+        self.another_settings = QWidget()
+        self.label = QLabel(self.another_settings)
+        self.label.setText("Another Settings")
 
-    def volume_up(self):
-        volume_value = self.volume_input_box.text()
-        if volume_value == '':
-            volume_value = 5
-        volume_value = int(volume_value)
-        print(f"Громкость повышена на {volume_value}!")
-        self.ac.volume_up(volume_value)
+        layout1 = QVBoxLayout(self.another_settings)
+        layout1.addWidget(self.label)
+        layout1.setAlignment(Qt.AlignCenter)
 
-    def volume_down(self):
-        volume_value = self.volume_input_box.text()
-        if volume_value == '':
-            volume_value = 5
-        volume_value = int(volume_value)
-        print(f"Громкость понижена на {volume_value}!")
-        self.ac.volume_down(volume_value)
+        self.page_dock.addWidget(self.another_settings)
 
-    def volume_set(self):
-        volume_value = self.volume_input_box.text()
-        if volume_value == '':
-            print("Пожалуйста, введите значение от 0 до 100.")
-            return False
-        volume_value = int(volume_value)
-        if 0 <= volume_value <= 100:
-            print(f"Громкость установлена на: {volume_value}%")
-            self.ac.volume_set(volume_value)
-        else:
-            print("Пожалуйста, введите значение от 0 до 100.")
+        self.monica_settings = QWidget()
+        self.label_3 = QLabel(self.monica_settings)
+        self.label_3.setText("Monica Settings")
 
-    def volume_off(self):
-        print("Звук выключен!")
-        self.ac.volume_off()
-        self.page_manager.show_page('SettingsPage')
+        layout2 = QVBoxLayout(self.monica_settings)
+        layout2.addWidget(self.label_3)
+        layout2.setAlignment(Qt.AlignCenter)
 
-    def volume_max(self):
-        print('Установлена максимальная громкость!')
-        self.ac.volume_max()
+        self.page_dock.addWidget(self.monica_settings)
+
+        self.interface_settings_page = QWidget()
+        self.label_2 = QLabel(self.interface_settings_page)
+        self.label_2.setText("Interface Settings")
+
+        layout3 = QVBoxLayout(self.interface_settings_page)
+        layout3.addWidget(self.label_2)
+        layout3.setAlignment(Qt.AlignCenter)
+
+        self.page_dock.addWidget(self.interface_settings_page)
+
+        self.voice_model_settings = QWidget()
+        self.label_4 = QLabel(self.voice_model_settings)
+        self.label_4.setText("Voice Model Settings")
+
+        layout4 = QVBoxLayout(self.voice_model_settings)
+        layout4.addWidget(self.label_4)
+        layout4.setAlignment(Qt.AlignCenter)
+
+        self.page_dock.addWidget(self.voice_model_settings)
+
+    def retranslateUi(self, FormDock):
+        FormDock.setWindowTitle(QCoreApplication.translate("FormDock", u"Form", None))
+        self.category_list.setSortingEnabled(True)

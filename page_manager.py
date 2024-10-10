@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QStackedWidget
+from PySide6.QtWidgets import QStackedWidget
 
 class PageManager:
     def __init__(self):

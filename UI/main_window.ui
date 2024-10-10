@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>900</width>
+    <height>550</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">                background: qlineargradient(
+                    spread:pad, 
+                    x1:0, y1:0, x2:1, y2:1, 
+                    stop:0 #4B0082,   /* Тёмно-фиолетовый */
+                    stop:0.5 #3C3F41, /* Тёмно-серый */
+                    stop:1 #2E8B57    /* Тёмно-зелёный */
+                );
+                font-family: 'Segoe UI'; /* Шрифт Segoe UI */
+                font-size: 12pt;         /* Размер шрифта */
+                color: white;            /* Цвет текста */</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
