@@ -88,6 +88,9 @@ class Ui_FormDock(object):
         # Настраиваем начальную страницу
         self.page_dock.setCurrentIndex(0)
 
+        # Связываем выбор элемента в списке с переключением страниц
+        self.category_list.currentRowChanged.connect(self.page_dock.setCurrentIndex)
+
     def add_list_items(self):
         # Добавляем пункты в список категорий
         categories = [
@@ -104,7 +107,7 @@ class Ui_FormDock(object):
         # Создаем страницы и добавляем их в page_dock
         self.another_settings = QWidget()
         self.label = QLabel(self.another_settings)
-        self.label.setText("Another Settings")
+        self.label.setText("Monica Settings")
 
         layout1 = QVBoxLayout(self.another_settings)
         layout1.addWidget(self.label)
@@ -114,7 +117,7 @@ class Ui_FormDock(object):
 
         self.monica_settings = QWidget()
         self.label_3 = QLabel(self.monica_settings)
-        self.label_3.setText("Monica Settings")
+        self.label_3.setText("Voice Model Settings")
 
         layout2 = QVBoxLayout(self.monica_settings)
         layout2.addWidget(self.label_3)
@@ -134,7 +137,7 @@ class Ui_FormDock(object):
 
         self.voice_model_settings = QWidget()
         self.label_4 = QLabel(self.voice_model_settings)
-        self.label_4.setText("Voice Model Settings")
+        self.label_4.setText("Another Settings")
 
         layout4 = QVBoxLayout(self.voice_model_settings)
         layout4.addWidget(self.label_4)
