@@ -43,7 +43,6 @@ class VoiceController:
         if self.sound_key_word in command:
             self.sound_commands(command)
         if self.run_app_key in command:
-            print('app go')
             self.run_app_words(command)
         if self.open_folder_key in command:
             self.open_something(command)
@@ -123,11 +122,8 @@ class VoiceController:
         for word in split_command:
             word_count += 1
             if word_count == 2:
-                print(self.app_man.apps.keys())
                 for key_word in self.app_man.apps.keys():
-                    print(key_word)
                     if word in key_word or key_word in word:
-                        print(f'Запускаю {key_word}')
                         self.app_man.run_app(key_word)
                         success = True
         if not success:
@@ -147,7 +143,6 @@ class VoiceController:
         success = False
         for key_word in self.app_man.folders.keys():
             if word in key_word:
-                print(f'Открываю {key_word}')
                 self.app_man.open_folder(key_word)
                 success = True
         if not success:
