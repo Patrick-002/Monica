@@ -2,7 +2,8 @@ import subprocess
 import json
 import os
 
-class App_management:
+
+class AppManagement:
     def __init__(self, filename="app_managment_data.json"):
         self.app_count = 1
         self.apps = {}
@@ -10,7 +11,8 @@ class App_management:
         self.filename = filename
         if os.path.exists(self.filename):
             self.load_data()
-        else: print('Файла нет')
+        else:
+            print('Файла нет')
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
@@ -47,11 +49,10 @@ class App_management:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
     def load_data(self):
-            if os.path.getsize(self.filename) > 0:  # Проверка, что файл не пустой
-                with open(self.filename, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    self.apps = data.get("apps", {})
-                    self.folders = data.get("folders", {})
-            else:
-                print(f"{self.filename} пуст. Загружаем пустые словари.")
-
+        if os.path.getsize(self.filename) > 0:  # Проверка, что файл не пустой
+            with open(self.filename, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                self.apps = data.get("apps", {})
+                self.folders = data.get("folders", {})
+        else:
+            print(f"{self.filename} пуст. Загружаем пустые словари.")

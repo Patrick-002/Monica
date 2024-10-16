@@ -123,21 +123,134 @@
     height: 0px; /* Скрыть высоту кнопок */</string>
          </property>
          <property name="currentIndex">
-          <number>3</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="another_settings">
-          <widget class="QLabel" name="label">
+          <widget class="QTabWidget" name="tab_app_commands">
            <property name="geometry">
             <rect>
-             <x>90</x>
-             <y>100</y>
-             <width>171</width>
-             <height>81</height>
+             <x>0</x>
+             <y>0</y>
+             <width>601</width>
+             <height>501</height>
             </rect>
            </property>
-           <property name="text">
-            <string>another_settings</string>
+           <property name="currentIndex">
+            <number>0</number>
            </property>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>Запуск приложений</string>
+            </attribute>
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>20</x>
+               <y>10</y>
+               <width>151</width>
+               <height>21</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Добавить команду:</string>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="keyword_lineEdit">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>50</y>
+               <width>181</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="toolTip">
+              <string/>
+             </property>
+             <property name="whatsThis">
+              <string/>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">    QLineEdit {
+        border: 2px solid #4a4a4a;
+        border-radius: 10px;
+        padding: 8px;
+        font-size: 16px;
+        background-color: #2b2b2b;
+        color: #dcdcdc;
+    }
+    QLineEdit:focus {
+        border: 2px solid #9a9edb;
+        background-color: #3a3a3a;
+    }</string>
+             </property>
+             <property name="inputMask">
+              <string/>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="geometry">
+              <rect>
+               <x>200</x>
+               <y>50</y>
+               <width>361</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">    QLineEdit {
+        border: 2px solid #4a4a4a;
+        border-radius: 10px;
+        padding: 8px;
+        font-size: 16px;
+        background-color: #2b2b2b;
+        color: #dcdcdc;
+    }
+    QLineEdit:focus {
+        border: 2px solid #9a9edb;
+        background-color: #3a3a3a;
+    }</string>
+             </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton">
+             <property name="geometry">
+              <rect>
+               <x>450</x>
+               <y>110</y>
+               <width>111</width>
+               <height>41</height>
+              </rect>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">    QPushButton {
+        border: 2px solid #4a4a4a;
+        border-radius: 10px;
+        padding: 8px 16px;
+        font-size: 16px;
+        background-color: #2b2b2b;
+        color: #dcdcdc;
+    }
+    QPushButton:hover {
+        background-color: #3a3a3a;
+    }
+    QPushButton:pressed {
+        background-color: #4e4e4e;
+        border: 2px solid #9a9edb;
+    }</string>
+             </property>
+             <property name="text">
+              <string>Добавить</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tab_2">
+            <attribute name="title">
+             <string>Управление медиа</string>
+            </attribute>
+           </widget>
           </widget>
          </widget>
          <widget class="QWidget" name="monica_settings">

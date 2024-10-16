@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QStackedWidget
 
+
 class PageManager:
     def __init__(self):
         self.stacked_widget = QStackedWidget()

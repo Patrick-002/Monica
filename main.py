@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QThread
 from functional.voice_controller import VoiceController
-from UI.main_page import SettingsPage
+from UI.main_page import MainPage
 import traceback
 from datetime import datetime
 import sys
@@ -29,7 +29,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.page_manager = PageManager()
 
         # Создаем страницы, которые автоматически регистрируются
-        SettingsPage(self.page_manager)  # Регистрация страницы
+        MainPage(self.page_manager)  # Регистрация страницы
 
         # Устанавливаем QStackedWidget в главное окно
         self.setCentralWidget(self.page_manager.stacked_widget)

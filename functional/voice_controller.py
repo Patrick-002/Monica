@@ -3,13 +3,13 @@ import pyaudio
 import json
 from vosk import Model, KaldiRecognizer
 from functional.text2numRUS import word_to_num
-import functional.app_management as app_management
+import functional.appmanagement as app_management
 
 class VoiceController:
     # vosk-model-small-ru-0.22
     def __init__(self):
         self.model = Model("functional//vosk-model-small-ru-0.22")
-        self.app_man = app_management.App_management()
+        self.app_man = app_management.AppManagement()
         self.stream = None
         self.p = None
         self.rec = None
