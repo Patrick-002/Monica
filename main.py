@@ -1,7 +1,6 @@
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QThread
-import sys_commands
-from voice_controller import VoiceController
+from functional.voice_controller import VoiceController
 from UI.main_page import SettingsPage
 import traceback
 from datetime import datetime
@@ -42,6 +41,8 @@ if __name__ == '__main__':
 
         window = MainWindow()
         window.show()
+        with open("app_managment_data.json", 'r', encoding='utf-8') as f:
+            print(f.read())
 
         # Создаем и запускаем поток для VoiceController
         voice_thread = VoiceThread()

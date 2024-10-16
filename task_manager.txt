@@ -6,3 +6,10 @@
  Разработать  UI первой версии со след функционалом:
  Вкл/выкл распознование речи
  Раздел настроек
+
+ {
+    "apps": {
+        "котика": "Q:\\SteamLibrary\\steamapps\\common\\Rain World\\RainWorld.exe"
+    },
+    "folders": {}
+}

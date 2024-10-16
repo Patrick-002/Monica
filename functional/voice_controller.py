@@ -1,30 +1,27 @@
-import os
-import re
-from os.path import split
-import sys_commands
+import functional.sys_commands  as sys_commands
 import pyaudio
 import json
 from vosk import Model, KaldiRecognizer
-from text2numRUS import word_to_num
-
+from functional.text2numRUS import word_to_num
+import functional.app_management as app_management
 
 class VoiceController:
     # vosk-model-small-ru-0.22
     def __init__(self):
-        self.model = Model("vosk-model-small-ru-0.22")
+        self.model = Model("functional//vosk-model-small-ru-0.22")
+        self.app_man = app_management.App_management()
         self.stream = None
         self.p = None
         self.rec = None
         self.ac = sys_commands.AudioController()
         self.stop_cycle = False
         self.sound_key_word = 'звук'
-        self.stop_key_word = 'стоп'
+        self.run_app_key = 'запус'
+        self.open_folder_key = 'откр'
 
     def rebind_key_word(self, key: str, word: str):
         if key == 'sound':
             self.sound_key_word = word
-        if key == 'stop':
-            self.stop_key_word = word
 
     def start(self):
         self.p = pyaudio.PyAudio()
@@ -43,10 +40,13 @@ class VoiceController:
                     break
 
     def command_recognition(self, command):
-        if self.stop_key_word in command:
-            self.stop()
         if self.sound_key_word in command:
             self.sound_commands(command)
+        if self.run_app_key in command:
+            print('app go')
+            self.run_app_words(command)
+        if self.open_folder_key in command:
+            self.open_something(command)
 
     def sound_commands(self, command):
         split_command = command.split()
@@ -115,6 +115,58 @@ class VoiceController:
         self.stream.close()
         self.p.terminate()
         self.stop_cycle = True
+
+    def run_app_word(self, command):
+        success = False
+        word_count = 0
+        split_command = command.split()
+        for word in split_command:
+            word_count += 1
+            if word_count == 2:
+                print(self.app_man.apps.keys())
+                for key_word in self.app_man.apps.keys():
+                    print(key_word)
+                    if word in key_word or key_word in word:
+                        print(f'Запускаю {key_word}')
+                        self.app_man.run_app(key_word)
+                        success = True
+        if not success:
+            print('Уточните команду')
+
+
+    def run_app_words(self, command):
+        success = False
+        for key_words in self.app_man.apps.keys():
+            if key_words in command:
+                self.app_man.run_app(key_words)
+                success = True
+        if not success:
+            self.run_app_word(command)
+
+    def open_folder(self, word):
+        success = False
+        for key_word in self.app_man.folders.keys():
+            if word in key_word:
+                print(f'Открываю {key_word}')
+                self.app_man.open_folder(key_word)
+                success = True
+        if not success:
+            print('Уточните команду')
+
+    def open_something(self, command):
+        word_count = 0
+        split_command = command.split()
+        for word in split_command:
+            word_count += 1
+            if word_count == 2:
+                if 'провод' in word:
+                    self.app_man.explorer()
+                elif 'кальк' in word:
+                    self.app_man.calc()
+                elif 'настр' in word:
+                    self.app_man.settings()
+                else:
+                    self.open_folder(word)
 
 
 if __name__ == '__main__':
