@@ -41,7 +41,10 @@ class VoiceController:
 
     def command_recognition(self, command):
         if self.sound_key_word in command:
-            self.sound_commands(command)
+            try:
+                self.sound_commands(command)
+            except Exception as e:
+                print('Говори по русски!')
         if self.run_app_key in command:
             self.run_app_words(command)
         if self.open_folder_key in command:
@@ -123,7 +126,7 @@ class VoiceController:
             word_count += 1
             if word_count == 2:
                 for key_word in self.app_man.apps.keys():
-                    if word in key_word or key_word in word:
+                    if key_word in word:
                         self.app_man.run_app(key_word)
                         success = True
         if not success:

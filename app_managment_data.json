@@ -1,6 +1,7 @@
 {
     "apps": {
-        "дот": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\bin\\win64\\dota2.exe"
+        "дот": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\dota 2 beta\\game\\bin\\win64\\dota2.exe",
+        "су": "Q:\\для 11 винды\\osu-trainer-v1.6.5\\osu-trainer.exe"
     },
     "folders": {}
 }

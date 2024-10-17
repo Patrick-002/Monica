@@ -1,108 +1,39 @@
-Время ошибки: 2024-10-16 20:38:56.822996
+����� ������: 2024-10-08 12:07:52.086324
+��� ������: TypeError
+��������� ������: ('exceptions must derive from BaseException',)
+������ traceback:
+Traceback (most recent call last):
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 16, in <module>
+    raise "��������"
+TypeError: exceptions must derive from BaseException
+
+--------------------------------------------------
+Время ошибки: 2024-10-08 12:08:52.717257
 Тип ошибки: TypeError
-Аргументы ошибки: ('Ui_FormDock() takes no arguments',)
+Аргументы ошибки: ('exceptions must derive from BaseException',)
 Полный traceback:
 Traceback (most recent call last):
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 42, in <module>
-    window = MainWindow()
-             ^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 32, in __init__
-    SettingsPage(self.page_manager)  # Регистрация страницы
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\main_page.py", line 24, in __init__
-    self.ui = Ui_FormDock(page_manager)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Ui_FormDock() takes no arguments
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 16, in <module>
+    raise "проверка"
+TypeError: exceptions must derive from BaseException
 
 --------------------------------------------------
-Время ошибки: 2024-10-16 20:40:28.167526
-Тип ошибки: TypeError
-Аргументы ошибки: ('Ui_FormDock() takes no arguments',)
+Время ошибки: 2024-10-16 18:00:58.318996
+Тип ошибки: Exception
+Аргументы ошибки: ('Failed to create a model',)
 Полный traceback:
 Traceback (most recent call last):
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 42, in <module>
-    window = MainWindow()
-             ^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 32, in __init__
-    SettingsPage(self.page_manager)  # Регистрация страницы
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\main_page.py", line 35, in __init__
-    self.ui = Ui_FormDock(page_manager)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Ui_FormDock() takes no arguments
-
---------------------------------------------------
-Время ошибки: 2024-10-16 20:40:33.027194
-Тип ошибки: TypeError
-Аргументы ошибки: ('Ui_FormDock() takes no arguments',)
-Полный traceback:
-Traceback (most recent call last):
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 42, in <module>
-    window = MainWindow()
-             ^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 32, in __init__
-    SettingsPage(self.page_manager)  # Регистрация страницы
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\main_page.py", line 35, in __init__
-    self.ui = Ui_FormDock(page_manager)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Ui_FormDock() takes no arguments
-
---------------------------------------------------
-Время ошибки: 2024-10-16 20:40:42.055405
-Тип ошибки: TypeError
-Аргументы ошибки: ('Ui_FormDock() takes no arguments',)
-Полный traceback:
-Traceback (most recent call last):
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 42, in <module>
-    window = MainWindow()
-             ^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 32, in __init__
-    SettingsPage(self.page_manager)  # Регистрация страницы
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\main_page.py", line 35, in __init__
-    self.ui = Ui_FormDock(page_manager)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^
-TypeError: Ui_FormDock() takes no arguments
-
---------------------------------------------------
-Время ошибки: 2024-10-16 21:13:52.205236
-Тип ошибки: AttributeError
-Аргументы ошибки: ("'MainPage' object has no attribute 'objectName'",)
-Полный traceback:
-Traceback (most recent call last):
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 42, in <module>
-    window = MainWindow()
-             ^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 32, in __init__
-    MainPage(self.page_manager)  # Регистрация страницы
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\main_page.py", line 9, in __init__
-    self.setupUi(self)  # Инициализация интерфейса
-    ^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\ui_main_page.py", line 25, in setupUi
-    if not FormDock.objectName():
-           ^^^^^^^^^^^^^^^^^^^
-AttributeError: 'MainPage' object has no attribute 'objectName'
-
---------------------------------------------------
-Время ошибки: 2024-10-16 21:14:02.251352
-Тип ошибки: AttributeError
-Аргументы ошибки: ("'MainPage' object has no attribute 'objectName'",)
-Полный traceback:
-Traceback (most recent call last):
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 42, in <module>
-    window = MainWindow()
-             ^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\main.py", line 32, in __init__
-    MainPage(self.page_manager)  # Регистрация страницы
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\main_page.py", line 9, in __init__
-    self.setupUi(self)  # Инициализация интерфейса
-    ^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Ke27\HomeProjects\Monica\UI\ui_main_page.py", line 25, in setupUi
-    if not FormDock.objectName():
-           ^^^^^^^^^^^^^^^^^^^
-AttributeError: 'MainPage' object has no attribute 'objectName'
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 46, in <module>
+    voice_thread = VoiceThread()
+                   ^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 16, in __init__
+    self.voice_controller = VoiceController()
+                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\functional\voice_controller.py", line 11, in __init__
+    self.model = Model("vosk-model-small-ru-0.22")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\AppData\Local\pypoetry\Cache\virtualenvs\monica-szJJKUHw-py3.12\Lib\site-packages\vosk\__init__.py", line 57, in __init__
+    raise Exception("Failed to create a model")
+Exception: Failed to create a model
 
 --------------------------------------------------
