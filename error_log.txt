@@ -37,3 +37,37 @@ Traceback (most recent call last):
 Exception: Failed to create a model
 
 --------------------------------------------------
+Время ошибки: 2024-10-20 17:30:31.395388
+Тип ошибки: AttributeError
+Аргументы ошибки: ("module 'functional.media_player' has no attribute 'MediaPlayer'",)
+Полный traceback:
+Traceback (most recent call last):
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 46, in <module>
+    voice_thread = VoiceThread()
+                   ^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 16, in __init__
+    self.voice_controller = VoiceController()
+                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\functional\voice_controller.py", line 18, in __init__
+    self.media = media_player.MediaPlayer()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'functional.media_player' has no attribute 'MediaPlayer'
+
+--------------------------------------------------
+Время ошибки: 2024-10-20 17:30:49.364454
+Тип ошибки: AttributeError
+Аргументы ошибки: ("module 'functional.media_player' has no attribute 'MediaPlayer'",)
+Полный traceback:
+Traceback (most recent call last):
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 46, in <module>
+    voice_thread = VoiceThread()
+                   ^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\main.py", line 16, in __init__
+    self.voice_controller = VoiceController()
+                            ^^^^^^^^^^^^^^^^^
+  File "C:\Users\kiril.KURILL\PycharmProjects\Monica\functional\voice_controller.py", line 18, in __init__
+    self.media = media_player.MediaPlayer()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'functional.media_player' has no attribute 'MediaPlayer'
+
+--------------------------------------------------

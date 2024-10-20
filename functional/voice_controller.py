@@ -4,20 +4,24 @@ import json
 from vosk import Model, KaldiRecognizer
 from functional.text2numRUS import word_to_num
 import functional.appmanagement as app_management
+import functional.media_player as media_player
 
 class VoiceController:
     # vosk-model-small-ru-0.22
     def __init__(self):
         self.model = Model("functional//vosk-model-small-ru-0.22")
-        self.app_man = app_management.AppManagement()
         self.stream = None
         self.p = None
         self.rec = None
         self.ac = sys_commands.AudioController()
+        self.app_man = app_management.AppManagement()
+        self.media = media_player.MediaPlayer()
         self.stop_cycle = False
         self.sound_key_word = 'звук'
         self.run_app_key = 'запус'
         self.open_folder_key = 'откр'
+        self.media_plater_key_1 = 'музык'
+        self.media_plater_key_2 = 'медиа'
 
     def rebind_key_word(self, key: str, word: str):
         if key == 'sound':
@@ -45,10 +49,12 @@ class VoiceController:
                 self.sound_commands(command)
             except Exception as e:
                 print('Говори по русски!')
-        if self.run_app_key in command:
+        elif self.run_app_key in command:
             self.run_app_words(command)
-        if self.open_folder_key in command:
+        elif self.open_folder_key in command:
             self.open_something(command)
+        elif self.media_plater_key_1 in command or self.media_plater_key_2 in command:
+            self.media_player(command)
 
     def sound_commands(self, command):
         split_command = command.split()
@@ -130,7 +136,7 @@ class VoiceController:
                         self.app_man.run_app(key_word)
                         success = True
         if not success:
-            print('Уточните команду')
+            print('Уточните команду для приложения')
 
 
     def run_app_words(self, command):
@@ -149,7 +155,7 @@ class VoiceController:
                 self.app_man.open_folder(key_word)
                 success = True
         if not success:
-            print('Уточните команду')
+            print('Уточните команду для папки')
 
     def open_something(self, command):
         word_count = 0
@@ -165,6 +171,23 @@ class VoiceController:
                     self.app_man.settings()
                 else:
                     self.open_folder(word)
+
+    def media_player(self, command):
+        play_pause = ['остан','продолж','вкл','выкл','пауз','плэй']
+        for word in play_pause:
+            if word in command:
+                self.media.play_pause()
+                return True
+        if 'следущ' in command or 'некс' in command:
+            self.media.next_track()
+        elif 'предыдущ' in command or 'прошл' in command:
+            self.media.previous_track()
+        elif 'стоп' in command:
+            self.media.stop()
+        else:
+            print('Уточните команду для медиа')
+
+
 
 
 if __name__ == '__main__':

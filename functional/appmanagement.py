@@ -4,6 +4,13 @@ import os
 
 
 class AppManagement:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(AppManagement, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+
     def __init__(self, filename="app_managment_data.json"):
         self.app_count = 1
         self.apps = {}
