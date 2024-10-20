@@ -1,3 +1,5 @@
+from os.path import split
+
 import functional.sys_commands  as sys_commands
 import pyaudio
 import json
@@ -23,6 +25,8 @@ class VoiceController:
         self.open_folder_key = 'откр'
         self.media_player_key_1 = 'музык'
         self.media_player_key_2 = 'медиа'
+        self.search_key_1 = 'гугл'
+        self.search_key_2 = 'найди'
 
     def rebind_key_word(self, key: str, word: str):
         if key == 'sound_key':
@@ -35,6 +39,10 @@ class VoiceController:
             self.media_player_key_1 = word
         elif key == 'media_player_key_2':
             self.media_player_key_2 = word
+        elif key == 'search_key_1':
+            self.search_key_1 = word
+        elif key == 'search_key_2':
+            self.search_key_2 = word
 
     def start(self):
         self.p = pyaudio.PyAudio()
@@ -64,6 +72,8 @@ class VoiceController:
             self.open_something(command)
         elif self.media_player_key_1 in command or self.media_player_key_2 in command:
             self.media_player(command)
+        elif self.search_key_1 in command or self.search_key_2 in command:
+            self.browser_search(command)
 
     def sound_commands(self, command):
         split_command = command.split()
@@ -195,6 +205,14 @@ class VoiceController:
             self.media.stop()
         else:
             print('Уточните команду для медиа')
+
+    def browser_search(self, command):
+        split_command = command.split()
+        if split_command[0] == 'за':
+            split_command.pop(0)
+        split_command.pop(0)
+        self.app_man.google_search(" ".join(split_command))
+
 
 
 

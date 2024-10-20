@@ -1,6 +1,9 @@
 import subprocess
 import json
 import os
+import configparser
+import winshell
+import webbrowser
 
 
 class AppManagement:
@@ -42,7 +45,42 @@ class AppManagement:
         self.save_data()
 
     def run_app(self, word: str):
-        subprocess.run(self.apps[word])
+        file_path = self.apps[word]
+        file_extension = os.path.splitext(file_path)[1].lower()
+
+        if file_extension == '.lnk':
+            try:
+                shortcut = winshell.Shortcut(file_path)
+                target = shortcut.path
+                if target:
+                    subprocess.run([target])
+                    print(f"Открыт ярлык {file_path}, который указывает на {target}")
+                else:
+                    print(f"Не удалось найти целевой файл для {file_path}")
+            except Exception as e:
+                print(f"Ошибка при открытии ярлыка: {e}")
+
+        elif file_extension == '.exe':
+            # Открываем .exe файл
+            try:
+                subprocess.run([file_path])
+                print(f"Открыт исполняемый файл: {file_path}")
+            except Exception as e:
+                print(f"Ошибка при открытии .exe файла: {e}")
+
+        elif file_extension == '.url':
+            # Открываем .url интернет-ярлык
+            try:
+                config = configparser.ConfigParser()
+                config.read(file_path)
+                url = config['InternetShortcut']['URL']
+                webbrowser.open(url)
+                print(f"Открыт интернет-ярлык {file_path}, который указывает на {url}")
+            except Exception as e:
+                print(f"Ошибка при открытии интернет-ярлыка: {e}")
+
+        else:
+            print(f"Неизвестный формат файла: {file_path}")
 
     def open_folder(self, word: str):
         subprocess.run(self.folders[word])
@@ -63,3 +101,10 @@ class AppManagement:
                 self.folders = data.get("folders", {})
         else:
             print(f"{self.filename} пуст. Загружаем пустые словари.")
+
+    def google_search(self, command):
+        base_url = "https://www.google.com/search?q="
+        search_url = base_url + command.replace(" ", "+")
+        webbrowser.open(search_url)
+
+        print(f"Ищем в Google: {command}")
