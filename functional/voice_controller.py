@@ -8,11 +8,13 @@ from functional.text2numRUS import word_to_num
 import functional.appmanagement as app_management
 import functional.media_player as media_player
 
+
 class VoiceController:
     # vosk-model-small-ru-0.22
     # vosk-model-ru-0.42
     def __init__(self):
-        self.model = Model("functional//vosk-model-small-ru-0.22") # functional//model
+        self.model = Model("functional//vosk-model-small-ru-0.22")
+        # self.model = Model("functional//vosk-model-ru-0.42")
         self.stream = None
         self.p = None
         self.rec = None
@@ -157,7 +159,6 @@ class VoiceController:
         if not success:
             print('Уточните команду для приложения')
 
-
     def run_app_words(self, command):
         success = False
         for key_words in self.app_man.apps.keys():
@@ -192,7 +193,7 @@ class VoiceController:
                     self.open_folder(word)
 
     def media_player(self, command):
-        play_pause = ['остан','продолж','вкл','выкл','пауз','плэй']
+        play_pause = ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']
         for word in play_pause:
             if word in command:
                 self.media.play_pause()
@@ -212,8 +213,6 @@ class VoiceController:
             split_command.pop(0)
         split_command.pop(0)
         self.app_man.google_search(" ".join(split_command))
-
-
 
 
 
