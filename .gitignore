@@ -146,4 +146,5 @@ cython_debug/
 .idea/
 .idea/misc.xml
 app_managment_data.json
+error_log.txt
 /functional/vosk-model-small-ru-0.22/

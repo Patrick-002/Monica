@@ -1,12 +1,13 @@
-from PySide6.QtWidgets import QApplication, QMainWindow
-from PySide6.QtCore import QThread
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QStyle
+from PySide6.QtCore import QThread, Qt, QEvent
 from functional.voice_controller import VoiceController
 from UI.main_page import MainPage
 import traceback
 from datetime import datetime
-import sys
 from page_manager import PageManager
 from UI.main_window import Ui_MainWindow
+import sys
 
 
 # Класс для работы с VoiceController в отдельном потоке
@@ -25,6 +26,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.tray_icon = QSystemTrayIcon()
+        self.trey_gui()
+
         # Создаем PageManager
         self.page_manager = PageManager()
 
@@ -34,6 +38,31 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # Устанавливаем QStackedWidget в главное окно
         self.setCentralWidget(self.page_manager.stacked_widget)
 
+    def changeEvent(self, event):
+        if event.type() == QEvent.Type.WindowStateChange:
+            if self.windowState() == Qt.WindowState.WindowMinimized:
+                self.hide()
+
+    def trey_gui(self):
+        self.tray_icon.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon))
+        self.tray_icon.activated.connect(self.restore_window)
+
+        exit_action = QAction("Закрыть", self)
+        exit_action.triggered.connect(self.close)
+
+        tray_menu = QMenu()
+        tray_menu.addAction(exit_action)
+        self.tray_icon.setContextMenu(tray_menu)
+        self.tray_icon.setToolTip("Моника")
+        self.tray_icon.show()
+
+    def restore_window(self, reason):
+        if reason != self.isHidden():
+            self.tray_icon.show()
+            self.showNormal()
+        else:
+            self.tray_icon.show()
+            self.showNormal()
 
 if __name__ == '__main__':
     try:
