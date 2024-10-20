@@ -8,8 +8,9 @@ import functional.media_player as media_player
 
 class VoiceController:
     # vosk-model-small-ru-0.22
+    # vosk-model-ru-0.42
     def __init__(self):
-        self.model = Model("functional//vosk-model-small-ru-0.22")
+        self.model = Model("functional//vosk-model-small-ru-0.22") # functional//model
         self.stream = None
         self.p = None
         self.rec = None
@@ -17,15 +18,23 @@ class VoiceController:
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
         self.stop_cycle = False
-        self.sound_key_word = 'звук'
+        self.sound_key = 'звук'
         self.run_app_key = 'запус'
         self.open_folder_key = 'откр'
-        self.media_plater_key_1 = 'музык'
-        self.media_plater_key_2 = 'медиа'
+        self.media_player_key_1 = 'музык'
+        self.media_player_key_2 = 'медиа'
 
     def rebind_key_word(self, key: str, word: str):
-        if key == 'sound':
-            self.sound_key_word = word
+        if key == 'sound_key':
+            self.sound_key = word
+        elif key == 'run_app_key':
+            self.run_app_key = word
+        elif key == 'open_folder_key':
+            self.open_folder_key = word
+        elif key == 'media_player_key_1':
+            self.media_player_key_1 = word
+        elif key == 'media_player_key_2':
+            self.media_player_key_2 = word
 
     def start(self):
         self.p = pyaudio.PyAudio()
@@ -44,7 +53,7 @@ class VoiceController:
                     break
 
     def command_recognition(self, command):
-        if self.sound_key_word in command:
+        if self.sound_key in command:
             try:
                 self.sound_commands(command)
             except Exception as e:
@@ -53,7 +62,7 @@ class VoiceController:
             self.run_app_words(command)
         elif self.open_folder_key in command:
             self.open_something(command)
-        elif self.media_plater_key_1 in command or self.media_plater_key_2 in command:
+        elif self.media_player_key_1 in command or self.media_player_key_2 in command:
             self.media_player(command)
 
     def sound_commands(self, command):
