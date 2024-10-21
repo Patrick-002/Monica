@@ -2,6 +2,7 @@ from PySide6.QtWidgets import QWidget
 from UI.ui_main_page import Ui_FormDock
 from functional.appmanagement import AppManagement
 
+
 class MainPage(QWidget, Ui_FormDock):
     def __init__(self, page_manager):
         super().__init__()
@@ -30,4 +31,3 @@ class MainPage(QWidget, Ui_FormDock):
             # am.load_data()
         else:
             print("Пустое поле ввода")
-

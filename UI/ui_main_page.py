@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLayout, QLineEdit, QListWidget, QListWidgetItem,
-    QPushButton, QSizePolicy, QStackedWidget, QTabWidget,
-    QVBoxLayout, QWidget)
+    QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
+    QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_FormDock(object):
     def setupUi(self, FormDock):
@@ -27,16 +27,10 @@ class Ui_FormDock(object):
         FormDock.setWindowModality(Qt.WindowModality.NonModal)
         FormDock.setEnabled(True)
         FormDock.resize(900, 550)
-        FormDock.setStyleSheet(u"                background: qlineargradient(\n"
-"                    spread:pad, \n"
-"                    x1:0, y1:0, x2:1, y2:1, \n"
-"                    stop:0 #4B0082,   /* \u0422\u0451\u043c\u043d\u043e-\u0444\u0438\u043e\u043b\u0435\u0442\u043e\u0432\u044b\u0439 */\n"
-"                    stop:0.5 #3C3F41, /* \u0422\u0451\u043c\u043d\u043e-\u0441\u0435\u0440\u044b\u0439 */\n"
-"                    stop:1 #2E8B57    /* \u0422\u0451\u043c\u043d\u043e-\u0437\u0435\u043b\u0451\u043d\u044b\u0439 */\n"
-"                );\n"
-"                font-family: 'Segoe UI'; /* \u0428\u0440\u0438\u0444\u0442 Segoe UI */\n"
-"                font-size: 12pt;         /* \u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0440\u0438\u0444\u0442\u0430 */\n"
-"                color: white;            /* \u0426\u0432\u0435\u0442 \u0442\u0435\u043a\u0441\u0442\u0430 */")
+        FormDock.setStyleSheet(u"    background: rgba(155, 155, 155, 0.05); /* \u041f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u044b\u0439 \u0444\u043e\u043d */\n"
+"    font-family: 'Segoe UI'; /* \u0428\u0440\u0438\u0444\u0442 Segoe UI */\n"
+"    font-size: 12pt; /* \u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0440\u0438\u0444\u0442\u0430 */\n"
+"    color: white; /* \u0426\u0432\u0435\u0442 \u0442\u0435\u043a\u0441\u0442\u0430 */")
         self.verticalLayoutWidget = QWidget(FormDock)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(10, 10, 881, 531))
@@ -73,33 +67,18 @@ class Ui_FormDock(object):
         self.page_dock.setStyleSheet(u"    alignment: center;\n"
 "    background: transparent;\n"
 "    height: 0px; /* \u0421\u043a\u0440\u044b\u0442\u044c \u0432\u044b\u0441\u043e\u0442\u0443 \u043a\u043d\u043e\u043f\u043e\u043a */")
-
-        self.monica_settings = QWidget()
-        self.monica_settings.setObjectName(u"monica_settings")
-        self.label_3 = QLabel(self.monica_settings)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(260, 180, 251, 91))
-        self.page_dock.addWidget(self.monica_settings)
-
-        self.voice_model_settings = QWidget()
-        self.voice_model_settings.setObjectName(u"voice_model_settings")
-        self.label_4 = QLabel(self.voice_model_settings)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(260, 170, 181, 61))
-        self.page_dock.addWidget(self.voice_model_settings)
-
-        self.interface_settings_page = QWidget()
-        self.interface_settings_page.setObjectName(u"interface_settings_page")
-        self.label_2 = QLabel(self.interface_settings_page)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(210, 140, 171, 51))
-        self.page_dock.addWidget(self.interface_settings_page)
-
         self.another_settings = QWidget()
         self.another_settings.setObjectName(u"another_settings")
-        self.tab_app_commands = QTabWidget(self.another_settings)
+        self.scrollArea = QScrollArea(self.another_settings)
+        self.scrollArea.setObjectName(u"scrollArea")
+        self.scrollArea.setGeometry(QRect(0, 0, 601, 511))
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 599, 509))
+        self.tab_app_commands = QTabWidget(self.scrollAreaWidgetContents)
         self.tab_app_commands.setObjectName(u"tab_app_commands")
-        self.tab_app_commands.setGeometry(QRect(0, 0, 601, 501))
+        self.tab_app_commands.setGeometry(QRect(0, 10, 601, 871))
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.label = QLabel(self.tab)
@@ -109,55 +88,74 @@ class Ui_FormDock(object):
         self.keyword_lineEdit.setObjectName(u"keyword_lineEdit")
         self.keyword_lineEdit.setGeometry(QRect(10, 50, 181, 41))
         self.keyword_lineEdit.setStyleSheet(u"    QLineEdit {\n"
-                                            "        border: 2px solid #4a4a4a;\n"
-                                            "        border-radius: 10px;\n"
-                                            "        padding: 8px;\n"
-                                            "        font-size: 16px;\n"
-                                            "        background-color: #2b2b2b;\n"
-                                            "        color: #dcdcdc;\n"
-                                            "    }\n"
-                                            "    QLineEdit:focus {\n"
-                                            "        border: 2px solid #9a9edb;\n"
-                                            "        background-color: #3a3a3a;\n"
-                                            "    }")
+"        border: 2px solid #4a4a4a;\n"
+"        border-radius: 10px;\n"
+"        padding: 8px;\n"
+"        font-size: 16px;\n"
+"        background-color: #2b2b2b;\n"
+"        color: #dcdcdc;\n"
+"    }\n"
+"    QLineEdit:focus {\n"
+"        border: 2px solid #9a9edb;\n"
+"        background-color: #3a3a3a;\n"
+"    }")
         self.path_lineEdit = QLineEdit(self.tab)
-        self.path_lineEdit.setObjectName(u"lineEdit")
+        self.path_lineEdit.setObjectName(u"path_lineEdit")
         self.path_lineEdit.setGeometry(QRect(200, 50, 361, 41))
         self.path_lineEdit.setStyleSheet(u"    QLineEdit {\n"
-                                         "        border: 2px solid #4a4a4a;\n"
-                                         "        border-radius: 10px;\n"
-                                         "        padding: 8px;\n"
-                                         "        font-size: 16px;\n"
-                                         "        background-color: #2b2b2b;\n"
-                                         "        color: #dcdcdc;\n"
-                                         "    }\n"
-                                         "    QLineEdit:focus {\n"
-                                         "        border: 2px solid #9a9edb;\n"
-                                         "        background-color: #3a3a3a;\n"
-                                         "    }")
+"        border: 2px solid #4a4a4a;\n"
+"        border-radius: 10px;\n"
+"        padding: 8px;\n"
+"        font-size: 16px;\n"
+"        background-color: #2b2b2b;\n"
+"        color: #dcdcdc;\n"
+"    }\n"
+"    QLineEdit:focus {\n"
+"        border: 2px solid #9a9edb;\n"
+"        background-color: #3a3a3a;\n"
+"    }")
         self.pushButton = QPushButton(self.tab)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(450, 110, 111, 41))
         self.pushButton.setStyleSheet(u"    QPushButton {\n"
-                                      "        border: 2px solid #4a4a4a;\n"
-                                      "        border-radius: 10px;\n"
-                                      "        padding: 8px 16px;\n"
-                                      "        font-size: 16px;\n"
-                                      "        background-color: #2b2b2b;\n"
-                                      "        color: #dcdcdc;\n"
-                                      "    }\n"
-                                      "    QPushButton:hover {\n"
-                                      "        background-color: #3a3a3a;\n"
-                                      "    }\n"
-                                      "    QPushButton:pressed {\n"
-                                      "        background-color: #4e4e4e;\n"
-                                      "        border: 2px solid #9a9edb;\n"
-                                      "    }")
+"        border: 2px solid #4a4a4a;\n"
+"        border-radius: 10px;\n"
+"        padding: 8px 16px;\n"
+"        font-size: 16px;\n"
+"        background-color: #2b2b2b;\n"
+"        color: #dcdcdc;\n"
+"    }\n"
+"    QPushButton:hover {\n"
+"        background-color: #3a3a3a;\n"
+"    }\n"
+"    QPushButton:pressed {\n"
+"        background-color: #4e4e4e;\n"
+"        border: 2px solid #9a9edb;\n"
+"    }")
         self.tab_app_commands.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.tab_app_commands.addTab(self.tab_2, "")
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.page_dock.addWidget(self.another_settings)
+        self.monica_settings = QWidget()
+        self.monica_settings.setObjectName(u"monica_settings")
+        self.label_3 = QLabel(self.monica_settings)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(260, 180, 251, 91))
+        self.page_dock.addWidget(self.monica_settings)
+        self.interface_settings_page = QWidget()
+        self.interface_settings_page.setObjectName(u"interface_settings_page")
+        self.label_2 = QLabel(self.interface_settings_page)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(210, 140, 171, 51))
+        self.page_dock.addWidget(self.interface_settings_page)
+        self.voice_model_settings = QWidget()
+        self.voice_model_settings.setObjectName(u"voice_model_settings")
+        self.label_4 = QLabel(self.voice_model_settings)
+        self.label_4.setObjectName(u"label_4")
+        self.label_4.setGeometry(QRect(260, 170, 181, 61))
+        self.page_dock.addWidget(self.voice_model_settings)
 
         self.horizontalLayout.addWidget(self.frame)
 
