@@ -1,5 +1,5 @@
 import mmkv
-from PySide6.QtGui import QAction
+from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QStyle
 from PySide6.QtCore import QThread, Qt, QEvent
 from functional.voice_controller import VoiceController
@@ -27,6 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.setWindowIcon(QIcon('icon.png'))
         self.tray_icon = QSystemTrayIcon()
         self.trey_gui()
 
@@ -45,7 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.hide()
 
     def trey_gui(self):
-        self.tray_icon.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon))
+        self.tray_icon.setIcon(QIcon("icon.png"))
         self.tray_icon.activated.connect(self.restore_window)
 
         exit_action = QAction("Закрыть", self)
