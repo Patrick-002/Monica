@@ -10,7 +10,6 @@ import functional.media_player as media_player
 import keyboard
 import time
 
-
 class VoiceController:
     _instance = None
 

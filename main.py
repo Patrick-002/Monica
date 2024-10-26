@@ -1,4 +1,5 @@
-from PySide6.QtGui import QAction
+import mmkv
+from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QStyle
 from PySide6.QtCore import QThread, Qt, QEvent
 from functional.voice_controller import VoiceController
@@ -26,6 +27,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
+        self.setWindowIcon(QIcon('icon.png'))
         self.tray_icon = QSystemTrayIcon()
         self.trey_gui()
 
@@ -44,7 +46,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.hide()
 
     def trey_gui(self):
-        self.tray_icon.setIcon(self.style().standardIcon(QStyle.StandardPixmap.SP_TrashIcon))
+        self.tray_icon.setIcon(QIcon("icon.png"))
         self.tray_icon.activated.connect(self.restore_window)
 
         exit_action = QAction("Закрыть", self)
@@ -66,6 +68,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     try:
+        mmkv.MMKV.initializeMMKV('./mmkv')
         app = QApplication(sys.argv)
 
         window = MainWindow()
@@ -79,10 +82,11 @@ if __name__ == '__main__':
         sys.exit(app.exec())
 
     except Exception as e:
-        with open("error_log.txt", "a", encoding='utf-8') as f:
+        with open("Log/error_log.txt", "a", encoding='utf-8') as f:
             f.write(f"Время ошибки: {datetime.now()}\n")
             f.write(f"Тип ошибки: {type(e).__name__}\n")
             f.write(f"Аргументы ошибки: {e.args}\n")
             f.write("Полный traceback:\n")
             traceback.print_exc(file=f)
             f.write("\n" + "-" * 50 + "\n")
+
