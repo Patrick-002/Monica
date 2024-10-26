@@ -1,3 +1,4 @@
+import mmkv
 from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QStyle
 from PySide6.QtCore import QThread, Qt, QEvent
@@ -66,6 +67,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     try:
+        mmkv.MMKV.initializeMMKV('./mmkv')
         app = QApplication(sys.argv)
 
         window = MainWindow()
@@ -79,10 +81,11 @@ if __name__ == '__main__':
         sys.exit(app.exec())
 
     except Exception as e:
-        with open("error_log.txt", "a", encoding='utf-8') as f:
+        with open("Log/error_log.txt", "a", encoding='utf-8') as f:
             f.write(f"Время ошибки: {datetime.now()}\n")
             f.write(f"Тип ошибки: {type(e).__name__}\n")
             f.write(f"Аргументы ошибки: {e.args}\n")
             f.write("Полный traceback:\n")
             traceback.print_exc(file=f)
             f.write("\n" + "-" * 50 + "\n")
+

@@ -1,4 +1,6 @@
 import subprocess
+import pickle
+import mmkv
 import json
 import os
 import configparser
@@ -14,15 +16,10 @@ class AppManagement:
             cls._instance = super(AppManagement, cls).__new__(cls, *args, **kwargs)
         return cls._instance
 
-    def __init__(self, filename="app_managment_data.json"):
+    def __init__(self):
         self.app_count = 1
-        self.apps = {}
-        self.folders = {}
-        self.filename = filename
-        if os.path.exists(self.filename):
-            self.load_data()
-        else:
-            print('Файла нет')
+        self.paths = {}
+        self.load_data()
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
@@ -36,15 +33,13 @@ class AppManagement:
     def settings(self):
         subprocess.run(["start", "ms-settings:"], shell=True)
 
-    def add_folder_path(self, word: str, path: str):
-        self.folders[word] = path
-        self.save_data()
-
-    def add_app_path(self, word: str, path: str):
-        self.apps[word] = path
-        self.save_data()
+    def add_path(self, word: str, path: str):
+        self.paths[word] = path
+        kv = mmkv.MMKV.defaultMMKV()
+        kv.set(pickle.dumps(self.paths), 'words')
 
     def run_app(self, word: str):
+        subprocess.run(self.paths[word])
         file_path = self.apps[word]
         file_extension = os.path.splitext(file_path)[1].lower()
 
@@ -94,13 +89,12 @@ class AppManagement:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
     def load_data(self):
-        if os.path.getsize(self.filename) > 0:  # Проверка, что файл не пустой
-            with open(self.filename, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                self.apps = data.get("apps", {})
-                self.folders = data.get("folders", {})
-        else:
-            print(f"{self.filename} пуст. Загружаем пустые словари.")
+        kv = mmkv.MMKV.defaultMMKV()
+        file = kv.getBytes('words')
+        if len(file) == 0:
+            print("Файл пуст. Загружаем пустые словари.")
+            return
+        self.paths =  pickle.loads(file)
 
     def google_search(self, command):
         base_url = "https://www.google.com/search?q="

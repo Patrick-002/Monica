@@ -8,7 +8,6 @@ from functional.text2numRUS import word_to_num
 import functional.appmanagement as app_management
 import functional.media_player as media_player
 
-
 class VoiceController:
     # vosk-model-small-ru-0.22
     # vosk-model-ru-0.42

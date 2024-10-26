@@ -26,8 +26,8 @@ class MainPage(QWidget, Ui_FormDock):
         text = self.keyword_lineEdit.text()
         if text:
             am = AppManagement()
-            am.add_app_path(self.keyword_lineEdit.text(), self.path_lineEdit.text())
-            print(am.apps)
+            am.add_path(self.keyword_lineEdit.text(), self.path_lineEdit.text())
+            print(am.paths)
             # am.load_data()
         else:
             print("Пустое поле ввода")
