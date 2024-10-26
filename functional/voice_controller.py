@@ -7,9 +7,18 @@ from vosk import Model, KaldiRecognizer
 from functional.text2numRUS import word_to_num
 import functional.appmanagement as app_management
 import functional.media_player as media_player
+import keyboard
+import time
 
 
 class VoiceController:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(VoiceController, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+
     # vosk-model-small-ru-0.22
     # vosk-model-ru-0.42
     def __init__(self):
@@ -22,6 +31,7 @@ class VoiceController:
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
         self.stop_cycle = False
+        self.ultimate_key = 'моника'
         self.sound_key = 'звук'
         self.run_app_key = 'запус'
         self.open_folder_key = 'откр'
@@ -29,22 +39,11 @@ class VoiceController:
         self.media_player_key_2 = 'медиа'
         self.search_key_1 = 'гугл'
         self.search_key_2 = 'найди'
+        self.switch_button_flag = False
+        self.switch_button = 'tab'
+        self.hold_button = 'space'
+        self.operating_mode = 3 # 1 - авто по self.ultimate_key; 2 - переключение по self.switch_button; 3 - зажатие на self.hold_button
 
-    def rebind_key_word(self, key: str, word: str):
-        if key == 'sound_key':
-            self.sound_key = word
-        elif key == 'run_app_key':
-            self.run_app_key = word
-        elif key == 'open_folder_key':
-            self.open_folder_key = word
-        elif key == 'media_player_key_1':
-            self.media_player_key_1 = word
-        elif key == 'media_player_key_2':
-            self.media_player_key_2 = word
-        elif key == 'search_key_1':
-            self.search_key_1 = word
-        elif key == 'search_key_2':
-            self.search_key_2 = word
 
     def start(self):
         self.p = pyaudio.PyAudio()
@@ -52,17 +51,55 @@ class VoiceController:
         self.stream.start_stream()
         # Инициализируем распознаватель
         self.rec = KaldiRecognizer(self.model, 16000)
+        self.listen()
 
+    def read_the_command(self):
+        data = self.stream.read(4000)
+        if self.rec.AcceptWaveform(data):
+            command = json.loads(self.rec.Result())['text']
+            print(f"Распознано: {command}")
+            if command:
+                return command
+            else:
+                return None
+
+    def listen(self):
         while True:
-            data = self.stream.read(4000)
-            if self.rec.AcceptWaveform(data):
-                command = json.loads(self.rec.Result())['text']
-                print(f"Распознано: {command}")
-                self.command_recognition(command)
-                if self.stop_cycle:
-                    break
+            if self.stop_cycle:
+                break
+
+            if self.operating_mode == 1: # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
+                command = self.read_the_command()
+                if command:
+                    if command.lower().startswith(self.ultimate_key):
+                        command = command[len(self.ultimate_key) + 1:]
+                        print(f'Передаю: {command}')
+                        self.command_recognition(command)
+
+            elif self.operating_mode == 2: # Режим переключения прослушивания кнопкой
+                if keyboard.is_pressed(self.switch_button):
+                    self.switch_button_flag = not self.switch_button_flag
+                    print("Слушаю" if self.switch_button_flag else "Не слушаю")
+                    while keyboard.is_pressed(self.switch_button):
+                        pass  # Ждем, пока кнопка будет отпущена
+                if self.switch_button_flag:
+                    self.command_recognition(self.read_the_command())
+                elif not self.switch_button_flag:
+                    time.sleep(0.1)  # Пауза, чтобы не нагружать процессор
+
+            elif self.operating_mode == 3:
+                if keyboard.is_pressed(self.hold_button):
+                    print('Слушаю')
+                    while keyboard.is_pressed(self.hold_button):
+                        self.command_recognition(self.read_the_command())
+                else:
+                    time.sleep(0.01)
+
+
 
     def command_recognition(self, command):
+        if not command:
+            return False
         if self.sound_key in command:
             try:
                 self.sound_commands(command)
