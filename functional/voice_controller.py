@@ -39,17 +39,16 @@ class VoiceController:
         self.search_key_1 = 'гугл'
         self.search_key_2 = 'найди'
         self.switch_button_flag = False
-        self.switch_button = 'tab'
-        self.hold_button = 'space'
-        self.operating_mode = 3 # 1 - авто по self.ultimate_key; 2 - переключение по self.switch_button; 3 - зажатие на self.hold_button
+        self.switch_button = 'ctrl'
+        self.hold_button = 'ctrl'
+        self.operating_mode = 2
+        # 1 - авто по self.ultimate_key; 2 - переключение по self.switch_button; 3 - зажатие на self.hold_button
 
 
     def start(self):
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
-        self.stream.start_stream()
-        # Инициализируем распознаватель
-        self.rec = KaldiRecognizer(self.model, 16000)
+        self.rec = KaldiRecognizer(self.model, 16000) # Инициализируем распознаватель
         self.listen()
 
     def read_the_command(self):
@@ -67,7 +66,10 @@ class VoiceController:
             if self.stop_cycle:
                 break
 
-            if self.operating_mode == 1: # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
+            if self.operating_mode == 1:
+            # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
+                if not self.stream.is_active():
+                    self.stream.start_stream()
                 command = self.read_the_command()
                 if command:
                     if command.lower().startswith(self.ultimate_key):
@@ -82,17 +84,31 @@ class VoiceController:
                     while keyboard.is_pressed(self.switch_button):
                         pass  # Ждем, пока кнопка будет отпущена
                 if self.switch_button_flag:
+                    if not self.stream.is_active():
+                        self.stream.start_stream()
                     self.command_recognition(self.read_the_command())
                 elif not self.switch_button_flag:
+                    if self.stream.is_active():
+                        while self.stream.get_read_available() > 0:
+                            self.stream.read(self.stream.get_read_available(), exception_on_overflow=False)
+                        self.stream.stop_stream()  # Останавливаем поток, чтобы не было overflow
+                        self.rec.Reset()
                     time.sleep(0.1)  # Пауза, чтобы не нагружать процессор
 
             elif self.operating_mode == 3:
                 if keyboard.is_pressed(self.hold_button):
                     print('Слушаю')
+                    if not self.stream.is_active():
+                        self.stream.start_stream()
                     while keyboard.is_pressed(self.hold_button):
                         self.command_recognition(self.read_the_command())
                 else:
-                    time.sleep(0.01)
+                    if self.stream.is_active():
+                        while self.stream.get_read_available() > 0:
+                            self.stream.read(self.stream.get_read_available(), exception_on_overflow=False)
+                        self.stream.stop_stream()
+                        self.rec.Reset()
+                    time.sleep(0.1)
 
 
 
