@@ -6,6 +6,7 @@ import os
 import configparser
 import winshell
 import webbrowser
+import tempfile
 
 
 class AppManagement:
@@ -19,7 +20,12 @@ class AppManagement:
     def __init__(self):
         self.app_count = 1
         self.paths = {}
+        self.initialize_mmkv()
         self.load_data()
+
+    def initialize_mmkv(self):
+        # Инициализация MMKV с временным каталогом для хранения данных
+        mmkv.MMKV.initializeMMKV(tempfile.gettempdir() + '/mmkv_data')
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
@@ -36,11 +42,28 @@ class AppManagement:
     def add_path(self, word: str, path: str):
         self.paths[word] = path
         kv = mmkv.MMKV.defaultMMKV()
-        kv.set(pickle.dumps(self.paths), 'words')
+        if kv is not None:
+            kv.set(pickle.dumps(self.paths), 'words')
+
+    def edit_path(self, word_line_edit, path_line_edit):
+        word = word_line_edit
+        new_path = path_line_edit
+        if word in self.paths:
+            self.paths[word] = new_path
+            kv = mmkv.MMKV.defaultMMKV()
+            kv.set(pickle.dumps(self.paths), 'words')
+            print(f"Путь для '{word}' обновлен на '{new_path}'")
+
+    def delete_path(self, word):
+        if word in self.paths:
+            del self.paths[word]
+            kv = mmkv.MMKV.defaultMMKV()
+            kv.set(pickle.dumps(self.paths), 'words')
+            print(f"Элемент '{word}' удален")
 
     def run_app(self, word: str):
         subprocess.run(self.paths[word])
-        file_path = self.apps[word]
+        file_path = self.paths[word]
         file_extension = os.path.splitext(file_path)[1].lower()
 
         if file_extension == '.lnk':
@@ -82,7 +105,7 @@ class AppManagement:
 
     def save_data(self):
         data = {
-            "apps": self.apps,
+            "paths": self.paths,
             "folders": self.folders
         }
         with open(self.filename, 'w', encoding='utf-8') as f:
@@ -90,11 +113,17 @@ class AppManagement:
 
     def load_data(self):
         kv = mmkv.MMKV.defaultMMKV()
-        file = kv.getBytes('words')
-        if len(file) == 0:
-            print("Файл пуст. Загружаем пустые словари.")
+
+        if kv is None:
+            print("Ошибка инициализации MMKV.")
+            self.paths = {}  # Устанавливаем пустой словарь, если MMKV не работает
             return
-        self.paths =  pickle.loads(file)
+
+        data = kv.getBytes('words')
+        if data:
+            self.paths = pickle.loads(data)
+        else:
+            self.paths = {}  # Задаем пустой словарь по умолчанию
 
     def google_search(self, command):
         base_url = "https://www.google.com/search?q="

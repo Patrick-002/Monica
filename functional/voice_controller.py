@@ -204,7 +204,7 @@ class VoiceController:
         for word in split_command:
             word_count += 1
             if word_count == 2:
-                for key_word in self.app_man.apps.keys():
+                for key_word in self.app_man.paths.keys():
                     if key_word in word:
                         self.app_man.run_app(key_word)
                         success = True
@@ -213,7 +213,7 @@ class VoiceController:
 
     def run_app_words(self, command):
         success = False
-        for key_words in self.app_man.apps.keys():
+        for key_words in self.app_man.paths.keys():
             if key_words in command:
                 self.app_man.run_app(key_words)
                 success = True
