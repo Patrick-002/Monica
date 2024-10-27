@@ -251,7 +251,6 @@ class VoiceController:
         self.app_man.google_search(" ".join(split_command))
 
 
-
 if __name__ == '__main__':
     monica = VoiceController()
     monica.start()

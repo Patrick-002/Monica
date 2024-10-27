@@ -17,8 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
     QLayout, QLineEdit, QListWidget, QListWidgetItem,
-    QPushButton, QScrollArea, QSizePolicy, QStackedWidget,
-    QTabWidget, QVBoxLayout, QWidget)
+    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
+    QStackedWidget, QTabWidget, QVBoxLayout, QWidget)
 
 class Ui_FormDock(object):
     def setupUi(self, FormDock):
@@ -63,30 +63,37 @@ class Ui_FormDock(object):
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.page_dock = QStackedWidget(self.frame)
         self.page_dock.setObjectName(u"page_dock")
-        self.page_dock.setGeometry(QRect(10, 10, 605, 527))
+        self.page_dock.setGeometry(QRect(10, 10, 601, 501))
         self.page_dock.setStyleSheet(u"    alignment: center;\n"
 "    background: transparent;\n"
 "    height: 0px; /* \u0421\u043a\u0440\u044b\u0442\u044c \u0432\u044b\u0441\u043e\u0442\u0443 \u043a\u043d\u043e\u043f\u043e\u043a */")
         self.another_settings = QWidget()
         self.another_settings.setObjectName(u"another_settings")
-        self.scrollArea = QScrollArea(self.another_settings)
-        self.scrollArea.setObjectName(u"scrollArea")
-        self.scrollArea.setGeometry(QRect(0, 0, 601, 511))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollAreaWidgetContents = QWidget()
-        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 599, 509))
-        self.tab_app_commands = QTabWidget(self.scrollAreaWidgetContents)
+        self.tab_app_commands = QTabWidget(self.another_settings)
         self.tab_app_commands.setObjectName(u"tab_app_commands")
-        self.tab_app_commands.setGeometry(QRect(0, 10, 601, 871))
+        self.tab_app_commands.setGeometry(QRect(0, 0, 612, 511))
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
+        self.verticalLayout_7 = QVBoxLayout(self.tab)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(10, 10, 10, 10)
         self.label = QLabel(self.tab)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(20, 10, 151, 21))
+
+        self.verticalLayout_3.addWidget(self.label)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.keyword_lineEdit = QLineEdit(self.tab)
         self.keyword_lineEdit.setObjectName(u"keyword_lineEdit")
-        self.keyword_lineEdit.setGeometry(QRect(10, 50, 181, 41))
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.keyword_lineEdit.sizePolicy().hasHeightForWidth())
+        self.keyword_lineEdit.setSizePolicy(sizePolicy)
+        self.keyword_lineEdit.setMinimumSize(QSize(160, 40))
         self.keyword_lineEdit.setStyleSheet(u"    QLineEdit {\n"
 "        border: 2px solid #4a4a4a;\n"
 "        border-radius: 10px;\n"
@@ -99,9 +106,16 @@ class Ui_FormDock(object):
 "        border: 2px solid #9a9edb;\n"
 "        background-color: #3a3a3a;\n"
 "    }")
+
+        self.horizontalLayout_2.addWidget(self.keyword_lineEdit)
+
+        self.horizontalSpacer_4 = QSpacerItem(3, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
+
         self.path_lineEdit = QLineEdit(self.tab)
         self.path_lineEdit.setObjectName(u"path_lineEdit")
-        self.path_lineEdit.setGeometry(QRect(200, 50, 361, 41))
+        self.path_lineEdit.setMinimumSize(QSize(360, 40))
         self.path_lineEdit.setStyleSheet(u"    QLineEdit {\n"
 "        border: 2px solid #4a4a4a;\n"
 "        border-radius: 10px;\n"
@@ -114,9 +128,21 @@ class Ui_FormDock(object):
 "        border: 2px solid #9a9edb;\n"
 "        background-color: #3a3a3a;\n"
 "    }")
+
+        self.horizontalLayout_2.addWidget(self.path_lineEdit)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalSpacer = QSpacerItem(450, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer)
+
         self.pushButton = QPushButton(self.tab)
         self.pushButton.setObjectName(u"pushButton")
-        self.pushButton.setGeometry(QRect(450, 110, 111, 41))
+        self.pushButton.setMinimumSize(QSize(110, 40))
         self.pushButton.setStyleSheet(u"    QPushButton {\n"
 "        border: 2px solid #4a4a4a;\n"
 "        border-radius: 10px;\n"
@@ -132,11 +158,32 @@ class Ui_FormDock(object):
 "        background-color: #4e4e4e;\n"
 "        border: 2px solid #9a9edb;\n"
 "    }")
+
+        self.horizontalLayout_3.addWidget(self.pushButton)
+
+
+        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
+
+
+        self.verticalLayout_7.addLayout(self.verticalLayout_3)
+
+        self.app_scrollArea = QScrollArea(self.tab)
+        self.app_scrollArea.setObjectName(u"app_scrollArea")
+        self.app_scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.app_scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents = QWidget()
+        self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 587, 313))
+        self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
+
+        self.verticalLayout_7.addWidget(self.app_scrollArea)
+
         self.tab_app_commands.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
         self.tab_app_commands.addTab(self.tab_2, "")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.page_dock.addWidget(self.another_settings)
         self.monica_settings = QWidget()
         self.monica_settings.setObjectName(u"monica_settings")

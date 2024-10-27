@@ -107,8 +107,8 @@
           <rect>
            <x>10</x>
            <y>10</y>
-           <width>605</width>
-           <height>527</height>
+           <width>601</width>
+           <height>501</height>
           </rect>
          </property>
          <property name="styleSheet">
@@ -125,7 +125,7 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>601</width>
+             <width>612</width>
              <height>511</height>
             </rect>
            </property>
@@ -136,36 +136,52 @@
             <attribute name="title">
              <string>Запуск приложений</string>
             </attribute>
-            <widget class="QLabel" name="label">
-             <property name="geometry">
-              <rect>
-               <x>20</x>
-               <y>10</y>
-               <width>151</width>
-               <height>21</height>
-              </rect>
-             </property>
-             <property name="text">
-              <string>Добавить команду:</string>
-             </property>
-            </widget>
-            <widget class="QLineEdit" name="keyword_lineEdit">
-             <property name="geometry">
-              <rect>
-               <x>10</x>
-               <y>50</y>
-               <width>181</width>
-               <height>41</height>
-              </rect>
-             </property>
-             <property name="toolTip">
-              <string/>
-             </property>
-             <property name="whatsThis">
-              <string/>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">    QLineEdit {
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <property name="leftMargin">
+                <number>10</number>
+               </property>
+               <property name="topMargin">
+                <number>10</number>
+               </property>
+               <property name="rightMargin">
+                <number>10</number>
+               </property>
+               <property name="bottomMargin">
+                <number>10</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>Добавить команду:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QLineEdit" name="keyword_lineEdit">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>160</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="whatsThis">
+                    <string/>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">    QLineEdit {
         border: 2px solid #4a4a4a;
         border-radius: 10px;
         padding: 8px;
@@ -177,25 +193,41 @@
         border: 2px solid #9a9edb;
         background-color: #3a3a3a;
     }</string>
-             </property>
-             <property name="inputMask">
-              <string/>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-            <widget class="QLineEdit" name="path_lineEdit">
-             <property name="geometry">
-              <rect>
-               <x>200</x>
-               <y>50</y>
-               <width>361</width>
-               <height>41</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">    QLineEdit {
+                   </property>
+                   <property name="inputMask">
+                    <string/>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeType">
+                    <enum>QSizePolicy::Policy::Fixed</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>3</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="path_lineEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>360</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">    QLineEdit {
         border: 2px solid #4a4a4a;
         border-radius: 10px;
         padding: 8px;
@@ -207,19 +239,36 @@
         border: 2px solid #9a9edb;
         background-color: #3a3a3a;
     }</string>
-             </property>
-            </widget>
-            <widget class="QPushButton" name="pushButton">
-             <property name="geometry">
-              <rect>
-               <x>450</x>
-               <y>110</y>
-               <width>111</width>
-               <height>41</height>
-              </rect>
-             </property>
-             <property name="styleSheet">
-              <string notr="true">    QPushButton {
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>450</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>110</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="styleSheet">
+                    <string notr="true">    QPushButton {
         border: 2px solid #4a4a4a;
         border-radius: 10px;
         padding: 8px 16px;
@@ -234,11 +283,38 @@
         background-color: #4e4e4e;
         border: 2px solid #9a9edb;
     }</string>
-             </property>
-             <property name="text">
-              <string>Добавить</string>
-             </property>
-            </widget>
+                   </property>
+                   <property name="text">
+                    <string>Добавить</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QScrollArea" name="app_scrollArea">
+               <property name="verticalScrollBarPolicy">
+                <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
+               </property>
+               <property name="widgetResizable">
+                <bool>true</bool>
+               </property>
+               <widget class="QWidget" name="scrollAreaWidgetContents">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>587</width>
+                  <height>313</height>
+                 </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2"/>
+               </widget>
+              </widget>
+             </item>
+            </layout>
            </widget>
            <widget class="QWidget" name="tab_2">
             <attribute name="title">

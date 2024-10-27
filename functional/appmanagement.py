@@ -59,7 +59,7 @@ class AppManagement:
             # Открываем .exe файл
             try:
                 subprocess.Popen([file_path])
-                print(f"Открыт исполняемый файл: {file_path}")
+                # print(f"Открыт исполняемый файл: {file_path}")
             except Exception as e:
                 print(f"Ошибка при открытии .exe файла: {e}")
 
