@@ -9,7 +9,7 @@ import webbrowser
 
 class AppManagement:
     _instance = None
-    kv = mmkv.MMKV.defaultMMKV()
+    kv = None
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -20,6 +20,7 @@ class AppManagement:
         self.app_count = 1
         self.paths = {}
         self.load_data()
+        self.kv = mmkv.MMKV.defaultMMKV()
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
