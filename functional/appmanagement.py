@@ -1,16 +1,15 @@
 import subprocess
 import pickle
 import mmkv
-import json
 import os
 import configparser
 import winshell
 import webbrowser
-import tempfile
 
 
 class AppManagement:
     _instance = None
+    kv = mmkv.MMKV.defaultMMKV()
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -20,12 +19,7 @@ class AppManagement:
     def __init__(self):
         self.app_count = 1
         self.paths = {}
-        self.initialize_mmkv()
         self.load_data()
-
-    def initialize_mmkv(self):
-        # Инициализация MMKV с временным каталогом для хранения данных
-        mmkv.MMKV.initializeMMKV(tempfile.gettempdir() + '/mmkv_data')
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
@@ -46,13 +40,10 @@ class AppManagement:
             kv.set(pickle.dumps(self.paths), 'words')
 
     def edit_path(self, word_line_edit, path_line_edit):
-        word = word_line_edit
-        new_path = path_line_edit
-        if word in self.paths:
-            self.paths[word] = new_path
-            kv = mmkv.MMKV.defaultMMKV()
-            kv.set(pickle.dumps(self.paths), 'words')
-            print(f"Путь для '{word}' обновлен на '{new_path}'")
+        if word_line_edit in self.paths:
+            self.paths[word_line_edit] = path_line_edit
+            self.kv.set(pickle.dumps(self.paths), 'words')
+            print(f"Путь для '{word_line_edit}' обновлен на '{path_line_edit}'")
 
     def delete_path(self, word):
         if word in self.paths:
@@ -103,23 +94,13 @@ class AppManagement:
     def open_folder(self, word: str):
         subprocess.run(self.folders[word])
 
-    def save_data(self):
-        data = {
-            "paths": self.paths,
-            "folders": self.folders
-        }
-        with open(self.filename, 'w', encoding='utf-8') as f:
-            json.dump(data, f, ensure_ascii=False, indent=4)
-
     def load_data(self):
-        kv = mmkv.MMKV.defaultMMKV()
-
-        if kv is None:
+        if self.kv is None:
             print("Ошибка инициализации MMKV.")
             self.paths = {}  # Устанавливаем пустой словарь, если MMKV не работает
             return
 
-        data = kv.getBytes('words')
+        data = self.kv.getBytes('words')
         if data:
             self.paths = pickle.loads(data)
         else:
