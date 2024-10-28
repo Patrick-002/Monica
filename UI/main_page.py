@@ -8,7 +8,6 @@ from PySide6.QtGui import QIcon
 
 class MainPage(QWidget, Ui_FormDock):
     am = AppManagement()
-    # vc = VoiceController()
 
     def __init__(self, page_manager):
         super().__init__()
@@ -166,4 +165,5 @@ class MainPage(QWidget, Ui_FormDock):
             print("Пустое поле ввода")
 
     def on_voicemode_combobox_changed(self, index):
-        pass
+        vc = VoiceController()
+        vc.operating_mode = index + 1

@@ -1,6 +1,6 @@
 from os.path import split
 
-import functional.sys_commands  as sys_commands
+import functional.sys_commands as sys_commands
 import pyaudio
 import json
 from vosk import Model, KaldiRecognizer
@@ -9,6 +9,7 @@ import functional.appmanagement as app_management
 import functional.media_player as media_player
 import keyboard
 import time
+
 
 class VoiceController:
     _instance = None
@@ -44,11 +45,10 @@ class VoiceController:
         self.operating_mode = 2
         # 1 - авто по self.ultimate_key; 2 - переключение по self.switch_button; 3 - зажатие на self.hold_button
 
-
     def start(self):
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
-        self.rec = KaldiRecognizer(self.model, 16000) # Инициализируем распознаватель
+        self.rec = KaldiRecognizer(self.model, 16000)  # Инициализируем распознаватель
         self.listen()
 
     def read_the_command(self):
@@ -67,7 +67,7 @@ class VoiceController:
                 break
 
             if self.operating_mode == 1:
-            # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
+                # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
                 if not self.stream.is_active():
                     self.stream.start_stream()
                 command = self.read_the_command()
@@ -77,7 +77,7 @@ class VoiceController:
                         print(f'Передаю: {command}')
                         self.command_recognition(command)
 
-            elif self.operating_mode == 2: # Режим переключения прослушивания кнопкой
+            elif self.operating_mode == 2:  # Режим переключения прослушивания кнопкой
                 if keyboard.is_pressed(self.switch_button):
                     self.switch_button_flag = not self.switch_button_flag
                     print("Слушаю" if self.switch_button_flag else "Не слушаю")
@@ -109,8 +109,6 @@ class VoiceController:
                         self.stream.stop_stream()
                         self.rec.Reset()
                     time.sleep(0.1)
-
-
 
     def command_recognition(self, command):
         if not command:
