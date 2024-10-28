@@ -39,8 +39,8 @@ class VoiceController:
         self.switch_button_flag = False
         self.switch_button = 'ctrl'
         self.hold_button = 'ctrl'
-        self.operating_mode = 2
-        # 1 - авто по self.ultimate_key; 2 - переключение по self.switch_button; 3 - зажатие на self.hold_button
+        self.operating_mode = 0
+        # 0 - авто по self.ultimate_key; 1 - переключение по self.switch_button; 2 - зажатие на self.hold_button
 
 
     def start(self):
@@ -67,7 +67,7 @@ class VoiceController:
 
     def listen(self):
         while self.cycle:
-            if self.operating_mode == 1:
+            if self.operating_mode == 0:
             # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
                 if not self.stream.is_active():
                     self.stream.start_stream()
@@ -78,7 +78,7 @@ class VoiceController:
                         print(f'Передаю: {command}')
                         self.command_recognition(command)
 
-            elif self.operating_mode == 2: # Режим переключения прослушивания кнопкой
+            elif self.operating_mode == 1: # Режим переключения прослушивания кнопкой
                 if keyboard.is_pressed(self.switch_button):
                     self.switch_button_flag = not self.switch_button_flag
                     print("Слушаю" if self.switch_button_flag else "Не слушаю")
@@ -96,7 +96,7 @@ class VoiceController:
                         self.rec.Reset()
                     time.sleep(0.01)  # Пауза, чтобы не нагружать процессор
 
-            elif self.operating_mode == 3:
+            elif self.operating_mode == 2:
                 if keyboard.is_pressed(self.hold_button):
                     print('Слушаю')
                     if not self.stream.is_active():
