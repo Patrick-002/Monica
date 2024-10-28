@@ -213,14 +213,14 @@ class VoiceController:
         if not success:
             self.run_app_word(command)
 
-    # def open_folder(self, word):
-    #     success = False
-    #     for key_word in self.app_man.folders.keys():
-    #         if word in key_word:
-    #             self.app_man.open_folder(key_word)
-    #             success = True
-    #     if not success:
-    #         print('Уточните команду для папки')
+    def open_folder(self, word):
+        success = False
+        for key_word in self.app_man.paths.keys():
+            if word in key_word:
+                self.app_man.open_folder(key_word)
+                success = True
+        if not success:
+            print('Уточните команду для папки')
 
     def open_something(self, command):
         word_count = 0

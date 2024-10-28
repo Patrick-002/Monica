@@ -93,7 +93,7 @@ class AppManagement:
             print(f"Неизвестный формат файла: {file_path}")
 
     def open_folder(self, word: str):
-        subprocess.run(self.folders[word])
+        subprocess.run(self.paths[word])
 
     def load_data(self):
         if self.kv is None:
