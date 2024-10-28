@@ -8,6 +8,7 @@ from PySide6.QtGui import QIcon
 
 class MainPage(QWidget, Ui_FormDock):
     am = AppManagement()
+    vc = VoiceController()
 
     def __init__(self, page_manager):
         super().__init__()
@@ -25,6 +26,7 @@ class MainPage(QWidget, Ui_FormDock):
         self.keyword_lineEdit.setPlaceholderText('Ключевое слово')
         self.path_lineEdit.setPlaceholderText('Путь')
 
+        self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
         self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voicemode_combobox_changed)
         image_path = "res/arrow_down.png"
         self.VoiceMode_comboBox.setStyleSheet(f"""
@@ -161,9 +163,11 @@ class MainPage(QWidget, Ui_FormDock):
             self.am.add_path(text, path_text)
             self.path_dict = self.am.paths
             self.init_dictionary_view()
+
+            self.keyword_lineEdit.setText('')
+            self.path_lineEdit.setText('')
         else:
             print("Пустое поле ввода")
 
     def on_voicemode_combobox_changed(self, index):
-        vc = VoiceController()
-        vc.operating_mode = index + 1
+        self.vc.operating_mode = index

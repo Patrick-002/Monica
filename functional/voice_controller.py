@@ -1,4 +1,4 @@
-import functional.sys_commands  as sys_commands
+import functional.sys_commands as sys_commands
 import pyaudio
 import json
 from vosk import Model, KaldiRecognizer
@@ -7,6 +7,7 @@ import functional.appmanagement as app_management
 import functional.media_player as media_player
 import keyboard
 import time
+
 
 class VoiceController:
     _instance = None
@@ -36,17 +37,16 @@ class VoiceController:
         self.media_player_key_2 = 'медиа'
         self.search_key_1 = 'гугл'
         self.search_key_2 = 'найди'
-        self.switch_button_flag = False
         self.switch_button = 'ctrl'
         self.hold_button = 'ctrl'
-        self.operating_mode = 0
-        # 0 - авто по self.ultimate_key; 1 - переключение по self.switch_button; 2 - зажатие на self.hold_button
-
+        self.operating_mode = 1
+        self.switch_button_flag = False
+        # 1 - авто по self.ultimate_key; 2 - переключение по self.switch_button; 3 - зажатие на self.hold_button
 
     def start(self):
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
-        self.rec = KaldiRecognizer(self.model, 16000) # Инициализируем распознаватель
+        self.rec = KaldiRecognizer(self.model, 16000)  # Инициализируем распознаватель
         self.listen()
 
     def stop(self):

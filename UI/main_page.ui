@@ -117,7 +117,7 @@
     height: 0px; /* Скрыть высоту кнопок */</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="another_settings">
           <widget class="QTabWidget" name="tab_app_commands">
@@ -329,6 +329,29 @@
             <layout class="QVBoxLayout" name="verticalLayout_4">
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <item>
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Orientation::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Policy::Fixed</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="keywordType_label">
+                 <property name="text">
+                  <string>Режим активации:</string>
+                 </property>
+                </widget>
+               </item>
                <item>
                 <spacer name="horizontalSpacer_2">
                  <property name="orientation">
