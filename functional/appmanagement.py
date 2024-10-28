@@ -1,5 +1,6 @@
 import subprocess
 import pickle
+from mmkv import SingleProcess
 import mmkv
 import os
 import configparser
@@ -20,7 +21,7 @@ class AppManagement:
         self.app_count = 1
         self.paths = {}
         mmkv.MMKV.initializeMMKV('./mmkv')
-        self.kv = mmkv.MMKV.defaultMMKV()
+        self.kv = mmkv.MMKV.defaultMMKV(SingleProcess)
         self.load_data()
 
     def explorer(self):
