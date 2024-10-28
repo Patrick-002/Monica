@@ -1,6 +1,5 @@
-import mmkv
 from PySide6.QtGui import QAction, QIcon
-from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu, QStyle
+from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu
 from PySide6.QtCore import QThread, Qt, QEvent
 from functional.voice_controller import VoiceController
 from UI.main_page import MainPage
@@ -69,7 +68,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     try:
-        mmkv.MMKV.initializeMMKV('./mmkv')
         app = QApplication(sys.argv)
 
         window = MainWindow()

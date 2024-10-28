@@ -19,6 +19,7 @@ class AppManagement:
     def __init__(self):
         self.app_count = 1
         self.paths = {}
+        mmkv.MMKV.initializeMMKV('./mmkv')
         self.kv = mmkv.MMKV.defaultMMKV()
         self.load_data()
 
@@ -36,9 +37,8 @@ class AppManagement:
 
     def add_path(self, word: str, path: str):
         self.paths[word] = path
-        kv = mmkv.MMKV.defaultMMKV()
-        if kv is not None:
-            kv.set(pickle.dumps(self.paths), 'words')
+        if self.kv is not None:
+            self.kv.set(pickle.dumps(self.paths), 'words')
 
     def edit_path(self, word_line_edit, path_line_edit):
         if word_line_edit in self.paths:
@@ -49,8 +49,7 @@ class AppManagement:
     def delete_path(self, word):
         if word in self.paths:
             del self.paths[word]
-            kv = mmkv.MMKV.defaultMMKV()
-            kv.set(pickle.dumps(self.paths), 'words')
+            self.kv.set(pickle.dumps(self.paths), 'words')
             print(f"Элемент '{word}' удален")
 
     def run_app(self, word: str):
