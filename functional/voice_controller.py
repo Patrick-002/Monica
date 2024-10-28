@@ -27,7 +27,7 @@ class VoiceController:
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
-        self.stop_cycle = False
+        self.cycle = True
         self.ultimate_key = 'моника'
         self.sound_key = 'звук'
         self.run_app_key = 'запус'
@@ -53,7 +53,7 @@ class VoiceController:
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-        self.stop_cycle = True
+        self.cycle = False
 
     def read_the_command(self):
         data = self.stream.read(4000)
@@ -66,10 +66,7 @@ class VoiceController:
                 return None
 
     def listen(self):
-        while True:
-            if self.stop_cycle:
-                break
-
+        while self.cycle:
             if self.operating_mode == 1:
             # Режим постоянного прослушивания, но выполняется только если команда начинается с self.ultimate_key
                 if not self.stream.is_active():
@@ -216,14 +213,14 @@ class VoiceController:
         if not success:
             self.run_app_word(command)
 
-    def open_folder(self, word):
-        success = False
-        for key_word in self.app_man.folders.keys():
-            if word in key_word:
-                self.app_man.open_folder(key_word)
-                success = True
-        if not success:
-            print('Уточните команду для папки')
+    # def open_folder(self, word):
+    #     success = False
+    #     for key_word in self.app_man.folders.keys():
+    #         if word in key_word:
+    #             self.app_man.open_folder(key_word)
+    #             success = True
+    #     if not success:
+    #         print('Уточните команду для папки')
 
     def open_something(self, command):
         word_count = 0
