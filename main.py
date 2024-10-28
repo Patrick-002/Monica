@@ -81,7 +81,7 @@ if __name__ == '__main__':
         sys.exit(app.exec())
 
     except Exception as e:
-        with open("Log/error_log.txt", "a", encoding='utf-8') as f:
+        with open("log/error_log.txt", "a", encoding='utf-8') as f:
             f.write(f"Время ошибки: {datetime.now()}\n")
             f.write(f"Тип ошибки: {type(e).__name__}\n")
             f.write(f"Аргументы ошибки: {e.args}\n")
