@@ -1,12 +1,14 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
 from UI.ui_main_page import Ui_FormDock
 from functional.appmanagement import AppManagement
+from functional.voice_controller import VoiceController
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 
 
 class MainPage(QWidget, Ui_FormDock):
     am = AppManagement()
+    # vc = VoiceController()
 
     def __init__(self, page_manager):
         super().__init__()
@@ -14,7 +16,7 @@ class MainPage(QWidget, Ui_FormDock):
         self.setupUi(self)
 
         # Получаем словарь с путями
-        self.dictn = AppManagement().paths
+        self.path_dict = AppManagement().paths
 
         # Регистрация страницы в менеджере страниц
         self.page_manager.register_page(self.__class__.__name__, self)
@@ -23,6 +25,40 @@ class MainPage(QWidget, Ui_FormDock):
 
         self.keyword_lineEdit.setPlaceholderText('Ключевое слово')
         self.path_lineEdit.setPlaceholderText('Путь')
+
+        self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voicemode_combobox_changed)
+        image_path = "res/arrow_down.png"
+        self.VoiceMode_comboBox.setStyleSheet(f"""
+            QComboBox {{
+                border: 2px solid #4a4a4a;
+                border-radius: 10px;
+                padding: 8px;
+                padding-right: 30px;
+                font-size: 16px;
+                background-color: #2b2b2b;
+                color: #dcdcdc;
+            }}
+            QComboBox:hover {{
+                border: 2px solid #6a6a6a;
+            }}
+            QComboBox:focus {{
+                border: 2px solid #9a9edb;
+                background-color: #3a3a3a;
+            }}
+            QComboBox::drop-down {{
+                border: none;
+                width: 18px; /* Уменьшение ширины для меньшего отступа */
+                background-color: transparent;
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                margin: 2px;
+            }}
+            QComboBox::down-arrow {{
+                image: url({image_path});
+                width: 12px;
+                height: 12px;
+            }}
+        """)
 
         # Связываем клики по элементам списка с переключением страниц
         self.category_list.currentRowChanged.connect(self.on_category_changed)
@@ -47,7 +83,7 @@ class MainPage(QWidget, Ui_FormDock):
         self.app_scrollArea.setWidget(container)
 
         # Создаем блоки для каждой пары из словаря
-        for key, value in self.dictn.items():
+        for key, value in self.path_dict.items():
             self.entry_layout.addWidget(self.create_entry_block(key, value))
 
     def create_entry_block(self, key, value):
@@ -111,7 +147,7 @@ class MainPage(QWidget, Ui_FormDock):
         self.am.edit_path(new_key, new_value)
 
     def delete_entry(self, block, key):
-        del self.dictn[key]
+        del self.path_dict[key]
         block.setParent(None)
         self.am.delete_path(key)
         self.init_dictionary_view()
@@ -124,8 +160,10 @@ class MainPage(QWidget, Ui_FormDock):
         path_text = self.path_lineEdit.text()
         if text and path_text:
             self.am.add_path(text, path_text)
-            self.dictn = self.am.paths
+            self.path_dict = self.am.paths
             self.init_dictionary_view()
         else:
             print("Пустое поле ввода")
 
+    def on_voicemode_combobox_changed(self, index):
+        pass

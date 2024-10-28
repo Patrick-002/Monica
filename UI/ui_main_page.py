@@ -15,10 +15,11 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel,
-    QLayout, QLineEdit, QListWidget, QListWidgetItem,
-    QPushButton, QScrollArea, QSizePolicy, QSpacerItem,
-    QStackedWidget, QTabWidget, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
+    QLabel, QLayout, QLineEdit, QListWidget,
+    QListWidgetItem, QPushButton, QScrollArea, QSizePolicy,
+    QSpacerItem, QStackedWidget, QTabWidget, QVBoxLayout,
+    QWidget)
 
 class Ui_FormDock(object):
     def setupUi(self, FormDock):
@@ -63,7 +64,7 @@ class Ui_FormDock(object):
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.page_dock = QStackedWidget(self.frame)
         self.page_dock.setObjectName(u"page_dock")
-        self.page_dock.setGeometry(QRect(10, 10, 601, 501))
+        self.page_dock.setGeometry(QRect(0, 0, 621, 531))
         self.page_dock.setStyleSheet(u"    alignment: center;\n"
 "    background: transparent;\n"
 "    height: 0px; /* \u0421\u043a\u0440\u044b\u0442\u044c \u0432\u044b\u0441\u043e\u0442\u0443 \u043a\u043d\u043e\u043f\u043e\u043a */")
@@ -173,7 +174,7 @@ class Ui_FormDock(object):
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 587, 313))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 587, 314))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -187,9 +188,69 @@ class Ui_FormDock(object):
         self.page_dock.addWidget(self.another_settings)
         self.monica_settings = QWidget()
         self.monica_settings.setObjectName(u"monica_settings")
-        self.label_3 = QLabel(self.monica_settings)
-        self.label_3.setObjectName(u"label_3")
-        self.label_3.setGeometry(QRect(260, 180, 251, 91))
+        self.horizontalLayout_4 = QHBoxLayout(self.monica_settings)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.horizontalSpacer_2 = QSpacerItem(400, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_5.addItem(self.horizontalSpacer_2)
+
+        self.VoiceMode_comboBox = QComboBox(self.monica_settings)
+        self.VoiceMode_comboBox.addItem("")
+        self.VoiceMode_comboBox.addItem("")
+        self.VoiceMode_comboBox.addItem("")
+        self.VoiceMode_comboBox.setObjectName(u"VoiceMode_comboBox")
+        self.VoiceMode_comboBox.setMinimumSize(QSize(0, 40))
+        self.VoiceMode_comboBox.setStyleSheet(u"QComboBox {\n"
+"    border: 2px solid #4a4a4a;\n"
+"    border-radius: 10px;\n"
+"    padding: 8px;\n"
+"    padding-right: 30px;\n"
+"    font-size: 16px;\n"
+"    background-color: #2b2b2b;\n"
+"    color: #dcdcdc;\n"
+"}\n"
+"\n"
+"QComboBox:hover {\n"
+"    border: 2px solid #6a6a6a;\n"
+"}\n"
+"\n"
+"QComboBox:focus {\n"
+"    border: 2px solid #9a9edb;\n"
+"    background-color: #3a3a3a;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    border: none;\n"
+"    width: 24px;\n"
+"    background-color: transparent;\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    margin: 2px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(/res/arrow_down.png); /* \u0423\u0431\u0435\u0434\u0438\u0442\u0435\u0441\u044c, \u0447\u0442\u043e \u043f\u0443\u0442\u044c \u0441\u043e\u0432\u043f\u0430\u0434\u0430\u0435\u0442 \u0441 \u0440\u0435\u0441\u0443\u0440\u0441\u043e\u043c */\n"
+"    width: 12px;\n"
+"    height: 12px;\n"
+"}\n"
+"")
+
+        self.horizontalLayout_5.addWidget(self.VoiceMode_comboBox)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
+
+        self.verticalSpacer = QSpacerItem(20, 350, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+
+        self.verticalLayout_4.addItem(self.verticalSpacer)
+
+
+        self.horizontalLayout_4.addLayout(self.verticalLayout_4)
+
         self.page_dock.addWidget(self.monica_settings)
         self.interface_settings_page = QWidget()
         self.interface_settings_page.setObjectName(u"interface_settings_page")
@@ -246,7 +307,10 @@ class Ui_FormDock(object):
         self.pushButton.setText(QCoreApplication.translate("FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
         self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab), QCoreApplication.translate("FormDock", u"\u0417\u0430\u043f\u0443\u0441\u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439", None))
         self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab_2), QCoreApplication.translate("FormDock", u"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043c\u0435\u0434\u0438\u0430", None))
-        self.label_3.setText(QCoreApplication.translate("FormDock", u"monica_settings", None))
+        self.VoiceMode_comboBox.setItemText(0, QCoreApplication.translate("FormDock", u"\u041f\u043e \u043a\u043b\u044e\u0447\u0435\u0432\u043e\u043c\u0443 \u0441\u043b\u043e\u0432\u0443", None))
+        self.VoiceMode_comboBox.setItemText(1, QCoreApplication.translate("FormDock", u"\u041f\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044e", None))
+        self.VoiceMode_comboBox.setItemText(2, QCoreApplication.translate("FormDock", u"\u041f\u043e \u0443\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u044e", None))
+
         self.label_2.setText(QCoreApplication.translate("FormDock", u"interface_settings_page", None))
         self.label_4.setText(QCoreApplication.translate("FormDock", u"voice_model_settings", None))
     # retranslateUi

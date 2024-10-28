@@ -66,6 +66,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.tray_icon.show()
             self.showNormal()
 
+
 if __name__ == '__main__':
     try:
         mmkv.MMKV.initializeMMKV('./mmkv')
@@ -89,4 +90,3 @@ if __name__ == '__main__':
             f.write("Полный traceback:\n")
             traceback.print_exc(file=f)
             f.write("\n" + "-" * 50 + "\n")
-
