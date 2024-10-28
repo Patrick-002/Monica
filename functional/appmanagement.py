@@ -19,8 +19,8 @@ class AppManagement:
     def __init__(self):
         self.app_count = 1
         self.paths = {}
-        self.load_data()
         self.kv = mmkv.MMKV.defaultMMKV()
+        self.load_data()
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
@@ -54,7 +54,6 @@ class AppManagement:
             print(f"Элемент '{word}' удален")
 
     def run_app(self, word: str):
-        subprocess.run(self.paths[word])
         file_path = self.paths[word]
         file_extension = os.path.splitext(file_path)[1].lower()
 
