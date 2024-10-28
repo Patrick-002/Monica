@@ -83,7 +83,7 @@ class VoiceController:
                     self.switch_button_flag = not self.switch_button_flag
                     print("Слушаю" if self.switch_button_flag else "Не слушаю")
                     while keyboard.is_pressed(self.switch_button):
-                        pass  # Ждем, пока кнопка будет отпущена
+                        time.sleep(0.01)  # Ждем, пока кнопка будет отпущена
                 if self.switch_button_flag:
                     if not self.stream.is_active():
                         self.stream.start_stream()
@@ -94,7 +94,7 @@ class VoiceController:
                             self.stream.read(self.stream.get_read_available(), exception_on_overflow=False)
                         self.stream.stop_stream()  # Останавливаем поток, чтобы не было overflow
                         self.rec.Reset()
-                    time.sleep(0.1)  # Пауза, чтобы не нагружать процессор
+                    time.sleep(0.01)  # Пауза, чтобы не нагружать процессор
 
             elif self.operating_mode == 3:
                 if keyboard.is_pressed(self.hold_button):
