@@ -75,6 +75,7 @@ if __name__ == '__main__':
 
         # Создаем и запускаем поток для VoiceController
         voice_thread = VoiceThread()
+        voice_thread.daemon = True
         voice_thread.start()
 
         # Запуск основного цикла приложения
