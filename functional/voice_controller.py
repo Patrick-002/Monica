@@ -7,6 +7,7 @@ import functional.appmanagement as app_management
 import functional.media_player as media_player
 import keyboard
 import time
+import threading
 
 
 class VoiceListening:
@@ -31,6 +32,9 @@ class VoiceListening:
             "switch_button": "ctrl",
             "hold_button": "ctrl"
         }
+        self.button_thread = None
+        self.stop_button_thread = False
+        self.op_mod_1_active = False
 
     def start(self):
         self.p = pyaudio.PyAudio()
@@ -52,6 +56,7 @@ class VoiceListening:
             return command or None
 
     def listen(self):
+        op_mod_1 = False
         while not self.stop_cycle:
             if self.vc.operating_mode == 0:
                 if not self.stream.is_active():
@@ -59,15 +64,17 @@ class VoiceListening:
                 command = self.read_the_command()
                 if command and command.lower().startswith(self.keys["ultimate_key"]):
                     self.vc.command_recognition(command[len(self.keys["ultimate_key"]) + 1:])
-                if self.switch_button_flag:
-                    self.switch_button_flag = False
+                if op_mod_1:
+                    self.stop_thread()
+
 
             elif self.vc.operating_mode == 1:
-                if keyboard.is_pressed(self.keys["switch_button"]):
-                    self.switch_button_flag = not self.switch_button_flag
-                    print("Слушаю" if self.switch_button_flag else "Не слушаю")
-                    while keyboard.is_pressed(self.keys["switch_button"]):
-                        time.sleep(0.005)
+                if not self.op_mod_1_active:
+                    self.button_thread = threading.Thread(target=self.check_button)
+                    self.button_thread.daemon = True
+                    self.button_thread.start()
+                    self.op_mod_1_active = True
+
                 if self.switch_button_flag:
                     if not self.stream.is_active():
                         self.stream.start_stream()
@@ -87,8 +94,24 @@ class VoiceListening:
                 else:
                     self._stop_stream()
                     time.sleep(0.1)
-                if self.switch_button_flag:
-                    self.switch_button_flag = False
+                if op_mod_1:
+                    self.stop_thread()
+
+    def check_button(self):
+        # Проверка нажатия кнопки в отдельном потоке
+        while not self.stop_button_thread:
+            if keyboard.is_pressed(self.keys["switch_button"]):
+                self.switch_button_flag = not self.switch_button_flag
+                print("Слушаю" if self.switch_button_flag else "Не слушаю")
+                while keyboard.is_pressed(self.keys["switch_button"]):
+                    time.sleep(0.1)
+            time.sleep(0.01)
+
+    def stop_thread(self):
+        self.stop_button_thread = True
+        self.button_thread.join()
+        self.switch_button_flag = False
+        self.op_mod_1_active = False
 
     def _stop_stream(self):
         if self.stream.is_active():
@@ -110,7 +133,7 @@ class VoiceCommands:
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
-        self.operating_mode = 1
+        self.operating_mode = 2
         # Ключевые слова
         self.keys = {
             "sound_key": "звук",
@@ -271,3 +294,4 @@ class VoiceCommands:
 
 if __name__ == '__main__':
     monica = VoiceListening()
+    monica.start()
