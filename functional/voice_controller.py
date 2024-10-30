@@ -16,9 +16,13 @@ class VoiceListening:
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super(VoiceListening, cls).__new__(cls, *args, **kwargs)
+            cls._instance._initialized = False
         return cls._instance
 
     def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
         self.model = Model("functional//vosk-model-small-ru-0.22")
         # self.model = Model("vosk-model-small-ru-0.22") # для теста
         self.stream = None
@@ -128,9 +132,13 @@ class VoiceCommands:
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super(VoiceCommands, cls).__new__(cls, *args, **kwargs)
+            cls._instance._initialized = False
         return cls._instance
 
     def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
