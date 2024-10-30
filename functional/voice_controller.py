@@ -24,7 +24,6 @@ class VoiceListening:
         self.rec = None
         self.vc = VoiceCommands()
         self.stop_cycle = False
-        self.operating_mode = 1
         self.switch_button_flag = False
         self.keys = {
             "ultimate_key": "моника",
@@ -53,14 +52,14 @@ class VoiceListening:
 
     def listen(self):
         while not self.stop_cycle:
-            if self.operating_mode == 0:
+            if self.vc.operating_mode == 0:
                 if not self.stream.is_active():
                     self.stream.start_stream()
                 command = self.read_the_command()
                 if command and command.lower().startswith(self.keys["ultimate_key"]):
                     self.vc.command_recognition(command[len(self.keys["ultimate_key"]) + 1:])
 
-            elif self.operating_mode == 1:
+            elif self.vc.operating_mode == 1:
                 if keyboard.is_pressed(self.keys["switch_button"]):
                     self.switch_button_flag = not self.switch_button_flag
                     print("Слушаю" if self.switch_button_flag else "Не слушаю")
@@ -75,7 +74,7 @@ class VoiceListening:
                 else:
                     time.sleep(0.01)
 
-            elif self.operating_mode == 2:
+            elif self.vc.operating_mode == 2:
                 if keyboard.is_pressed(self.keys["hold_button"]):
                     print("Слушаю")
                     if not self.stream.is_active():
@@ -106,7 +105,7 @@ class VoiceCommands:
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
-
+        self.operating_mode = 1
         # Ключевые слова
         self.keys = {
             "sound_key": "звук",
