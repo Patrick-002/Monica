@@ -15,9 +15,13 @@ class AppManagement:
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
             cls._instance = super(AppManagement, cls).__new__(cls, *args, **kwargs)
+            cls._instance._initialized = False
         return cls._instance
 
     def __init__(self):
+        if self._initialized:
+            return
+        self._initialized = True
         self.app_count = 1
         self.paths = {}
         mmkv.MMKV.initializeMMKV('./mmkv')
