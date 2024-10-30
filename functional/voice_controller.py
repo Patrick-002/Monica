@@ -19,6 +19,7 @@ class VoiceListening:
 
     def __init__(self):
         self.model = Model("functional//vosk-model-small-ru-0.22")
+        # self.model = Model("vosk-model-small-ru-0.22") # для теста
         self.stream = None
         self.p = None
         self.rec = None
@@ -58,21 +59,23 @@ class VoiceListening:
                 command = self.read_the_command()
                 if command and command.lower().startswith(self.keys["ultimate_key"]):
                     self.vc.command_recognition(command[len(self.keys["ultimate_key"]) + 1:])
+                if self.switch_button_flag:
+                    self.switch_button_flag = False
 
             elif self.vc.operating_mode == 1:
                 if keyboard.is_pressed(self.keys["switch_button"]):
                     self.switch_button_flag = not self.switch_button_flag
                     print("Слушаю" if self.switch_button_flag else "Не слушаю")
                     while keyboard.is_pressed(self.keys["switch_button"]):
-                        time.sleep(0.01)
-                if self.switch_button_flag and not self.stream.is_active():
-                    self.stream.start_stream()
-                elif not self.switch_button_flag and self.stream.is_active():
-                    self._stop_stream()
+                        time.sleep(0.005)
                 if self.switch_button_flag:
+                    if not self.stream.is_active():
+                        self.stream.start_stream()
                     self.vc.command_recognition(self.read_the_command())
                 else:
-                    time.sleep(0.01)
+                    if self.stream.is_active():
+                        self._stop_stream()
+                    time.sleep(0.005)
 
             elif self.vc.operating_mode == 2:
                 if keyboard.is_pressed(self.keys["hold_button"]):
@@ -84,6 +87,8 @@ class VoiceListening:
                 else:
                     self._stop_stream()
                     time.sleep(0.1)
+                if self.switch_button_flag:
+                    self.switch_button_flag = False
 
     def _stop_stream(self):
         if self.stream.is_active():
@@ -265,5 +270,4 @@ class VoiceCommands:
 
 
 if __name__ == '__main__':
-    monica = VoiceCommands()
-    monica.start()
+    monica = VoiceListening()

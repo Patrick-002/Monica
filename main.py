@@ -1,7 +1,7 @@
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu
 from PySide6.QtCore import QThread, Qt, QEvent
-from functional.voice_controller import VoiceListening
+from functional.voice_controller import VoiceCommands, VoiceListening
 from UI.main_page import MainPage
 import traceback
 from datetime import datetime
