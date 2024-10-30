@@ -26,7 +26,7 @@ class MainPage(QWidget, Ui_FormDock):
         self.keyword_lineEdit.setPlaceholderText('Ключевое слово')
         self.path_lineEdit.setPlaceholderText('Путь')
 
-        self.VoiceMode_comboBox.setCurrentIndex(self.vc.get_operating_mode())
+        self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
         self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voicemode_combobox_changed)
         image_path = "res/arrow_down.png"
         self.VoiceMode_comboBox.setStyleSheet(f"""
@@ -170,4 +170,4 @@ class MainPage(QWidget, Ui_FormDock):
             print("Пустое поле ввода")
 
     def on_voicemode_combobox_changed(self, index):
-        self.vc.set_operating_mode(index)
+        self.vc.operating_mode = index
