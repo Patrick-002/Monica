@@ -7,16 +7,16 @@ from PySide6.QtGui import QIcon
 
 
 class MainPage(QWidget, Ui_FormDock):
-    am = AppManagement()
 
     def __init__(self, page_manager):
         super().__init__()
         self.page_manager = page_manager
         self.setupUi(self)
         self.vc = VoiceCommands()
+        self.am = AppManagement()
 
         # Получаем словарь с путями
-        self.path_dict = AppManagement().paths
+        self.path_dict = self.am.paths
 
         # Регистрация страницы в менеджере страниц
         self.page_manager.register_page(self.__class__.__name__, self)

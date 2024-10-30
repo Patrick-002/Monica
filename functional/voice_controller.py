@@ -25,7 +25,7 @@ class VoiceListening:
         self.p = None
         self.rec = None
         self.vc = VoiceCommands()
-        self.stop_cycle = False
+        self.stop_cycle = True
         self.switch_button_flag = False
         self.keys = {
             "ultimate_key": "моника",
@@ -37,13 +37,14 @@ class VoiceListening:
         self.op_mod_1_active = False
 
     def start(self):
+        self.stop_cycle = False
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
         self.rec = KaldiRecognizer(self.model, 16000)
         self.listen()
 
     def stop(self):
-        self.stream.stop_stream()
+        self._stop_stream()
         self.stream.close()
         self.p.terminate()
         self.stop_cycle = True
