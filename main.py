@@ -16,6 +16,9 @@ class VoiceThread(QThread):
         super().__init__()
         self.voice_controller = VoiceListening()
 
+    def run(self):
+        self.voice_controller.start()
+
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):

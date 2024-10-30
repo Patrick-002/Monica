@@ -36,7 +36,7 @@ class VoiceListening:
         self.stop_button_thread = False
         self.op_mod_1_active = False
 
-    def run(self):
+    def start(self):
         self.stop_cycle = False
         self.p = pyaudio.PyAudio()
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
@@ -134,7 +134,7 @@ class VoiceCommands:
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
-        self.operating_mode = 1
+        self.operating_mode = 2
         # Ключевые слова
         self.keys = {
             "sound_key": "звук",
