@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
 from UI.ui_main_page import Ui_FormDock
 from functional.appmanagement import AppManagement
-from functional.voice_controller import VoiceController
+from functional.voice_controller import VoiceCommands
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
 
@@ -13,7 +13,7 @@ class MainPage(QWidget, Ui_FormDock):
         super().__init__()
         self.page_manager = page_manager
         self.setupUi(self)
-        self.vc = VoiceController()
+        self.vc = VoiceCommands()
 
         # Получаем словарь с путями
         self.path_dict = AppManagement().paths

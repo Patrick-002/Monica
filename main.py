@@ -1,7 +1,7 @@
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu
 from PySide6.QtCore import QThread, Qt, QEvent
-from functional.voice_controller import VoiceController
+from functional.voice_controller import VoiceCommands
 from UI.main_page import MainPage
 import traceback
 from datetime import datetime
@@ -14,7 +14,7 @@ import sys
 class VoiceThread(QThread):
     def __init__(self):
         super().__init__()
-        self.voice_controller = VoiceController()
+        self.voice_controller = VoiceCommands()
 
     def run(self):
         self.voice_controller.start()

@@ -8,12 +8,13 @@ import functional.media_player as media_player
 import keyboard
 import time
 
-class VoiceController:
+
+class VoiceListening:
     _instance = None
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
-            cls._instance = super(VoiceController, cls).__new__(cls, *args, **kwargs)
+            cls._instance = super(VoiceListening, cls).__new__(cls, *args, **kwargs)
         return cls._instance
 
     def __init__(self):
@@ -21,31 +22,15 @@ class VoiceController:
         self.stream = None
         self.p = None
         self.rec = None
-        self.ac = sys_commands.AudioController()
-        self.app_man = app_management.AppManagement()
-        self.media = media_player.MediaPlayer()
-        self.cycle = True
-
-        # Ключевые слова
+        self.vc = VoiceCommands()
+        self.stop_cycle = False
+        self.operating_mode = 1
+        self.switch_button_flag = False
         self.keys = {
             "ultimate_key": "моника",
-            "sound_key": "звук",
-            "run_app_key": "запус",
-            "open_folder_key": "откр",
-            "media_player_keys": ["музык", "медиа"],
-            "search_keys": ["гугл", "найди"],
             "switch_button": "ctrl",
             "hold_button": "ctrl"
         }
-
-        self.operating_mode = 1
-        self.switch_button_flag = False
-
-    def get_operating_mode(self):
-        return self.operating_mode
-
-    def set_operating_mode(self, mode):
-        self.operating_mode = mode
 
     def start(self):
         self.p = pyaudio.PyAudio()
@@ -57,7 +42,7 @@ class VoiceController:
         self.stream.stop_stream()
         self.stream.close()
         self.p.terminate()
-        self.cycle = False
+        self.stop_cycle = True
 
     def read_the_command(self):
         data = self.stream.read(4000)
@@ -67,13 +52,13 @@ class VoiceController:
             return command or None
 
     def listen(self):
-        while self.cycle:
+        while not self.stop_cycle:
             if self.operating_mode == 0:
                 if not self.stream.is_active():
                     self.stream.start_stream()
                 command = self.read_the_command()
                 if command and command.lower().startswith(self.keys["ultimate_key"]):
-                    self.command_recognition(command[len(self.keys["ultimate_key"]) + 1:])
+                    self.vc.command_recognition(command[len(self.keys["ultimate_key"]) + 1:])
 
             elif self.operating_mode == 1:
                 if keyboard.is_pressed(self.keys["switch_button"]):
@@ -86,7 +71,7 @@ class VoiceController:
                 elif not self.switch_button_flag and self.stream.is_active():
                     self._stop_stream()
                 if self.switch_button_flag:
-                    self.command_recognition(self.read_the_command())
+                    self.vc.command_recognition(self.read_the_command())
                 else:
                     time.sleep(0.01)
 
@@ -96,7 +81,7 @@ class VoiceController:
                     if not self.stream.is_active():
                         self.stream.start_stream()
                     while keyboard.is_pressed(self.keys["hold_button"]):
-                        self.command_recognition(self.read_the_command())
+                        self.vc.command_recognition(self.read_the_command())
                 else:
                     self._stop_stream()
                     time.sleep(0.1)
@@ -107,6 +92,29 @@ class VoiceController:
                 self.stream.read(self.stream.get_read_available(), exception_on_overflow=False)
             self.stream.stop_stream()
             self.rec.Reset()
+
+
+class VoiceCommands:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super(VoiceCommands, cls).__new__(cls, *args, **kwargs)
+        return cls._instance
+
+    def __init__(self):
+        self.ac = sys_commands.AudioController()
+        self.app_man = app_management.AppManagement()
+        self.media = media_player.MediaPlayer()
+
+        # Ключевые слова
+        self.keys = {
+            "sound_key": "звук",
+            "run_app_key": "запус",
+            "open_folder_key": "откр",
+            "media_player_keys": ["музык", "медиа"],
+            "search_keys": ["гугл", "найди"],
+        }
 
     def command_recognition(self, command):
         if not command:
@@ -258,5 +266,5 @@ class VoiceController:
 
 
 if __name__ == '__main__':
-    monica = VoiceController()
+    monica = VoiceCommands()
     monica.start()
