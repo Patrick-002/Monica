@@ -27,12 +27,19 @@ class AppManagement:
         mmkv.MMKV.initializeMMKV('./mmkv')
         self.kv = mmkv.MMKV.defaultMMKV(SingleProcess)
         self.load_data()
+        self.APP_ASSOCIATIONS = {
+        '.txt': 'notepad',                      # Открытие текстовых файлов в Блокноте
+        '.docx': 'start winword',               # Открытие .docx в Microsoft Word
+        '.pdf': 'start msedge',                 # Открытие PDF в браузере Microsoft Edge
+        '.jpg': 'start ms-photos:',             # Открытие изображений в приложении "Фотографии"
+        '.jpeg': 'start ms-photos:',
+        '.png': 'start ms-photos:',
+        '.xlsx': 'start excel',                 # Открытие Excel файлов в Microsoft Excel
+        '.pptx': 'start powerpnt'               # Открытие презентаций в Microsoft PowerPoint
+    }
 
     def explorer(self):
         subprocess.run(["explorer.exe"])
-
-    def path(self):
-        subprocess.run(["explorer.exe", self.path])
 
     def calc(self):
         subprocess.run(["calc.exe"])
@@ -92,11 +99,27 @@ class AppManagement:
             except Exception as e:
                 print(f"Ошибка при открытии интернет-ярлыка: {e}")
 
+        elif any([k == file_extension for k in self.APP_ASSOCIATIONS.keys()]):
+            app_command = self.APP_ASSOCIATIONS.get(file_extension)
+            if app_command:
+                try:
+                    os.system(f"{app_command} {file_path}")
+                except Exception as e:
+                    print(f"Ошибка при открытии файла: {e}")
+            else:
+                print(f"Нет ассоциированного приложения для типа файла: {file_extension}")
+
+        elif file_extension == '':
+            if os.path.isdir(file_path):
+                try:
+                    subprocess.Popen(['explorer', file_path])
+                    print(f"Открыта директория {file_path}")
+                except Exception as e:
+                    print(f"Ошибка при открытии директории: {e}")
+            else:
+                print(f"Файл без расширения не является директорией: {file_path}")
         else:
             print(f"Неизвестный формат файла: {file_path}")
-
-    def open_folder(self, word: str):
-        subprocess.run(self.paths[word])
 
     def load_data(self):
         if self.kv is None:

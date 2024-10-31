@@ -24,7 +24,6 @@ class VoiceListening:
             return
         self._initialized = True
         self.model = Model("functional//vosk-model-small-ru-0.22")
-        # self.model = Model("vosk-model-small-ru-0.22") # для теста
         self.stream = None
         self.p = None
         self.rec = None
@@ -54,7 +53,7 @@ class VoiceListening:
         self.stop_cycle = True
 
     def read_the_command(self):
-        data = self.stream.read(4000)
+        data = self.stream.read(4000, exception_on_overflow=False)
         if self.rec.AcceptWaveform(data):
             command = json.loads(self.rec.Result())['text']
             print(f"Распознано: {command}")
@@ -142,12 +141,11 @@ class VoiceCommands:
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self.media = media_player.MediaPlayer()
-        self.operating_mode = 2
+        self.operating_mode = 1
         # Ключевые слова
         self.keys = {
             "sound_key": "звук",
-            "run_app_key": "запус",
-            "open_folder_key": "откр",
+            "run_app_key": ["откр", "запус"],
             "media_player_keys": ["музык", "медиа"],
             "search_keys": ["гугл", "найди"],
         }
@@ -160,10 +158,8 @@ class VoiceCommands:
                 self.sound_commands(command)
             except Exception:
                 print("Говори по русски!")
-        elif self.keys["run_app_key"] in command:
+        elif any(k in command for k in self.keys["run_app_key"]):
             self.run_app_words(command)
-        elif self.keys["open_folder_key"] in command:
-            self.open_something(command)
         elif any(k in command for k in self.keys["media_player_keys"]):
             self.media_player(command)
         elif any(k in command for k in self.keys["search_keys"]):
@@ -232,7 +228,6 @@ class VoiceCommands:
             print('Уточните команду')
 
     def run_app_word(self, command):
-        success = False
         word_count = 0
         split_command = command.split()
         for word in split_command:
@@ -241,42 +236,34 @@ class VoiceCommands:
                 for key_word in self.app_man.paths.keys():
                     if key_word in word:
                         self.app_man.run_app(key_word)
-                        success = True
-        if not success:
-            print('Уточните команду для приложения')
+                        return True
+        self.open_something(command)
 
     def run_app_words(self, command):
-        success = False
         for key_words in self.app_man.paths.keys():
             if key_words in command:
                 self.app_man.run_app(key_words)
-                success = True
-        if not success:
-            self.run_app_word(command)
-
-    def open_folder(self, word):
-        success = False
-        for key_word in self.app_man.paths.keys():
-            if word in key_word:
-                self.app_man.open_folder(key_word)
-                success = True
-        if not success:
-            print('Уточните команду для папки')
+                return True
+        self.run_app_word(command)
 
     def open_something(self, command):
         word_count = 0
+        second_word = None
         split_command = command.split()
         for word in split_command:
             word_count += 1
             if word_count == 2:
+                second_word = word
                 if 'провод' in word:
                     self.app_man.explorer()
+                    return True
                 elif 'кальк' in word:
                     self.app_man.calc()
+                    return True
                 elif 'настр' in word:
                     self.app_man.settings()
-                else:
-                    self.open_folder(word)
+                    return True
+        print(f'Не удалось открыть {second_word}')
 
     def media_player(self, command):
         play_pause = ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']
@@ -303,4 +290,5 @@ class VoiceCommands:
 
 if __name__ == '__main__':
     monica = VoiceListening()
+    monica.model = Model("vosk-model-small-ru-0.22")
     monica.start()
