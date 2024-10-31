@@ -26,7 +26,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        self.setWindowIcon(QIcon('icon.png'))
+        self.setWindowIcon(QIcon('res/icon.png'))
         self.tray_icon = QSystemTrayIcon()
         self.trey_gui()
 
@@ -45,7 +45,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 self.hide()
 
     def trey_gui(self):
-        self.tray_icon.setIcon(QIcon("icon.png"))
+        self.tray_icon.setIcon(QIcon("res/icon.png"))
         self.tray_icon.activated.connect(self.restore_window)
 
         exit_action = QAction("Закрыть", self)
@@ -71,6 +71,7 @@ if __name__ == '__main__':
         app = QApplication(sys.argv)
 
         window = MainWindow()
+        window.setWindowIcon(QIcon("res/icon.ico"))
         window.show()
 
         # Создаем и запускаем поток для VoiceController
