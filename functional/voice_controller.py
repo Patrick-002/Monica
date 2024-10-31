@@ -31,7 +31,6 @@ class VoiceListening:
         self.stop_cycle = True
         self.switch_button_flag = False
         self.keys = {
-            "ultimate_key": "моника",
             "switch_button": "ctrl",
             "hold_button": "ctrl"
         }
@@ -66,8 +65,8 @@ class VoiceListening:
                 if not self.stream.is_active():
                     self.stream.start_stream()
                 command = self.read_the_command()
-                if command and command.lower().startswith(self.keys["ultimate_key"]):
-                    self.vc.command_recognition(command[len(self.keys["ultimate_key"]) + 1:])
+                if command and command.lower().startswith(self.vc.keys["ultimate_key"]):
+                    self.vc.command_recognition(command[len(self.vc.keys["ultimate_key"]) + 1:])
                 if op_mod_1:
                     self.stop_thread()
 
@@ -144,6 +143,7 @@ class VoiceCommands:
         self.operating_mode = 1
         # Ключевые слова
         self.keys = {
+            "ultimate_key": "моника",
             "sound_key": "звук",
             "run_app_key": ["откр", "запус"],
             "media_player_keys": ["музык", "медиа"],
