@@ -23,7 +23,7 @@ class VoiceListening:
         if self._initialized:
             return
         self._initialized = True
-        self.model = Model("functional//vosk-model-small-ru-0.22")
+        self.model = Model("vosk-model-small-ru-0.22")
         self.stream = None
         self.p = None
         self.rec = None
