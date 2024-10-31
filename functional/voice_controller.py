@@ -85,7 +85,7 @@ class VoiceListening:
                 else:
                     if self.stream.is_active():
                         self._stop_stream()
-                    time.sleep(0.005)
+                    time.sleep(0.1)
 
             elif self.vc.operating_mode == 2:
                 if keyboard.is_pressed(self.keys["hold_button"]):
