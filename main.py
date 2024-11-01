@@ -8,6 +8,8 @@ from datetime import datetime
 from page_manager import PageManager
 from UI.main_window import Ui_MainWindow
 import sys
+import os
+from logger.logger_config import logger as log
 
 
 # Класс для работы с VoiceController в отдельном потоке
@@ -15,9 +17,11 @@ class VoiceThread(QThread):
     def __init__(self):
         super().__init__()
         self.voice_controller = VoiceListening()
+        log.debug('создан поток для голосовой модели')
 
     def run(self):
         self.voice_controller.start()
+        log.debug('запущен поток для голосовой модели')
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -83,6 +87,8 @@ if __name__ == '__main__':
         sys.exit(app.exec())
 
     except Exception as e:
+        os.makedirs("log", exist_ok=True)
+        log.error('Ошибка!!! ☺ ', exc_info=True)
         with open("log/error_log.txt", "a", encoding='utf-8') as f:
             f.write(f"Время ошибки: {datetime.now()}\n")
             f.write(f"Тип ошибки: {type(e).__name__}\n")

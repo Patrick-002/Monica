@@ -19,6 +19,7 @@ winshell = "^0.6"
 configparser = "^7.1.0"
 pywin32 = "^308"
 mmkv = {path = "mmkv-1.3.6-cp312-cp312-win_amd64.whl"}
+colorama = "^0.4.6"
 
 
 [build-system]

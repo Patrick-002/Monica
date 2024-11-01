@@ -8,6 +8,7 @@ import functional.media_player as media_player
 import keyboard
 import time
 import threading
+from logger.logger_config import logger as log
 
 
 class VoiceListening:
@@ -37,6 +38,7 @@ class VoiceListening:
         self.button_thread = None
         self.stop_button_thread = False
         self.op_mod_1_active = False
+        log.debug('создан объект класса VoiceListening')
 
     def start(self):
         self.stop_cycle = False
@@ -44,19 +46,23 @@ class VoiceListening:
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
         self.rec = KaldiRecognizer(self.model, 16000)
         self.listen()
+        log.debug('отработала функция start, запуск цикла обработки голоса')
 
     def stop(self):
         self._stop_stream()
         self.stream.close()
         self.p.terminate()
         self.stop_cycle = True
+        log.debug('остановка цикла обработки голоса')
 
     def read_the_command(self):
         data = self.stream.read(4000, exception_on_overflow=False)
         if self.rec.AcceptWaveform(data):
             command = json.loads(self.rec.Result())['text']
-            print(f"Распознано: {command}")
+            # print(f"Распознано: {command}")
+            log.info(f"Распознано: {command}")
             return command or None
+
 
     def listen(self):
         op_mod_1 = False
@@ -64,6 +70,7 @@ class VoiceListening:
             if self.vc.operating_mode == 0:
                 if not self.stream.is_active():
                     self.stream.start_stream()
+                    log.debug('запущен поток модели')
                 command = self.read_the_command()
                 if command and command.lower().startswith(self.vc.keys["ultimate_key"]):
                     self.vc.command_recognition(command[len(self.vc.keys["ultimate_key"]) + 1:])
@@ -76,11 +83,13 @@ class VoiceListening:
                     self.button_thread = threading.Thread(target=self.check_button)
                     self.button_thread.daemon = True
                     self.button_thread.start()
+                    log.debug('запущен поток для клавиши переключения')
                     self.op_mod_1_active = True
 
                 if self.switch_button_flag:
                     if not self.stream.is_active():
                         self.stream.start_stream()
+                        log.debug('запущен поток модели')
                     self.vc.command_recognition(self.read_the_command())
                 else:
                     if self.stream.is_active():
@@ -92,6 +101,7 @@ class VoiceListening:
                     print("Слушаю")
                     if not self.stream.is_active():
                         self.stream.start_stream()
+                        log.debug('запущен поток модели')
                     while keyboard.is_pressed(self.keys["hold_button"]):
                         self.vc.command_recognition(self.read_the_command())
                 else:
@@ -115,6 +125,7 @@ class VoiceListening:
         self.button_thread.join()
         self.switch_button_flag = False
         self.op_mod_1_active = False
+        log.debug('остановлен поток для клавиши переключения')
 
     def _stop_stream(self):
         if self.stream.is_active():
@@ -122,6 +133,7 @@ class VoiceListening:
                 self.stream.read(self.stream.get_read_available(), exception_on_overflow=False)
             self.stream.stop_stream()
             self.rec.Reset()
+            log.debug('поток модели остановлен и очищен буфер')
 
 
 class VoiceCommands:
@@ -149,6 +161,7 @@ class VoiceCommands:
             "media_player_keys": ["музык", "медиа"],
             "search_keys": ["гугл", "найди"],
         }
+        log.debug('создан объект класса VoiceCommands')
 
     def command_recognition(self, command):
         if not command:
@@ -157,7 +170,7 @@ class VoiceCommands:
             try:
                 self.sound_commands(command)
             except Exception:
-                print("Говори по русски!")
+                log.warning("Говори по русски!", exc_info=True)
         elif any(k in command for k in self.keys["run_app_key"]):
             self.run_app_words(command)
         elif any(k in command for k in self.keys["media_player_keys"]):
@@ -237,6 +250,7 @@ class VoiceCommands:
                     if key_word in word:
                         self.app_man.run_app(key_word)
                         return True
+        log.debug('run_app_word не сработала, команда передана дальше')
         self.open_something(command)
 
     def run_app_words(self, command):
@@ -244,6 +258,7 @@ class VoiceCommands:
             if key_words in command:
                 self.app_man.run_app(key_words)
                 return True
+        log.debug('run_app_words не сработала, команда передана дальше')
         self.run_app_word(command)
 
     def open_something(self, command):
@@ -263,7 +278,8 @@ class VoiceCommands:
                 elif 'настр' in word:
                     self.app_man.settings()
                     return True
-        print(f'Не удалось открыть {second_word}')
+        log.info('Не удалось открыть {second_word}')
+        # print(f'Не удалось открыть {second_word}')
 
     def media_player(self, command):
         play_pause = ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']
@@ -278,6 +294,7 @@ class VoiceCommands:
         elif 'стоп' in command:
             self.media.stop()
         else:
+            log.debug(f'media_player не распознала команду: {command}')
             print('Уточните команду для медиа')
 
     def browser_search(self, command):
@@ -290,5 +307,5 @@ class VoiceCommands:
 
 if __name__ == '__main__':
     monica = VoiceListening()
-    monica.model = Model("vosk-model-small-ru-0.22")
+    monica.model = Model("../vosk-model-small-ru-0.22")
     monica.start()
