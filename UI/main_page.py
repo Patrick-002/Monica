@@ -34,39 +34,7 @@ class MainPage(QWidget, Ui_FormDock):
         log.debug('ComboBox установлен в начальный индекс')
 
         image_path = "res/arrow_down.png"
-        self.VoiceMode_comboBox.setStyleSheet(f"""
-            QComboBox {{
-                border: 2px solid #4a4a4a;
-                border-radius: 10px;
-                padding: 8px;
-                padding-right: 30px;
-                font-size: 16px;
-                background-color: #2b2b2b;
-                color: #dcdcdc;
-            }}
-            QComboBox:hover {{
-                border: 2px solid #6a6a6a;
-            }}
-            QComboBox:focus {{
-                border: 2px solid #9a9edb;
-                background-color: #3a3a3a;
-            }}
-            QComboBox::drop-down {{
-                border: none;
-                width: 18px; /* Уменьшение ширины для меньшего отступа */
-                background-color: transparent;
-                subcontrol-origin: padding;
-                subcontrol-position: top right;
-                margin: 2px;
-            }}
-            QComboBox::down-arrow {{
-                image: url({image_path});
-                width: 12px;
-                height: 12px;
-            }}
-        """)
-
-        apply_theme(self, "dark")
+        image_path = "res/arrow_down.png"
 
         # Связываем клики по элементам списка с переключением страниц
         self.category_list.currentRowChanged.connect(self.on_category_changed)
@@ -102,33 +70,9 @@ class MainPage(QWidget, Ui_FormDock):
 
         key_edit = QLineEdit(key)
         key_edit.setReadOnly(True)
-        key_edit.setStyleSheet(u"    QLineEdit {\n"
-                               "        border: 2px solid #4a4a4a;\n"
-                               "        border-radius: 10px;\n"
-                               "        padding: 8px;\n"
-                               "        font-size: 16px;\n"
-                               "        background-color: #2b2b2b;\n"
-                               "        color: #dcdcdc;\n"
-                               "    }\n"
-                               "    QLineEdit:focus {\n"
-                               "        border: 2px solid #9a9edb;\n"
-                               "        background-color: #3a3a3a;\n"
-                               "    }")
         key_edit.setMinimumSize(QSize(140, 40))
 
         value_edit = QLineEdit(value)
-        value_edit.setStyleSheet(u"    QLineEdit {\n"
-                                 "        border: 2px solid #4a4a4a;\n"
-                                 "        border-radius: 10px;\n"
-                                 "        padding: 8px;\n"
-                                 "        font-size: 16px;\n"
-                                 "        background-color: #2b2b2b;\n"
-                                 "        color: #dcdcdc;\n"
-                                 "    }\n"
-                                 "    QLineEdit:focus {\n"
-                                 "        border: 2px solid #9a9edb;\n"
-                                 "        background-color: #3a3a3a;\n"
-                                 "    }")
         value_edit.setMinimumSize(QSize(300, 40))
 
         edit_button = QPushButton("")
@@ -149,6 +93,7 @@ class MainPage(QWidget, Ui_FormDock):
         block_layout.addWidget(delete_button)
 
         block.setLayout(block_layout)
+        apply_theme(self)
         return block
 
     def edit_entry(self, key_edit, value_edit):

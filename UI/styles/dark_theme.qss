@@ -1,63 +1,87 @@
 /* Общий фон и стиль окна */
-QWidget {
-    background-color: #2b2b2b;
+QWidget, QStackedWidget, QTabWidget::pane, QScrollArea, QListWidget {
+    background-color: #2a2a2e;
     color: #dcdcdc;
+    font-size: 16px;
 }
 
 /* QLineEdit */
 QLineEdit {
-    border: 2px solid #4a4a4a;
+    border: 2px solid #3b3b3e;
     border-radius: 10px;
     padding: 8px;
-    font-size: 16px;
-    background-color: #2b2b2b;
+    background-color: #333337;
     color: #dcdcdc;
 }
-
-QLineEdit:focus {
-    border-color: #9a9edb;
-    background-color: #3a3a3a;
+QLineEdit:focus, QLineEdit:hover {
+    border-color: #6363a6;
+    background-color: #2d2d33;
 }
 
 /* QComboBox */
 QComboBox {
-    border: 2px solid #4a4a4a;
+    border: 2px solid #3b3b3e;
     border-radius: 10px;
     padding: 8px;
-    font-size: 16px;
-    background-color: #2b2b2b;
+    background-color: #333337;
     color: #dcdcdc;
 }
-
-QComboBox:hover {
-    border-color: #6a6a6a;
+QComboBox QAbstractItemView {
+    background-color: #2d2d33;
+    selection-background-color: #41415a;
+    color: #dcdcdc;
 }
-
-QComboBox:focus {
-    border-color: #9a9edb;
-    background-color: #3a3a3a;
-}
-
-QComboBox::drop-down {
-    border: none;
-    background-color: transparent;
-}
-
-QComboBox::down-arrow {
-    image: url(res/arrow_down.png);
-    width: 12px;
-    height: 12px;
+QComboBox:hover, QComboBox:focus {
+    border-color: #525275;
+    background-color: #2d2d33;
 }
 
 /* QPushButton */
 QPushButton {
-    border: 2px solid #4a4a4a;
+    border: 2px solid #3b3b3e;
     border-radius: 10px;
     padding: 8px;
-    background-color: #2b2b2b;
+    background-color: #333337;
     color: #dcdcdc;
 }
-
 QPushButton:hover {
-    background-color: #3a3a3a;
+    background-color: #4a4a4e;
+    border-color: #6363a6;
+}
+QPushButton:pressed {
+    background-color: #4d4d53;
+}
+
+/* QTabWidget и вкладки */
+QTabWidget::pane {
+    border: 2px solid #3b3b3e;
+    background-color: #333337;
+}
+QTabBar::tab {
+    background-color: #333337;
+    border: 2px solid #3b3b3e;
+    padding: 6px;
+    margin: 2px;
+    color: #dcdcdc;
+    font-size: 14px;
+}
+QTabBar::tab:selected {
+    background-color: #2d2d33;
+    color: #ffffff;
+}
+
+/* QScrollArea */
+QScrollArea {
+    border: 2px solid #3b3b3e;
+}
+
+/* QListWidget */
+QListWidget {
+    border: 2px solid #3b3b3e;
+    background-color: #333337;
+    color: #dcdcdc;
+}
+QListWidget::item:selected {
+    background-color: #41415a;
+    color: #ffffff;
 }

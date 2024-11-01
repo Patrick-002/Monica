@@ -1,8 +1,11 @@
 from PySide6.QtCore import QFile
 from PySide6.QtWidgets import QWidget
 
+themes = ['dark', 'light', 'pink']
+current_app_theme = 'dark'
 
-def apply_theme(widget: QWidget, theme: str):
+
+def apply_theme(widget: QWidget, theme: str = current_app_theme):
     """
     Применяет выбранную тему к переданному виджету.
 

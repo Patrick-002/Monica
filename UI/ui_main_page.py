@@ -28,6 +28,7 @@ class Ui_FormDock(object):
         FormDock.setWindowModality(Qt.WindowModality.NonModal)
         FormDock.setEnabled(True)
         FormDock.resize(900, 550)
+        FormDock.setStyleSheet(u"")
         self.verticalLayoutWidget = QWidget(FormDock)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(10, 10, 881, 531))
@@ -68,7 +69,7 @@ class Ui_FormDock(object):
         self.another_settings.setObjectName(u"another_settings")
         self.tab_app_commands = QTabWidget(self.another_settings)
         self.tab_app_commands.setObjectName(u"tab_app_commands")
-        self.tab_app_commands.setGeometry(QRect(0, 0, 612, 511))
+        self.tab_app_commands.setGeometry(QRect(0, 0, 612, 531))
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
         self.verticalLayout_7 = QVBoxLayout(self.tab)
@@ -91,18 +92,6 @@ class Ui_FormDock(object):
         sizePolicy.setHeightForWidth(self.keyword_lineEdit.sizePolicy().hasHeightForWidth())
         self.keyword_lineEdit.setSizePolicy(sizePolicy)
         self.keyword_lineEdit.setMinimumSize(QSize(160, 40))
-        self.keyword_lineEdit.setStyleSheet(u"    QLineEdit {\n"
-"        border: 2px solid #4a4a4a;\n"
-"        border-radius: 10px;\n"
-"        padding: 8px;\n"
-"        font-size: 16px;\n"
-"        background-color: #2b2b2b;\n"
-"        color: #dcdcdc;\n"
-"    }\n"
-"    QLineEdit:focus {\n"
-"        border: 2px solid #9a9edb;\n"
-"        background-color: #3a3a3a;\n"
-"    }")
 
         self.horizontalLayout_2.addWidget(self.keyword_lineEdit)
 
@@ -113,18 +102,6 @@ class Ui_FormDock(object):
         self.path_lineEdit = QLineEdit(self.tab)
         self.path_lineEdit.setObjectName(u"path_lineEdit")
         self.path_lineEdit.setMinimumSize(QSize(360, 40))
-        self.path_lineEdit.setStyleSheet(u"    QLineEdit {\n"
-"        border: 2px solid #4a4a4a;\n"
-"        border-radius: 10px;\n"
-"        padding: 8px;\n"
-"        font-size: 16px;\n"
-"        background-color: #2b2b2b;\n"
-"        color: #dcdcdc;\n"
-"    }\n"
-"    QLineEdit:focus {\n"
-"        border: 2px solid #9a9edb;\n"
-"        background-color: #3a3a3a;\n"
-"    }")
 
         self.horizontalLayout_2.addWidget(self.path_lineEdit)
 
@@ -140,21 +117,6 @@ class Ui_FormDock(object):
         self.pushButton = QPushButton(self.tab)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setMinimumSize(QSize(110, 40))
-        self.pushButton.setStyleSheet(u"    QPushButton {\n"
-"        border: 2px solid #4a4a4a;\n"
-"        border-radius: 10px;\n"
-"        padding: 8px 16px;\n"
-"        font-size: 16px;\n"
-"        background-color: #2b2b2b;\n"
-"        color: #dcdcdc;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"        background-color: #3a3a3a;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"        background-color: #4e4e4e;\n"
-"        border: 2px solid #9a9edb;\n"
-"    }")
 
         self.horizontalLayout_3.addWidget(self.pushButton)
 
@@ -170,7 +132,7 @@ class Ui_FormDock(object):
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 99, 28))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 587, 344))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -209,40 +171,6 @@ class Ui_FormDock(object):
         self.VoiceMode_comboBox.addItem("")
         self.VoiceMode_comboBox.setObjectName(u"VoiceMode_comboBox")
         self.VoiceMode_comboBox.setMinimumSize(QSize(0, 40))
-        self.VoiceMode_comboBox.setStyleSheet(u"QComboBox {\n"
-"    border: 2px solid #4a4a4a;\n"
-"    border-radius: 10px;\n"
-"    padding: 8px;\n"
-"    padding-right: 30px;\n"
-"    font-size: 16px;\n"
-"    background-color: #2b2b2b;\n"
-"    color: #dcdcdc;\n"
-"}\n"
-"\n"
-"QComboBox:hover {\n"
-"    border: 2px solid #6a6a6a;\n"
-"}\n"
-"\n"
-"QComboBox:focus {\n"
-"    border: 2px solid #9a9edb;\n"
-"    background-color: #3a3a3a;\n"
-"}\n"
-"\n"
-"QComboBox::drop-down {\n"
-"    border: none;\n"
-"    width: 24px;\n"
-"    background-color: transparent;\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    margin: 2px;\n"
-"}\n"
-"\n"
-"QComboBox::down-arrow {\n"
-"    image: url(/res/arrow_down.png); /* \u0423\u0431\u0435\u0434\u0438\u0442\u0435\u0441\u044c, \u0447\u0442\u043e \u043f\u0443\u0442\u044c \u0441\u043e\u0432\u043f\u0430\u0434\u0430\u0435\u0442 \u0441 \u0440\u0435\u0441\u0443\u0440\u0441\u043e\u043c */\n"
-"    width: 12px;\n"
-"    height: 12px;\n"
-"}\n"
-"")
 
         self.horizontalLayout_5.addWidget(self.VoiceMode_comboBox)
 
@@ -278,7 +206,7 @@ class Ui_FormDock(object):
 
         self.retranslateUi(FormDock)
 
-        self.page_dock.setCurrentIndex(1)
+        self.page_dock.setCurrentIndex(0)
         self.tab_app_commands.setCurrentIndex(0)
 
 
