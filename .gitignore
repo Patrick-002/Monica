@@ -146,8 +146,8 @@ cython_debug/
 .idea/
 .idea/misc.xml
 app_managment_data.json
-/functional/vosk-model-small-ru-0.22/
+/vosk-model-small-ru-0.22/
 /functional/vosk-model-ru-0.42/
 /mmkv/
-/Log/
+/log/
 task_manager.txt
