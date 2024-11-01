@@ -1,0 +1,20 @@
+QWidget {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+QLineEdit {
+    border: 2px solid #b0b0b0;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    color: #000000;
+}
+
+QLineEdit:focus {
+    border-color: #0078d4;
+    background-color: #e0e0e0;
+}
+
+/* Подобные стили для QComboBox и QPushButton, адаптированные для светлой темы */

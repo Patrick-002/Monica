@@ -17,6 +17,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
                            QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QMainWindow, QSizePolicy, QWidget)
 
+from UI.styles.theme_manager import apply_theme
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -33,6 +35,7 @@ class Ui_MainWindow(object):
                                  "                font-family: 'Segoe UI'; /* \u0428\u0440\u0438\u0444\u0442 Segoe UI */\n"
                                  "                font-size: 12pt;         /* \u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0440\u0438\u0444\u0442\u0430 */\n"
                                  "                color: white;            /* \u0426\u0432\u0435\u0442 \u0442\u0435\u043a\u0441\u0442\u0430 */")
+        apply_theme(MainWindow, "dark")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)

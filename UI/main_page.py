@@ -1,4 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
+
+from UI.styles.theme_manager import apply_theme
 from UI.ui_main_page import Ui_FormDock
 from functional.appmanagement import AppManagement
 from functional.voice_controller import VoiceCommands
@@ -63,6 +65,8 @@ class MainPage(QWidget, Ui_FormDock):
                 height: 12px;
             }}
         """)
+
+        apply_theme(self, "dark")
 
         # Связываем клики по элементам списка с переключением страниц
         self.category_list.currentRowChanged.connect(self.on_category_changed)
