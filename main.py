@@ -1,7 +1,9 @@
+import mmkv
+from mmkv import MMKVLogLevel
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu
 from PySide6.QtCore import QThread, Qt, QEvent
-from functional.voice_controller import VoiceCommands, VoiceListening
+from functional.voice_controller import VoiceListening
 from UI.main_page import MainPage
 import traceback
 from datetime import datetime
@@ -48,6 +50,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.windowState() == Qt.WindowState.WindowMinimized:
                 self.hide()
 
+    def closeEvent(self, event):
+        mmkv.MMKV.unRegisterLogHandler()
+        super().closeEvent(event)
+
     def trey_gui(self):
         self.tray_icon.setIcon(QIcon("res/icon.png"))
         self.tray_icon.activated.connect(self.restore_window)
@@ -73,6 +79,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 if __name__ == '__main__':
     try:
         app = QApplication(sys.argv)
+        mmkv.MMKV.initializeMMKV(rootDir='.\\mmkv', logLevel= MMKVLogLevel.Debug)
 
         window = MainWindow()
         window.setWindowIcon(QIcon("res/icon.ico"))

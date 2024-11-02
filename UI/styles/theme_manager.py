@@ -1,9 +1,8 @@
 from logger.logger_config import logger as log
-from PySide6.QtCore import QFile
 from PySide6.QtWidgets import QWidget
 
 themes = ['dark', 'light', 'pink']
-current_app_theme: str = themes[1]
+current_app_theme: str = themes[0]
 
 
 def apply_theme(widget: QWidget, theme: str = current_app_theme):

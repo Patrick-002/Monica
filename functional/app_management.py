@@ -25,8 +25,7 @@ class AppManagement:
         self._initialized = True
         self.app_count = 1
         self.paths = {}
-        mmkv.MMKV.initializeMMKV('./mmkv')
-        self.kv = mmkv.MMKV.defaultMMKV(SingleProcess)
+        self.kv = mmkv.MMKV.defaultMMKV()
         self.load_data()
         self.APP_ASSOCIATIONS = {
             '.txt': 'notepad',  # Открытие текстовых файлов в Блокноте

@@ -1,3 +1,5 @@
+import pickle
+import mmkv
 import functional.sys_commands as sys_commands
 import pyaudio
 import json
@@ -134,6 +136,17 @@ class VoiceListening:
 
 class VoiceCommands:
     _instance = None
+    kv = None
+    _operating_mode = 0
+    _keys = {
+        "ultimate_key": "моника",
+        "sound_key": "звук",
+        "run_app_key": ["откр", "запус"],
+        "media_player_keys": ["музык", "медиа"],
+        "search_keys": ["гугл", "найди"],
+        "switch_button": "ctrl",
+        "hold_button": "ctrl"
+    }
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -145,95 +158,97 @@ class VoiceCommands:
         if self._initialized:
             return
         self._initialized = True
+        self.kv = mmkv.MMKV.defaultMMKV()
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
-        self.media = media_player.MediaPlayer()
-        self.operating_mode = 1
-        # Ключевые слова
-        self.keys = {
-            "ultimate_key": "моника",
-            "sound_key": "звук",
-            "run_app_key": ["откр", "запус"],
-            "media_player_keys": ["музык", "медиа"],
-            "search_keys": ["гугл", "найди"],
-            "switch_button": "ctrl",
-            "hold_button": "ctrl"
-        }
-        log.debug('создан объект класса VoiceCommands')
+        self._media = media_player.MediaPlayer()
+        if self.kv is not None:
+            if 'operating_mode' not in self.kv:
+                self._operating_mode = 1
+                log.warning('Не удалось найти сохранённую переменную \"operating_mode\"')
+            else:
+                self._operating_mode = self.kv.getInt('operating_mode')
+            if 'keys' not in self.kv:
+                log.warning('Не удалось найти сохранённую переменную \"keys\"')
+            else:
+                self._keys = pickle.loads(self.kv.getBytes('keys'))
+        else:
+            log.error("Объект MMkv не найден")
+        log.info('Объект класса \"VoiceCommands\" успешно создан')
+
+    @property
+    def keys(self):
+        return self._keys
+
+    @property
+    def operating_mode(self):
+        return self._operating_mode
+
+    @keys.setter
+    def keys(self, value):
+        self._keys = value
+        self.kv.set(value, 'keys')
+
+    @operating_mode.setter
+    def operating_mode(self, value):
+        self._operating_mode = value
+        self.kv.set(value, 'operating_mode')
 
     def command_recognition(self, command):
         if not command:
             return False
-        if self.keys["sound_key"] in command:
+        if self._keys["sound_key"] in command:
             try:
                 self.sound_commands(command)
             except Exception:
                 log.warning("Говори по русски!", exc_info=True)
-        elif any(k in command for k in self.keys["run_app_key"]):
+        elif any(k in command for k in self._keys["run_app_key"]):
             self.run_app_words(command)
-        elif any(k in command for k in self.keys["media_player_keys"]):
+        elif any(k in command for k in self._keys["media_player_keys"]):
             self.media_player(command)
-        elif any(k in command for k in self.keys["search_keys"]):
+        elif any(k in command for k in self._keys["search_keys"]):
             self.browser_search(command)
 
     def sound_commands(self, command):
-        split_command = command.split()
+        commands = {
+            "word_set": any(kw in command for kw in ["устан"]),
+            "word_up": any(kw in command for kw in ["увел", "выш"]),
+            "word_down": any(kw in command for kw in ["меньш", "ниж"]),
+            "word_off": any(kw in command for kw in ["выкл", "муть"]),
+            "word_on": any(kw in command for kw in ["вклю", "раз"]),
+            "word_na": "на" in command,
+            "word_max": "макс" in command
+        }
+
         value = None
-        word_set = False
-        word_up = False
-        word_down = False
-        word_off = False
-        word_on = False
-        word_na = False
-        word_max = False
 
-        if 'устан' in command:
-            word_set = True
-        if 'увел' in command or 'выш' in command:
-            word_up = True
-        if 'меньш' in command or 'ниж' in command:
-            word_down = True
-        if 'выкл' in command or 'муть' in command:
-            word_off = True
-        if 'вклю' in command or 'раз' in command:
-            word_on = True
-        if 'на' in command:
-            word_na = True
-        if 'макс' in command:
-            word_max = True
-
-        if word_na:
-            word_count = 0
-            num_word = ''
-            for word in split_command:
-                if word_count == 1 and word in word_to_num:
-                    num_word += ' '
-                    num_word += word
-                    break
-                if word in word_to_num:
-                    num_word += word
-                    word_count += 1
-            value = word_to_num[num_word]
-            if not value:
+        if commands["word_na"]:
+            num_words = [word for word in command.split() if word in word_to_num]
+            if len(num_words) == 1:
+                value = word_to_num[num_words[0]]
+            elif len(num_words) > 1:
+                value = word_to_num[num_words[0] + ' ' + num_words[1]]
+            if value is None:
                 print('Уточните команду')
                 return False
-        if word_set and word_na:
+
+        if commands["word_set"] and value is not None:
             self.ac.volume_set(value)
-        elif word_up and word_na:
+        elif commands["word_up"] and value is not None:
             self.ac.volume_up(value)
-        elif word_up:
+        elif commands["word_up"]:
             self.ac.volume_up(5)
-        elif word_down and word_na:
+        elif commands["word_down"] and value is not None:
             self.ac.volume_down(value)
-        elif word_down:
+        elif commands["word_down"]:
             self.ac.volume_down(5)
-        elif word_on:
+        elif commands["word_on"]:
             self.ac.volume_on()
-        elif word_off:
+        elif commands["word_off"]:
             self.ac.volume_off()
-        elif word_max:
+        elif commands["word_max"]:
             self.ac.volume_max()
-        elif word_na:
+        elif commands["word_na"] and value is not None:
             self.ac.volume_set(value)
         else:
             print('Уточните команду')
@@ -283,14 +298,14 @@ class VoiceCommands:
         play_pause = ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']
         for word in play_pause:
             if word in command:
-                self.media.play_pause()
+                self._media.play_pause()
                 return True
         if 'следущ' in command or 'некс' in command:
-            self.media.next_track()
+            self._media.next_track()
         elif 'предыдущ' in command or 'прошл' in command:
-            self.media.previous_track()
+            self._media.previous_track()
         elif 'стоп' in command:
-            self.media.stop()
+            self._media.stop()
         else:
             log.debug(f'media_player не распознала команду: {command}')
             print('Уточните команду для медиа')
