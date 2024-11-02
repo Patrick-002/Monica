@@ -1,0 +1,87 @@
+/* Общий фон и стиль окна */
+QWidget, QStackedWidget, QTabWidget::pane, QScrollArea, QListWidget {
+    background-color: #fbe7ef;
+    color: #4a4a4a;
+    font-size: 16px;
+}
+
+/* QLineEdit */
+QLineEdit {
+    border: 2px solid #e1b5c2;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #f7dce5;
+    color: #4a4a4a;
+}
+QLineEdit:focus, QLineEdit:hover {
+    border-color: #d28da7;
+    background-color: #f1d1db;
+}
+
+/* QComboBox */
+QComboBox {
+    border: 2px solid #e1b5c2;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #f7dce5;
+    color: #4a4a4a;
+}
+QComboBox QAbstractItemView {
+    background-color: #fbe7ef;
+    selection-background-color: #e3b1be;
+    color: #4a4a4a;
+}
+QComboBox:hover, QComboBox:focus {
+    border-color: #d28da7;
+    background-color: #f7dce5;
+}
+
+/* QPushButton */
+QPushButton {
+    border: 2px solid #e1b5c2;
+    border-radius: 10px;
+    padding: 8px;
+    background-color: #f7dce5;
+    color: #4a4a4a;
+}
+QPushButton:hover {
+    background-color: #e9c6d1;
+    border-color: #d28da7;
+}
+QPushButton:pressed {
+    background-color: #d7a9b8;
+}
+
+/* QTabWidget и вкладки */
+QTabWidget::pane {
+    border: 2px solid #e1b5c2;
+    background-color: #f7dce5;
+}
+QTabBar::tab {
+    background-color: #f7dce5;
+    border: 2px solid #e1b5c2;
+    padding: 6px;
+    margin: 2px;
+    color: #4a4a4a;
+    font-size: 14px;
+}
+QTabBar::tab:selected {
+    background-color: #f1d1db;
+    color: #4a4a4a;
+}
+
+/* QScrollArea */
+QScrollArea {
+    border: 2px solid #e1b5c2;
+}
+
+/* QListWidget */
+QListWidget {
+    border: 2px solid #e1b5c2;
+    background-color: #f7dce5;
+    color: #4a4a4a;
+}
+QListWidget::item:selected {
+    background-color: #e3b1be;
+    color: #4a4a4a;
+}

@@ -20,10 +20,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">    background: rgba(155, 155, 155, 0.05); /* Прозрачный фон */
-    font-family: 'Segoe UI'; /* Шрифт Segoe UI */
-    font-size: 12pt; /* Размер шрифта */
-    color: white; /* Цвет текста */</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
@@ -117,7 +114,7 @@
     height: 0px; /* Скрыть высоту кнопок */</string>
          </property>
          <property name="currentIndex">
-          <number>1</number>
+          <number>0</number>
          </property>
          <widget class="QWidget" name="another_settings">
           <widget class="QTabWidget" name="tab_app_commands">
@@ -126,7 +123,7 @@
              <x>0</x>
              <y>0</y>
              <width>612</width>
-             <height>511</height>
+             <height>531</height>
             </rect>
            </property>
            <property name="currentIndex">
@@ -139,17 +136,23 @@
             <layout class="QVBoxLayout" name="verticalLayout_7">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_3">
+               <property name="spacing">
+                <number>6</number>
+               </property>
+               <property name="sizeConstraint">
+                <enum>QLayout::SizeConstraint::SetDefaultConstraint</enum>
+               </property>
                <property name="leftMargin">
                 <number>10</number>
                </property>
                <property name="topMargin">
-                <number>10</number>
+                <number>0</number>
                </property>
                <property name="rightMargin">
                 <number>10</number>
                </property>
                <property name="bottomMargin">
-                <number>10</number>
+                <number>0</number>
                </property>
                <item>
                 <widget class="QLabel" name="label">
@@ -179,20 +182,6 @@
                    </property>
                    <property name="whatsThis">
                     <string/>
-                   </property>
-                   <property name="styleSheet">
-                    <string notr="true">    QLineEdit {
-        border: 2px solid #4a4a4a;
-        border-radius: 10px;
-        padding: 8px;
-        font-size: 16px;
-        background-color: #2b2b2b;
-        color: #dcdcdc;
-    }
-    QLineEdit:focus {
-        border: 2px solid #9a9edb;
-        background-color: #3a3a3a;
-    }</string>
                    </property>
                    <property name="inputMask">
                     <string/>
@@ -226,20 +215,6 @@
                      <height>40</height>
                     </size>
                    </property>
-                   <property name="styleSheet">
-                    <string notr="true">    QLineEdit {
-        border: 2px solid #4a4a4a;
-        border-radius: 10px;
-        padding: 8px;
-        font-size: 16px;
-        background-color: #2b2b2b;
-        color: #dcdcdc;
-    }
-    QLineEdit:focus {
-        border: 2px solid #9a9edb;
-        background-color: #3a3a3a;
-    }</string>
-                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -267,23 +242,6 @@
                      <height>40</height>
                     </size>
                    </property>
-                   <property name="styleSheet">
-                    <string notr="true">    QPushButton {
-        border: 2px solid #4a4a4a;
-        border-radius: 10px;
-        padding: 8px 16px;
-        font-size: 16px;
-        background-color: #2b2b2b;
-        color: #dcdcdc;
-    }
-    QPushButton:hover {
-        background-color: #3a3a3a;
-    }
-    QPushButton:pressed {
-        background-color: #4e4e4e;
-        border: 2px solid #9a9edb;
-    }</string>
-                   </property>
                    <property name="text">
                     <string>Добавить</string>
                    </property>
@@ -291,28 +249,28 @@
                  </item>
                 </layout>
                </item>
+               <item>
+                <widget class="QScrollArea" name="app_scrollArea">
+                 <property name="verticalScrollBarPolicy">
+                  <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
+                 </property>
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>567</width>
+                    <height>362</height>
+                   </rect>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_2"/>
+                 </widget>
+                </widget>
+               </item>
               </layout>
-             </item>
-             <item>
-              <widget class="QScrollArea" name="app_scrollArea">
-               <property name="verticalScrollBarPolicy">
-                <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOn</enum>
-               </property>
-               <property name="widgetResizable">
-                <bool>true</bool>
-               </property>
-               <widget class="QWidget" name="scrollAreaWidgetContents">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>0</y>
-                  <width>587</width>
-                  <height>314</height>
-                 </rect>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_2"/>
-               </widget>
-              </widget>
              </item>
             </layout>
            </widget>
@@ -375,42 +333,6 @@
                    <width>0</width>
                    <height>40</height>
                   </size>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true">QComboBox {
-    border: 2px solid #4a4a4a;
-    border-radius: 10px;
-    padding: 8px;
-    padding-right: 30px;
-    font-size: 16px;
-    background-color: #2b2b2b;
-    color: #dcdcdc;
-}
-
-QComboBox:hover {
-    border: 2px solid #6a6a6a;
-}
-
-QComboBox:focus {
-    border: 2px solid #9a9edb;
-    background-color: #3a3a3a;
-}
-
-QComboBox::drop-down {
-    border: none;
-    width: 24px;
-    background-color: transparent;
-    subcontrol-origin: padding;
-    subcontrol-position: top right;
-    margin: 2px;
-}
-
-QComboBox::down-arrow {
-    image: url(/res/arrow_down.png); /* Убедитесь, что путь совпадает с ресурсом */
-    width: 12px;
-    height: 12px;
-}
-</string>
                  </property>
                  <item>
                   <property name="text">

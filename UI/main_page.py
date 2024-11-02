@@ -1,9 +1,12 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
+
+from UI.styles.theme_manager import apply_theme
 from UI.ui_main_page import Ui_FormDock
 from functional.appmanagement import AppManagement
 from functional.voice_controller import VoiceCommands
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon
+from logger.logger_config import logger as log
 
 
 class MainPage(QWidget, Ui_FormDock):
@@ -28,44 +31,17 @@ class MainPage(QWidget, Ui_FormDock):
 
         self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
         self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voicemode_combobox_changed)
+        log.debug('ComboBox установлен в начальный индекс')
+
         image_path = "res/arrow_down.png"
-        self.VoiceMode_comboBox.setStyleSheet(f"""
-            QComboBox {{
-                border: 2px solid #4a4a4a;
-                border-radius: 10px;
-                padding: 8px;
-                padding-right: 30px;
-                font-size: 16px;
-                background-color: #2b2b2b;
-                color: #dcdcdc;
-            }}
-            QComboBox:hover {{
-                border: 2px solid #6a6a6a;
-            }}
-            QComboBox:focus {{
-                border: 2px solid #9a9edb;
-                background-color: #3a3a3a;
-            }}
-            QComboBox::drop-down {{
-                border: none;
-                width: 18px; /* Уменьшение ширины для меньшего отступа */
-                background-color: transparent;
-                subcontrol-origin: padding;
-                subcontrol-position: top right;
-                margin: 2px;
-            }}
-            QComboBox::down-arrow {{
-                image: url({image_path});
-                width: 12px;
-                height: 12px;
-            }}
-        """)
+        image_path = "res/arrow_down.png"
 
         # Связываем клики по элементам списка с переключением страниц
         self.category_list.currentRowChanged.connect(self.on_category_changed)
 
         # Инициализируем отображение словаря
         self.init_dictionary_view()
+        log.debug('Главная страница инициализирована')
 
     def init_dictionary_view(self):
         # Очищаем предыдущие элементы из scroll area, если они были
@@ -86,6 +62,7 @@ class MainPage(QWidget, Ui_FormDock):
         # Создаем блоки для каждой пары из словаря
         for key, value in self.path_dict.items():
             self.entry_layout.addWidget(self.create_entry_block(key, value))
+            log.debug(f'Добавлен элемент для ключа: {key}')
 
     def create_entry_block(self, key, value):
         block = QWidget()
@@ -93,33 +70,9 @@ class MainPage(QWidget, Ui_FormDock):
 
         key_edit = QLineEdit(key)
         key_edit.setReadOnly(True)
-        key_edit.setStyleSheet(u"    QLineEdit {\n"
-                               "        border: 2px solid #4a4a4a;\n"
-                               "        border-radius: 10px;\n"
-                               "        padding: 8px;\n"
-                               "        font-size: 16px;\n"
-                               "        background-color: #2b2b2b;\n"
-                               "        color: #dcdcdc;\n"
-                               "    }\n"
-                               "    QLineEdit:focus {\n"
-                               "        border: 2px solid #9a9edb;\n"
-                               "        background-color: #3a3a3a;\n"
-                               "    }")
         key_edit.setMinimumSize(QSize(140, 40))
 
         value_edit = QLineEdit(value)
-        value_edit.setStyleSheet(u"    QLineEdit {\n"
-                                 "        border: 2px solid #4a4a4a;\n"
-                                 "        border-radius: 10px;\n"
-                                 "        padding: 8px;\n"
-                                 "        font-size: 16px;\n"
-                                 "        background-color: #2b2b2b;\n"
-                                 "        color: #dcdcdc;\n"
-                                 "    }\n"
-                                 "    QLineEdit:focus {\n"
-                                 "        border: 2px solid #9a9edb;\n"
-                                 "        background-color: #3a3a3a;\n"
-                                 "    }")
         value_edit.setMinimumSize(QSize(300, 40))
 
         edit_button = QPushButton("")
@@ -140,21 +93,25 @@ class MainPage(QWidget, Ui_FormDock):
         block_layout.addWidget(delete_button)
 
         block.setLayout(block_layout)
+        apply_theme(self)
         return block
 
     def edit_entry(self, key_edit, value_edit):
         new_key = key_edit.text()
         new_value = value_edit.text()
         self.am.edit_path(new_key, new_value)
+        log.debug(f'Изменено значение для ключа: {new_key}, новое значение: {new_value}')
 
     def delete_entry(self, block, key):
         del self.path_dict[key]
         block.setParent(None)
         self.am.delete_path(key)
+        log.debug(f'Удален элемент с ключом: {key}')
         self.init_dictionary_view()
 
     def on_category_changed(self, index):
         self.page_dock.setCurrentIndex(index)
+        log.debug(f'Переключена категория на индекс: {index}')
 
     def on_add_button_click(self):
         text = self.keyword_lineEdit.text()
@@ -163,11 +120,13 @@ class MainPage(QWidget, Ui_FormDock):
             self.am.add_path(text, path_text)
             self.path_dict = self.am.paths
             self.init_dictionary_view()
+            log.debug(f'Добавлен элемент с ключом: {text} и значением: {path_text}')
 
             self.keyword_lineEdit.setText('')
             self.path_lineEdit.setText('')
         else:
-            print("Пустое поле ввода")
+            log.warning("Попытка добавления пустого значения")
 
     def on_voicemode_combobox_changed(self, index):
         self.vc.operating_mode = index
+        log.debug(f'Режим голосового управления изменен на: {index}')
