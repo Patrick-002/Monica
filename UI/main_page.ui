@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDock</class>
- <widget class="QWidget" name="FormDock">
+ <class>MainPage_FormDock</class>
+ <widget class="QWidget" name="MainPage_FormDock">
   <property name="windowModality">
    <enum>Qt::WindowModality::NonModal</enum>
   </property>
@@ -114,7 +114,7 @@
     height: 0px; /* Скрыть высоту кнопок */</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="another_settings">
           <widget class="QTabWidget" name="tab_app_commands">
@@ -262,8 +262,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>567</width>
-                    <height>362</height>
+                    <width>99</width>
+                    <height>28</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_2"/>
