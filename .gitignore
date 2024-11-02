@@ -151,3 +151,4 @@ app_managment_data.json
 /mmkv/
 /log/
 task_manager.txt
+/functional/vosk-model-small-ru-0.22/
