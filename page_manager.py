@@ -1,4 +1,5 @@
 from PySide6.QtWidgets import QStackedWidget
+from logger.logger_config import logger as log
 
 
 class PageManager:
@@ -12,7 +13,7 @@ class PageManager:
         """Регистрация страницы и её добавление в QStackedWidget"""
         index = self.stacked_widget.addWidget(page_widget)
         self.pages[page_name] = index
-        print(f"Страница '{page_name}' успешно добавлена.")
+        log.info(f"Страница '{page_name}' успешно добавлена.")
 
     def show_page(self, page_name):
         """Показ страницы по её имени"""
@@ -21,7 +22,7 @@ class PageManager:
             self.current_index = self.pages[page_name]
             self.stacked_widget.setCurrentIndex(self.current_index)
         else:
-            print(f"Страница '{page_name}' не найдена.")
+            log.debug(f"Страница '{page_name}' не найдена.")
 
     def show_previous_page(self):
         """Переход на предыдущую страницу"""
