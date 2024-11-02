@@ -114,7 +114,7 @@
     height: 0px; /* Скрыть высоту кнопок */</string>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="another_settings">
           <widget class="QTabWidget" name="tab_app_commands">

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
 
-from UI.styles.theme_manager import apply_theme
+import UI.styles.theme_manager as theme_manager
 from UI.ui_main_page import Ui_FormDock
 from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
@@ -17,8 +17,6 @@ class MainPage(QWidget, Ui_FormDock):
         self.setupUi(self)
         self.vc = VoiceCommands()
         self.am = AppManagement()
-
-        # Получаем словарь с путями
         self.path_dict = self.am.paths
 
         # Регистрация страницы в менеджере страниц
@@ -93,7 +91,7 @@ class MainPage(QWidget, Ui_FormDock):
         block_layout.addWidget(delete_button)
 
         block.setLayout(block_layout)
-        apply_theme(self)
+        theme_manager.apply_theme(self)
         return block
 
     def edit_entry(self, key_edit, value_edit):

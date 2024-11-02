@@ -75,8 +75,10 @@ class Ui_FormDock(object):
         self.verticalLayout_7 = QVBoxLayout(self.tab)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(10, 10, 10, 10)
+        self.verticalLayout_3.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.verticalLayout_3.setContentsMargins(10, 0, 10, 0)
         self.label = QLabel(self.tab)
         self.label.setObjectName(u"label")
 
@@ -123,21 +125,21 @@ class Ui_FormDock(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
 
-
-        self.verticalLayout_7.addLayout(self.verticalLayout_3)
-
         self.app_scrollArea = QScrollArea(self.tab)
         self.app_scrollArea.setObjectName(u"app_scrollArea")
         self.app_scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 587, 344))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 567, 362))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
 
-        self.verticalLayout_7.addWidget(self.app_scrollArea)
+        self.verticalLayout_3.addWidget(self.app_scrollArea)
+
+
+        self.verticalLayout_7.addLayout(self.verticalLayout_3)
 
         self.tab_app_commands.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -206,7 +208,7 @@ class Ui_FormDock(object):
 
         self.retranslateUi(FormDock)
 
-        self.page_dock.setCurrentIndex(0)
+        self.page_dock.setCurrentIndex(1)
         self.tab_app_commands.setCurrentIndex(0)
 
 
