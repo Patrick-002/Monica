@@ -21,11 +21,11 @@ class KeywordsSettings:
             elif event.event_type == keyboard.KEY_UP:
                 if len(keys_pressed) > 1:
                     combination = "+".join(keys_pressed)
-                    print(f"Нажата комбинация: {combination}")
+                    log.info(f"Нажата комбинация: {combination}")
                     return combination
                 else:
                     key = keys_pressed.pop()
-                    print(f"Нажата клавиша: {key}")
+                    log.info(f"Нажата клавиша: {key}")
                     return key
 
             keys_pressed.clear()

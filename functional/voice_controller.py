@@ -55,13 +55,15 @@ class VoiceListening:
         data = self.stream.read(4000, exception_on_overflow=False)
         if self.rec.AcceptWaveform(data):
             command = json.loads(self.rec.Result())['text']
-            # print(f"Распознано: {command}")
-            log.info(f"Распознано: {command}")
+            if command:
+                log.info(f"Распознано: {command}")
             return command or None
-
 
     def listen(self):
         op_mod_1 = False
+        listen_timeout = 5
+        last_press_time = None
+
         while not self.stop_cycle:
             if self.vc.operating_mode == 0:
                 if not self.stream.is_active():
@@ -93,13 +95,19 @@ class VoiceListening:
                     time.sleep(0.1)
 
             elif self.vc.operating_mode == 2:
-                if keyboard.is_pressed(self.vc.keys["hold_button"]):
+                if isinstance(self.vc.keys["switch_button"], str):
+                    hotkey = keyboard.parse_hotkey(self.vc.keys["switch_button"])
+                if all(keyboard.is_pressed(key) for key in hotkey):
+                    last_press_time = time.time()  # Обновляем время последнего нажатия
                     print("Слушаю")
                     if not self.stream.is_active():
                         self.stream.start_stream()
                         log.debug('запущен поток модели')
-                    while keyboard.is_pressed(self.vc.keys["hold_button"]):
+                    while any(keyboard.is_pressed(key) for key in hotkey):
                         self.vc.command_recognition(self.read_the_command())
+                        last_press_time = time.time()
+                elif last_press_time is not None and (time.time() - last_press_time < listen_timeout):
+                    self.vc.command_recognition(self.read_the_command())
                 else:
                     self._stop_stream()
                     time.sleep(0.1)
@@ -107,13 +115,16 @@ class VoiceListening:
                     self.stop_thread()
 
     def check_button(self):
-        # Проверка нажатия кнопки в отдельном потоке
         while not self.stop_button_thread:
-            if keyboard.is_pressed(self.vc.keys["switch_button"]):
-                self.switch_button_flag = not self.switch_button_flag
-                print("Слушаю" if self.switch_button_flag else "Не слушаю")
-                while keyboard.is_pressed(self.vc.keys["switch_button"]):
-                    time.sleep(0.1)
+            if isinstance(self.vc.keys["switch_button"], str):
+                hotkey = keyboard.parse_hotkey(self.vc.keys["switch_button"])
+
+                if all(keyboard.is_pressed(key) for key in hotkey):
+                    self.switch_button_flag = not self.switch_button_flag
+                    print("Слушаю" if self.switch_button_flag else "Не слушаю")
+
+                    while any(keyboard.is_pressed(key) for key in hotkey):
+                        time.sleep(0.1)
             time.sleep(0.01)
 
     def stop_thread(self):
