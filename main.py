@@ -101,5 +101,6 @@ if __name__ == '__main__':
             f.write(f"Тип ошибки: {type(e).__name__}\n")
             f.write(f"Аргументы ошибки: {e.args}\n")
             f.write("Полный traceback:\n")
+            # noinspection PyTypeChecker
             traceback.print_exc(file=f)
             f.write("\n" + "-" * 50 + "\n")

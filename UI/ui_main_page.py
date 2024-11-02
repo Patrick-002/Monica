@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QSpacerItem, QStackedWidget, QTabWidget, QVBoxLayout,
     QWidget)
 
-class Ui_MainPage_FormDock(object):
+class UiMainPageFormDock(object):
     def setupUi(self, MainPage_FormDock):
         if not MainPage_FormDock.objectName():
             MainPage_FormDock.setObjectName(u"MainPage_FormDock")

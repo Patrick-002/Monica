@@ -1,5 +1,5 @@
 from pycaw.api.endpointvolume import IAudioEndpointVolume
-from pycaw.pycaw import AudioUtilities, ISimpleAudioVolume
+from pycaw.pycaw import AudioUtilities
 from comtypes import CLSCTX_ALL
 from ctypes import cast, POINTER
 from logger.logger_config import logger as log

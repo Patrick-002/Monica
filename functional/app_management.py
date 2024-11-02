@@ -10,7 +10,16 @@ from logger.logger_config import logger as log
 
 class AppManagement:
     _instance = None
-    kv = None
+    APP_ASSOCIATIONS = {
+        '.txt': 'notepad',  # Открытие текстовых файлов в Блокноте
+        '.docx': 'start winword',  # Открытие .docx в Microsoft Word
+        '.pdf': 'start msedge',  # Открытие PDF в браузере Microsoft Edge
+        '.jpg': 'start ms-photos:',  # Открытие изображений в приложении "Фотографии"
+        '.jpeg': 'start ms-photos:',
+        '.png': 'start ms-photos:',
+        '.xlsx': 'start excel',  # Открытие Excel файлов в Microsoft Excel
+        '.pptx': 'start powerpnt'  # Открытие презентаций в Microsoft PowerPoint
+    }
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -26,27 +35,20 @@ class AppManagement:
         self.paths = {}
         self.kv = mmkv.MMKV.defaultMMKV()
         self.load_data()
-        self.APP_ASSOCIATIONS = {
-            '.txt': 'notepad',  # Открытие текстовых файлов в Блокноте
-            '.docx': 'start winword',  # Открытие .docx в Microsoft Word
-            '.pdf': 'start msedge',  # Открытие PDF в браузере Microsoft Edge
-            '.jpg': 'start ms-photos:',  # Открытие изображений в приложении "Фотографии"
-            '.jpeg': 'start ms-photos:',
-            '.png': 'start ms-photos:',
-            '.xlsx': 'start excel',  # Открытие Excel файлов в Microsoft Excel
-            '.pptx': 'start powerpnt'  # Открытие презентаций в Microsoft PowerPoint
-        }
         log.debug('создан объект класса AppManagement')
 
-    def explorer(self):
+    @staticmethod
+    def explorer():
         log.debug('запускается проводник')
         subprocess.run(["explorer.exe"])
 
-    def calc(self):
+    @staticmethod
+    def calc():
         log.debug('запускается калькулятор')
         subprocess.run(["calc.exe"])
 
-    def settings(self):
+    @staticmethod
+    def settings():
         log.debug('открываются настройки')
         subprocess.run(["start", "ms-settings:"], shell=True)
 
@@ -139,7 +141,8 @@ class AppManagement:
         else:
             self.paths = {}  # Задаем пустой словарь по умолчанию
 
-    def google_search(self, command):
+    @staticmethod
+    def google_search(command):
         base_url = "https://www.google.com/search?q="
         search_url = base_url + command.replace(" ", "+")
         webbrowser.open(search_url)

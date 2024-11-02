@@ -1,7 +1,7 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout
 
 import UI.styles.theme_manager as theme_manager
-from UI.ui_main_page import Ui_MainPage_FormDock
+from UI.ui_main_page import UiMainPageFormDock
 from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
 from PySide6.QtCore import QSize
@@ -9,7 +9,7 @@ from PySide6.QtGui import QIcon
 from logger.logger_config import logger as log
 
 
-class MainPage(QWidget, Ui_MainPage_FormDock):
+class MainPage(QWidget, UiMainPageFormDock):
 
     def __init__(self, page_manager):
         super().__init__()
@@ -29,16 +29,16 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         self.path_lineEdit.setPlaceholderText('Путь')
 
         self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
-        self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voicemode_combobox_changed)
+        self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voice_mode_combobox_changed)
         log.debug('ComboBox установлен в начальный индекс')
 
-        image_path = "res/arrow_down.png"
         image_path = "res/arrow_down.png"
 
         # Связываем клики по элементам списка с переключением страниц
         self.category_list.currentRowChanged.connect(self.on_category_changed)
 
         # Инициализируем отображение словаря
+        self.entry_layout = QVBoxLayout()
         self.init_dictionary_view()
         log.debug('Главная страница инициализирована')
 
@@ -50,7 +50,6 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
                 if widget is not None:
                     widget.deleteLater()
 
-        self.entry_layout = QVBoxLayout()
         self.app_scrollArea.setWidgetResizable(True)
 
         container = QWidget()
@@ -125,6 +124,6 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         else:
             log.warning("Попытка добавления пустого значения")
 
-    def on_voicemode_combobox_changed(self, index):
+    def on_voice_mode_combobox_changed(self, index):
         self.vc.operating_mode = index
         log.debug(f'Режим голосового управления изменен на: {index}')
