@@ -21,15 +21,15 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QSpacerItem, QStackedWidget, QTabWidget, QVBoxLayout,
     QWidget)
 
-class Ui_FormDock(object):
-    def setupUi(self, FormDock):
-        if not FormDock.objectName():
-            FormDock.setObjectName(u"FormDock")
-        FormDock.setWindowModality(Qt.WindowModality.NonModal)
-        FormDock.setEnabled(True)
-        FormDock.resize(900, 550)
-        FormDock.setStyleSheet(u"")
-        self.verticalLayoutWidget = QWidget(FormDock)
+class Ui_MainPage_FormDock(object):
+    def setupUi(self, MainPage_FormDock):
+        if not MainPage_FormDock.objectName():
+            MainPage_FormDock.setObjectName(u"MainPage_FormDock")
+        MainPage_FormDock.setWindowModality(Qt.WindowModality.NonModal)
+        MainPage_FormDock.setEnabled(True)
+        MainPage_FormDock.resize(900, 550)
+        MainPage_FormDock.setStyleSheet(u"")
+        self.verticalLayoutWidget = QWidget(MainPage_FormDock)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
         self.verticalLayoutWidget.setGeometry(QRect(10, 10, 881, 531))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
@@ -131,7 +131,7 @@ class Ui_FormDock(object):
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 567, 362))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 99, 28))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -206,31 +206,31 @@ class Ui_FormDock(object):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
 
-        self.retranslateUi(FormDock)
+        self.retranslateUi(MainPage_FormDock)
 
         self.page_dock.setCurrentIndex(1)
         self.tab_app_commands.setCurrentIndex(0)
 
 
-        QMetaObject.connectSlotsByName(FormDock)
+        QMetaObject.connectSlotsByName(MainPage_FormDock)
     # setupUi
 
-    def retranslateUi(self, FormDock):
-        FormDock.setWindowTitle(QCoreApplication.translate("FormDock", u"Form", None))
+    def retranslateUi(self, MainPage_FormDock):
+        MainPage_FormDock.setWindowTitle(QCoreApplication.translate("MainPage_FormDock", u"Form", None))
 
         __sortingEnabled = self.category_list.isSortingEnabled()
         self.category_list.setSortingEnabled(False)
         ___qlistwidgetitem = self.category_list.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u043a\u0438 \u041c\u043e\u043d\u0438\u043a\u0438", None));
+        ___qlistwidgetitem.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u043a\u0438 \u041c\u043e\u043d\u0438\u043a\u0438", None));
         ___qlistwidgetitem1 = self.category_list.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438", None));
+        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438", None));
         ___qlistwidgetitem2 = self.category_list.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430", None));
+        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430", None));
         ___qlistwidgetitem3 = self.category_list.item(3)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("FormDock", u"\u041f\u0440\u043e\u0447\u0438\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 ", None));
+        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041f\u0440\u043e\u0447\u0438\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 ", None));
         self.category_list.setSortingEnabled(__sortingEnabled)
 
-        self.label.setText(QCoreApplication.translate("FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u0443:", None))
+        self.label.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u0443:", None))
 #if QT_CONFIG(tooltip)
         self.keyword_lineEdit.setToolTip("")
 #endif // QT_CONFIG(tooltip)
@@ -239,15 +239,15 @@ class Ui_FormDock(object):
 #endif // QT_CONFIG(whatsthis)
         self.keyword_lineEdit.setInputMask("")
         self.keyword_lineEdit.setText("")
-        self.pushButton.setText(QCoreApplication.translate("FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
-        self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab), QCoreApplication.translate("FormDock", u"\u0417\u0430\u043f\u0443\u0441\u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439", None))
-        self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab_2), QCoreApplication.translate("FormDock", u"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043c\u0435\u0434\u0438\u0430", None))
-        self.keywordType_label.setText(QCoreApplication.translate("FormDock", u"\u0420\u0435\u0436\u0438\u043c \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438:", None))
-        self.VoiceMode_comboBox.setItemText(0, QCoreApplication.translate("FormDock", u"\u041f\u043e \u043a\u043b\u044e\u0447\u0435\u0432\u043e\u043c\u0443 \u0441\u043b\u043e\u0432\u0443", None))
-        self.VoiceMode_comboBox.setItemText(1, QCoreApplication.translate("FormDock", u"\u041f\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044e", None))
-        self.VoiceMode_comboBox.setItemText(2, QCoreApplication.translate("FormDock", u"\u041f\u043e \u0443\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u044e", None))
+        self.pushButton.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
+        self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab), QCoreApplication.translate("MainPage_FormDock", u"\u0417\u0430\u043f\u0443\u0441\u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439", None))
+        self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab_2), QCoreApplication.translate("MainPage_FormDock", u"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043c\u0435\u0434\u0438\u0430", None))
+        self.keywordType_label.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0420\u0435\u0436\u0438\u043c \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438:", None))
+        self.VoiceMode_comboBox.setItemText(0, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043a\u043b\u044e\u0447\u0435\u0432\u043e\u043c\u0443 \u0441\u043b\u043e\u0432\u0443", None))
+        self.VoiceMode_comboBox.setItemText(1, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044e", None))
+        self.VoiceMode_comboBox.setItemText(2, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u0443\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u044e", None))
 
-        self.label_2.setText(QCoreApplication.translate("FormDock", u"interface_settings_page", None))
-        self.label_4.setText(QCoreApplication.translate("FormDock", u"voice_model_settings", None))
+        self.label_2.setText(QCoreApplication.translate("MainPage_FormDock", u"interface_settings_page", None))
+        self.label_4.setText(QCoreApplication.translate("MainPage_FormDock", u"voice_model_settings", None))
     # retranslateUi
 

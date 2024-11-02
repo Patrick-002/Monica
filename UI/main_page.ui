@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FormDock</class>
- <widget class="QWidget" name="FormDock">
+ <class>MainPage_FormDock</class>
+ <widget class="QWidget" name="MainPage_FormDock">
   <property name="windowModality">
    <enum>Qt::WindowModality::NonModal</enum>
   </property>
@@ -262,8 +262,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>567</width>
-                    <height>362</height>
+                    <width>99</width>
+                    <height>28</height>
                    </rect>
                   </property>
                   <layout class="QVBoxLayout" name="verticalLayout_2"/>

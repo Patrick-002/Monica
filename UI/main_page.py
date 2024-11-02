@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout, QLabel, QScrollArea
 
 import UI.styles.theme_manager as theme_manager
-from UI.ui_main_page import Ui_FormDock
+from UI.ui_main_page import Ui_MainPage_FormDock
 from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
 from PySide6.QtCore import QSize
@@ -9,7 +9,7 @@ from PySide6.QtGui import QIcon
 from logger.logger_config import logger as log
 
 
-class MainPage(QWidget, Ui_FormDock):
+class MainPage(QWidget, Ui_MainPage_FormDock):
 
     def __init__(self, page_manager):
         super().__init__()
