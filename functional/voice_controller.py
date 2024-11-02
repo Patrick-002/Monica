@@ -191,7 +191,7 @@ class VoiceCommands:
     @keys.setter
     def keys(self, value):
         self._keys = value
-        self.kv.set(value, 'keys')
+        self.kv.set(pickle.dumps(value), 'keys')
 
     @operating_mode.setter
     def operating_mode(self, value):
