@@ -1,18 +1,20 @@
 import keyboard
+from logger.logger_config import logger as log
+
 
 class MediaPlayer:
     def play_pause(self):
         keyboard.send('play/pause media')
-        print("Воспроизведение/Пауза")
+        log.info("Воспроизведение/Пауза")
 
     def next_track(self):
         keyboard.send('next track')
-        print("Следующий трек")
+        log.info("Следующий трек")
 
     def previous_track(self):
         keyboard.send('previous track')
-        print("Предыдущий трек")
+        log.info("Предыдущий трек")
 
     def stop(self):
         keyboard.send('stop media')
-        print("Остановить воспроизведение")
+        log.info("Остановить воспроизведение")
