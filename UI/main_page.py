@@ -18,6 +18,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         self.vc = VoiceCommands()
         self.am = AppManagement()
         self.path_dict = self.am.paths
+        theme_manager.apply_theme(self)
 
         # Регистрация страницы в менеджере страниц
         self.page_manager.register_page(self.__class__.__name__, self)
@@ -91,7 +92,6 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         block_layout.addWidget(delete_button)
 
         block.setLayout(block_layout)
-        theme_manager.apply_theme(self)
         return block
 
     def edit_entry(self, key_edit, value_edit):
