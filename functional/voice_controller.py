@@ -37,6 +37,10 @@ class VoiceListening:
         self.stop_button_thread = False
         self.op_mod_1_active = False
         log.debug('создан объект класса VoiceListening')
+        log.critical(self.vc.keys["hold_button"])
+        log.critical(self.vc.keys["hold_button"][0])
+        press_hotkey = keyboard.parse_hotkey(self.vc.keys["hold_button"][0])
+        log.critical(press_hotkey)
 
     def start(self):
         self.stop_cycle = False
@@ -65,9 +69,6 @@ class VoiceListening:
         listen_timeout = 5
         last_press_time = None
         press_hotkey = keyboard.parse_hotkey(self.vc.keys["hold_button"][0])
-        print(self.vc.keys["hold_button"])
-        print(self.vc.keys["hold_button"][0])
-        print(press_hotkey)
 
 
         while not self.stop_cycle:
