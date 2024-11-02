@@ -214,48 +214,47 @@ class VoiceCommands:
             self.browser_search(command)
 
     def sound_commands(self, command):
-        commands = {
-            "word_set": any(kw in command for kw in ["устан"]),
-            "word_up": any(kw in command for kw in ["увел", "выш"]),
-            "word_down": any(kw in command for kw in ["меньш", "ниж"]),
-            "word_off": any(kw in command for kw in ["выкл", "муть"]),
-            "word_on": any(kw in command for kw in ["вклю", "раз"]),
-            "word_na": "на" in command,
-            "word_max": "макс" in command
-        }
+        commands = self.parse_command_flags(command)
+        value = self.extract_volume_value(command) if commands["na"] else None
 
-        value = None
-
-        if commands["word_na"]:
-            num_words = [word for word in command.split() if word in word_to_num]
-            if len(num_words) == 1:
-                value = word_to_num[num_words[0]]
-            elif len(num_words) > 1:
-                value = word_to_num[num_words[0] + ' ' + num_words[1]]
-            if value is None:
-                print('Уточните команду')
-                return False
-
-        if commands["word_set"] and value is not None:
+        if commands["set"] and value is not None:
             self.ac.volume_set(value)
-        elif commands["word_up"] and value is not None:
-            self.ac.volume_up(value)
-        elif commands["word_up"]:
-            self.ac.volume_up(5)
-        elif commands["word_down"] and value is not None:
-            self.ac.volume_down(value)
-        elif commands["word_down"]:
-            self.ac.volume_down(5)
-        elif commands["word_on"]:
+        elif commands["up"]:
+            self.ac.volume_up(value if value is not None else 5)
+        elif commands["down"]:
+            self.ac.volume_down(value if value is not None else 5)
+        elif commands["on"]:
             self.ac.volume_on()
-        elif commands["word_off"]:
+        elif commands["off"]:
             self.ac.volume_off()
-        elif commands["word_max"]:
+        elif commands["max"]:
             self.ac.volume_max()
-        elif commands["word_na"] and value is not None:
+        elif commands["na"] and value is not None:
             self.ac.volume_set(value)
         else:
             print('Уточните команду')
+
+    @staticmethod
+    def parse_command_flags(command):
+        return {
+            "set": any(kw in command for kw in ["устан"]),
+            "up": any(kw in command for kw in ["увел", "выш"]),
+            "down": any(kw in command for kw in ["меньш", "ниж"]),
+            "off": any(kw in command for kw in ["выкл", "муть"]),
+            "on": any(kw in command for kw in ["вклю", "раз"]),
+            "na": "на" in command,
+            "max": "макс" in command
+        }
+
+    @staticmethod
+    def extract_volume_value(command):
+        num_words = [word for word in command.split() if word in word_to_num]
+        if len(num_words) == 1:
+            return word_to_num[num_words[0]]
+        elif len(num_words) > 1:
+            return word_to_num.get(num_words[0] + ' ' + num_words[1])
+        print('Уточните команду')
+        return None
 
     def run_app_word(self, command):
         word_count = 0
