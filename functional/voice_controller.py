@@ -65,6 +65,9 @@ class VoiceListening:
         listen_timeout = 5
         last_press_time = None
         press_hotkey = keyboard.parse_hotkey(self.vc.keys["hold_button"][0])
+        print(self.vc.keys["hold_button"])
+        print(self.vc.keys["hold_button"][0])
+        print(press_hotkey)
 
 
         while not self.stop_cycle:
