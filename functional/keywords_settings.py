@@ -32,7 +32,10 @@ class KeywordsSettings:
 
     def rebind_vc_keys(self, key):
         key_pressed = self.get_key_combination()
-        self.vc.keys[key] = key_pressed
+        self.vc.keys[key][0] = key_pressed
 
-    def rebind_vc_keywords(self, key, new_keyword:str):
-        self.vc.keys[key] = new_keyword
+    def add_vc_keywords(self, key, new_keyword:str):
+        self.vc.keys[key].append(new_keyword)
+
+    def rebind_vc_keywords(self, key, new_keyword:str, index):
+        self.vc.keys[key][index] = new_keyword

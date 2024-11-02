@@ -62,7 +62,6 @@ class VoiceListening:
             return command or None
 
     def listen(self):
-        op_mod_1 = False
         listen_timeout = 5
         last_press_time = None
         hotkey = []
@@ -98,8 +97,8 @@ class VoiceListening:
                     time.sleep(0.1)
 
             elif self.vc.operating_mode == 2:
-                if isinstance(self.vc.keys["switch_button"], str):
-                    hotkey = keyboard.parse_hotkey(self.vc.keys["switch_button"])
+                if isinstance(self.vc.keys["switch_button"][0], str):
+                    hotkey = keyboard.parse_hotkey(self.vc.keys["switch_button"][0])
                 if all(keyboard.is_pressed(key) for key in hotkey):
                     last_press_time = time.time()  # Обновляем время последнего нажатия
                     print("Слушаю")
@@ -119,8 +118,8 @@ class VoiceListening:
 
     def check_button(self):
         while not self.stop_button_thread:
-            if isinstance(self.vc.keys["switch_button"], str):
-                hotkey = keyboard.parse_hotkey(self.vc.keys["switch_button"])
+            if isinstance(self.vc.keys["switch_button"][0], str):
+                hotkey = keyboard.parse_hotkey(self.vc.keys["switch_button"][0])
 
                 if all(keyboard.is_pressed(key) for key in hotkey):
                     self.switch_button_flag = not self.switch_button_flag
@@ -151,13 +150,13 @@ class VoiceCommands:
     kv = None
     _operating_mode = 0
     _keys = {
-        "ultimate_key": "моника",
-        "sound_key": "звук",
+        "ultimate_key": ["моника"],
+        "sound_key": ["звук"],
         "run_app_key": ["откр", "запус"],
         "media_player_keys": ["музык", "медиа"],
         "search_keys": ["гугл", "найди"],
-        "switch_button": "ctrl",
-        "hold_button": "ctrl"
+        "switch_button": ["ctrl"],
+        "hold_button": ["ctrl"]
     }
 
     def __new__(cls, *args, **kwargs):
@@ -209,7 +208,7 @@ class VoiceCommands:
     def command_recognition(self, command):
         if not command:
             return False
-        if self._keys["sound_key"] in command:
+        if any(k in command for k in self._keys["sound_key"]):
             try:
                 self.sound_commands(command)
             except Exception:
