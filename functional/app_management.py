@@ -5,6 +5,9 @@ import os
 import configparser
 import winshell
 import webbrowser
+import psutil
+import win32process
+import win32gui
 from logger.logger_config import logger as log
 from pathlib import Path
 
@@ -38,21 +41,6 @@ class AppManagement:
         self.load_data()
         log.debug('создан объект класса AppManagement')
 
-    @staticmethod
-    def explorer():
-        log.debug('запускается проводник')
-        subprocess.run(["explorer.exe"])
-
-    @staticmethod
-    def calc():
-        log.debug('запускается калькулятор')
-        subprocess.run(["calc.exe"])
-
-    @staticmethod
-    def settings():
-        log.debug('открываются настройки')
-        subprocess.run(["start", "ms-settings:"], shell=True)
-
     def add_path(self, word: str, path: str):
         path = Path(path.replace('"', ''))
         if path.exists():
@@ -70,6 +58,7 @@ class AppManagement:
             return False
 
     def edit_path(self, word_line_edit, path_line_edit):
+        log.info(current_app())
         path = Path(path_line_edit.replace('"', ''))
         if word_line_edit in self.paths:
             if path.exists():
@@ -166,9 +155,30 @@ class AppManagement:
         if data:
             self.paths = pickle.loads(data)
 
-    @staticmethod
-    def google_search(command):
-        base_url = "https://www.google.com/search?q="
-        search_url = base_url + command.replace(" ", "+")
-        webbrowser.open(search_url)
-        log.info(f"Ищем в Google: {command}")
+def current_app():
+    hwnd = win32gui.GetForegroundWindow()
+    if hwnd == 0:
+        log.error("Активное окно не найдено")
+        return None
+    _, pid = win32process.GetWindowThreadProcessId(hwnd)
+    process = psutil.Process(pid)
+    log.info("Текущее активное приложение: ", process)
+    return process.name()
+
+def explorer():
+    log.debug('запускается проводник')
+    subprocess.run(["explorer.exe"])
+
+def calc():
+    log.debug('запускается калькулятор')
+    subprocess.run(["calc.exe"])
+
+def settings():
+    log.debug('открываются настройки')
+    subprocess.run(["start", "ms-settings:"], shell=True)
+
+def google_search(command):
+    base_url = "https://www.google.com/search?q="
+    search_url = base_url + command.replace(" ", "+")
+    webbrowser.open(search_url)
+    log.info(f"Ищем в Google: {command}")
