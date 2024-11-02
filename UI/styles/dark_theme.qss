@@ -20,21 +20,44 @@ QLineEdit:focus, QLineEdit:hover {
 
 /* QComboBox */
 QComboBox {
-    border: 2px solid #3b3b3e;
+    background-color: #2b2b2b;
+    color: #dcdcdc;
+    border: 2px solid #4a4a4a;
     border-radius: 10px;
-    padding: 8px;
-    background-color: #333337;
-    color: #dcdcdc;
+    padding: 8px 30px 8px 8px; /* Оставляем место для стрелки */
+    font-size: 16px;
 }
+
+QComboBox:hover {
+    border-color: #6a6a6a;
+}
+
+QComboBox:focus {
+    border-color: #9a9edb;
+    background-color: #3a3a3a;
+}
+
+/* Стрелка и меню в темной теме */
+QComboBox::down-arrow {
+    image: url(res/arrow_down.png);
+    width: 12px;
+    height: 12px;
+    margin-right: 8px; /* Смещаем стрелку ближе к краю */
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 20px;
+    background: transparent;
+}
+
 QComboBox QAbstractItemView {
-    background-color: #2d2d33;
-    selection-background-color: #41415a;
+    background-color: #2b2b2b;
     color: #dcdcdc;
+    selection-background-color: #9a9edb;
+    border: 1px solid #4a4a4a;
 }
-QComboBox:hover, QComboBox:focus {
-    border-color: #525275;
-    background-color: #2d2d33;
-}
+
 
 /* QPushButton */
 QPushButton {

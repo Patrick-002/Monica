@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout
 
-import UI.styles.theme_manager as theme_manager
+import UI.theme_manager as theme_manager
 from UI.ui_main_page import UiMainPageFormDock
 from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
@@ -18,7 +18,6 @@ class MainPage(QWidget, UiMainPageFormDock):
         self.vc = VoiceCommands()
         self.am = AppManagement()
         self.path_dict = self.am.paths
-        theme_manager.apply_theme(self)
 
         # Регистрация страницы в менеджере страниц
         self.page_manager.register_page(self.__class__.__name__, self)
@@ -41,6 +40,9 @@ class MainPage(QWidget, UiMainPageFormDock):
         self.entry_layout = QVBoxLayout()
         self.init_dictionary_view()
         log.debug('Главная страница инициализирована')
+        theme_manager.apply_theme(self)
+        theme_manager.apply_theme(self.VoiceMode_comboBox)
+
 
     def init_dictionary_view(self):
         # Очищаем предыдущие элементы из scroll area, если они были
