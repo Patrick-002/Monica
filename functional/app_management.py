@@ -6,6 +6,7 @@ import configparser
 import winshell
 import webbrowser
 from logger.logger_config import logger as log
+from pathlib import Path
 
 
 class AppManagement:
@@ -53,22 +54,49 @@ class AppManagement:
         subprocess.run(["start", "ms-settings:"], shell=True)
 
     def add_path(self, word: str, path: str):
-        self.paths[word] = path
-        if self.kv is not None:
-            self.kv.set(pickle.dumps(self.paths), 'words')
-        log.debug(f'добавлен путь: {path} на слово: {word}')
+        path = Path(path.replace('"', ''))
+        if path.exists():
+            if path.is_file() or path.is_dir():
+                self.paths[word] = path.__str__()
+                if self.kv is not None:
+                    self.kv.set(pickle.dumps(self.paths), 'words')
+                log.info(f'добавлен путь: {path.__str__()} на слово: {word}')
+                return True
+            else:
+                log.error("Это объект другого типа, который мы не можем обработать")
+                return False
+        else:
+            log.warning("Файл или папка не найдены")
+            return False
 
     def edit_path(self, word_line_edit, path_line_edit):
+        path = Path(path_line_edit.replace('"', ''))
         if word_line_edit in self.paths:
-            self.paths[word_line_edit] = path_line_edit
-            self.kv.set(pickle.dumps(self.paths), 'words')
-            log.info(f"Путь для '{word_line_edit}' обновлен на '{path_line_edit}'")
+            if path.exists():
+                if path.is_file() or path.is_dir():
+                    self.paths[word_line_edit] = path_line_edit
+                    self.kv.set(pickle.dumps(self.paths), 'words')
+                    log.info(f"Путь для '{word_line_edit}' обновлен на '{path_line_edit}'")
+                    return True
+                else:
+                    log.error("Это объект другого типа, который мы не можем обработать")
+                    return False
+            else:
+                log.error("Файл по данному пути не существует")
+                return False
+        else:
+            log.warning("Попытка изменить элемент не существующий в путях: \"" + word_line_edit + "\"")
+            return False
 
     def delete_path(self, word):
         if word in self.paths:
             del self.paths[word]
             self.kv.set(pickle.dumps(self.paths), 'words')
             log.info(f"Элемент '{word}' удален")
+            return True
+        else:
+            log.warning("Попытка удалить элемент не существующий в путях: \"" + word + "\"")
+            return False
 
     def run_app(self, word: str):
         file_path = self.paths[word]
@@ -132,14 +160,11 @@ class AppManagement:
     def load_data(self):
         if self.kv is None:
             log.info(f"Ошибка инициализации MMKV.")
-            self.paths = {}  # Устанавливаем пустой словарь, если MMKV не работает
             return
 
         data = self.kv.getBytes('words')
         if data:
             self.paths = pickle.loads(data)
-        else:
-            self.paths = {}  # Задаем пустой словарь по умолчанию
 
     @staticmethod
     def google_search(command):

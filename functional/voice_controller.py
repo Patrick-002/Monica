@@ -3,7 +3,7 @@ import mmkv
 import functional.sys_commands as sys_commands
 import pyaudio
 import json
-from vosk import Model, KaldiRecognizer
+from vosk import Model, KaldiRecognizer, SetLogLevel
 from functional.text_to_num_RUS import word_to_num
 import functional.app_management as app_management
 import functional.media_player as media_player
@@ -26,6 +26,7 @@ class VoiceListening:
         if self._initialized:
             return
         self._initialized = True
+        SetLogLevel(-1)
         self.model = Model("vosk-model-small-ru-0.22")
         self.stream = None
         self.p = None

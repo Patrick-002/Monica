@@ -100,7 +100,6 @@ class MainPage(QWidget, UiMainPageFormDock):
         log.debug(f'Изменено значение для ключа: {new_key}, новое значение: {new_value}')
 
     def delete_entry(self, block, key):
-        del self.path_dict[key]
         block.setParent(None)
         self.am.delete_path(key)
         log.debug(f'Удален элемент с ключом: {key}')
