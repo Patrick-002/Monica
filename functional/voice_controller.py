@@ -44,14 +44,13 @@ class VoiceListening:
         self.stream = self.p.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True, frames_per_buffer=8000)
         self.rec = KaldiRecognizer(self.model, 16000)
         self.listen()
-        log.debug('отработала функция start, запуск цикла обработки голоса')
+        log.debug('Запущен цикл обработки голоса')
 
     def stop(self):
         self._stop_stream()
-        self.stream.close()
         self.p.terminate()
         self.stop_cycle = True
-        log.debug('остановка цикла обработки голоса')
+        log.debug('Остановлен цикл обработки голоса')
 
     def read_the_command(self):
         data = self.stream.read(4000, exception_on_overflow=False)
@@ -67,68 +66,83 @@ class VoiceListening:
 
         while not self.stop_cycle:
             if self.vc.operating_mode == 0:
-                if not self.stream.is_active():
-                    self.stream.start_stream()
-                    log.debug('запущен поток модели')
-                command = self.read_the_command()
-                if command and command.lower().startswith(self.vc.keys["ultimate_key"]):
-                    self.vc.command_recognition(command[len(self.vc.keys["ultimate_key"]) + 1:])
-                if self.op_mod_1_active:
-                    self.stop_thread()
-
-
+                self._handle_mode_0()
             elif self.vc.operating_mode == 1:
-                if not self.op_mod_1_active:
-                    self.button_thread = threading.Thread(target=self.check_button)
-                    self.button_thread.daemon = True
-                    self.button_thread.start()
-                    log.debug('запущен поток для клавиши переключения')
-                    self.op_mod_1_active = True
-
-                if self.switch_button_flag:
-                    if not self.stream.is_active():
-                        self.stream.start_stream()
-                        log.debug('запущен поток модели')
-                    self.vc.command_recognition(self.read_the_command())
-                else:
-                    if self.stream.is_active():
-                        self._stop_stream()
-                    time.sleep(0.1)
-
+                self._handle_mode_1()
             elif self.vc.operating_mode == 2:
-                if keyboard.is_pressed(self.vc.keys["hold_button"][0]):
-                    last_press_time = time.time()  # Обновляем время последнего нажатия
-                    print("Слушаю")
-                    if not self.stream.is_active():
-                        self.stream.start_stream()
-                        log.debug('запущен поток модели')
-                    while keyboard.is_pressed(self.vc.keys["hold_button"][0]):
-                        self.vc.command_recognition(self.read_the_command())
-                        last_press_time = time.time()
-                elif last_press_time is not None and (time.time() - last_press_time < listen_timeout):
-                    self.vc.command_recognition(self.read_the_command())
-                else:
-                    self._stop_stream()
-                    time.sleep(0.1)
-                if self.op_mod_1_active:
-                    self.stop_thread()
+                last_press_time = self._handle_mode_2(listen_timeout, last_press_time)
+
+
+    def _handle_mode_0(self):
+        """Режим 0: Распознавание по ключевому слову"""
+        self._start_stream_if_not_active()
+        command = self.read_the_command()
+        if command and command.lower().startswith(self.vc.keys["ultimate_key"]):
+            self.vc.command_recognition(command[len(self.vc.keys["ultimate_key"]) + 1:])
+        if self.op_mod_1_active:
+            self.stop_thread()
+
+    def _handle_mode_1(self):
+        """Режим 1: Использование кнопки для активации и деактивации прослушивания"""
+        if not self.op_mod_1_active:
+            self._start_button_thread()
+
+        if self.switch_button_flag:
+            self._start_stream_if_not_active()
+            self.vc.command_recognition(self.read_the_command())
+        else:
+            self._stop_stream_if_active()
+            time.sleep(0.1)
+
+    def _handle_mode_2(self, listen_timeout, last_press_time):
+        """Режим 2: Удержание кнопки для активации прослушивания"""
+        if keyboard.is_pressed(self.vc.keys["hold_button"][0]):
+            last_press_time = time.time()
+            self._start_stream_if_not_active()
+            print("Слушаю")
+            while keyboard.is_pressed(self.vc.keys["hold_button"][0]):
+                self.vc.command_recognition(self.read_the_command())
+                last_press_time = time.time()
+        elif last_press_time and (time.time() - last_press_time < listen_timeout):
+            self.vc.command_recognition(self.read_the_command())
+        else:
+            self._stop_stream_if_active()
+            time.sleep(0.1)
+        if self.op_mod_1_active:
+            self.stop_thread()
+        return last_press_time
 
     def check_button(self):
         while not self.stop_button_thread:
             if keyboard.is_pressed(self.vc.keys["switch_button"][0]):
                 self.switch_button_flag = not self.switch_button_flag
                 print("Слушаю" if self.switch_button_flag else "Не слушаю")
-
                 while keyboard.is_pressed(self.vc.keys["switch_button"][0]):
                     time.sleep(0.1)
             time.sleep(0.01)
 
     def stop_thread(self):
         self.stop_button_thread = True
-        self.button_thread.join()
+        if self.button_thread:
+            self.button_thread.join()
         self.switch_button_flag = False
         self.op_mod_1_active = False
-        log.debug('остановлен поток для клавиши переключения')
+        log.debug('Остановлен поток для клавиши переключения')
+
+    def _start_stream_if_not_active(self):
+        if not self.stream.is_active():
+            self.stream.start_stream()
+            log.debug('Запущен поток модели')
+
+    def _stop_stream_if_active(self):
+        if self.stream.is_active():
+            self._stop_stream()
+
+    def _start_button_thread(self):
+        self.button_thread = threading.Thread(target=self.check_button, daemon=True)
+        self.button_thread.start()
+        log.debug('Запущен поток для переключающей кнопки')
+        self.op_mod_1_active = True
 
     def _stop_stream(self):
         if self.stream.is_active():
@@ -136,13 +150,10 @@ class VoiceListening:
                 self.stream.read(self.stream.get_read_available(), exception_on_overflow=False)
             self.stream.stop_stream()
             self.rec.Reset()
-            log.debug('поток модели остановлен и очищен буфер')
-
+            log.debug('Поток модели остановлен и очищен буфер')
 
 class VoiceCommands:
     _instance = None
-    kv = None
-    _operating_mode = 0
     _keys = {
         "ultimate_key": ["моника"],
         "sound_key": ["звук"],
@@ -152,6 +163,7 @@ class VoiceCommands:
         "switch_button": ["ctrl+a"],
         "hold_button": ["ctrl+a"]
     }
+    _operating_mode = 0
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -167,72 +179,104 @@ class VoiceCommands:
         self.ac = sys_commands.AudioController()
         self.app_man = app_management.AppManagement()
         self._media = media_player.MediaPlayer()
-        if self.kv is not None:
-            if 'operating_mode' not in self.kv:
-                self._operating_mode = 1
-                log.warning('Не удалось найти сохранённую переменную \"operating_mode\"')
-            else:
+        self._load_configuration()
+        log.info('Объект класса "VoiceCommands" успешно создан')
+
+    def _load_configuration(self):
+        if self.kv:
+            if 'operating_mode' in self.kv:
                 self._operating_mode = self.kv.getInt('operating_mode')
-            if 'keys' not in self.kv:
-                log.warning('Не удалось найти сохранённую переменную \"keys\"')
             else:
-                self._keys = pickle.loads(self.kv.getBytes('keys'))
+                log.warning('Не удалось найти сохранённую переменную "operating_mode", установлено значение по умолчанию - 0 (Распознавание по ключевому слову).')
+
+            if 'keys' not in self.kv:
+                try:
+                    self._keys = pickle.loads(self.kv.getBytes('keys'))
+                except Exception as e:
+                    log.error('Ошибка при загрузке ключей из MMKV, используются ключи по умолчанию.', exc_info=e)
+            else:
+                log.warning('Не удалось найти сохранённую переменную "keys", используются ключи по умолчанию.')
         else:
-            log.error("Объект MMkv не найден")
-        log.info('Объект класса \"VoiceCommands\" успешно создан')
+            log.error("Объект MMKV не найден.")
 
     @property
     def keys(self):
         return self._keys
 
+    @keys.setter
+    def keys(self, value):
+        self._keys = value
+        if self.kv:
+            try:
+                self.kv.set(pickle.dumps(value), 'keys')
+                log.debug('Ключи успешно сохранены в MMKV.')
+            except Exception as e:
+                log.error('Ошибка при сохранении ключей в MMKV.', exc_info=e)
+        else:
+            log.error("Невозможно сохранить ключи, объект MMKV не найден.")
+
+
     @property
     def operating_mode(self):
         return self._operating_mode
 
-    @keys.setter
-    def keys(self, value):
-        self._keys = value
-        self.kv.set(pickle.dumps(value), 'keys')
-
     @operating_mode.setter
     def operating_mode(self, value):
         self._operating_mode = value
-        self.kv.set(value, 'operating_mode')
+        if self.kv:
+            try:
+                self.kv.set(value, 'operating_mode')
+                log.debug('Режим работы успешно сохранён в MMKV.')
+            except Exception as e:
+                log.error('Ошибка при сохранении режима работы в MMKV.', exc_info=e)
+        else:
+            log.error("Невозможно сохранить режим работы, объект MMKV не найден.")
 
     def command_recognition(self, command):
         if not command:
             return False
-        if any(k in command for k in self._keys["sound_key"]):
-            try:
+
+        command = command.lower()
+        try:
+            if any(keyword in command for keyword in self._keys["sound_key"]):
                 self.sound_commands(command)
-            except Exception as e:
-                log.warning("Говори по русски!", exc_info=e)
-        elif any(k in command for k in self._keys["run_app_key"]):
-            self.run_app_words(command)
-        elif any(k in command for k in self._keys["media_player_keys"]):
-            self.media_player(command)
-        elif any(k in command for k in self._keys["search_keys"]):
-            self.browser_search(command)
+            elif any(keyword in command for keyword in self._keys["run_app_key"]):
+                self.run_app_words(command)
+            elif any(keyword in command for keyword in self._keys["media_player_keys"]):
+                self.media_player(command)
+            elif any(keyword in command for keyword in self._keys["search_keys"]):
+                self.browser_search(command)
+            else:
+                log.debug(f"Не распознана команда: {command}")
+        except Exception as e:
+            log.error("Ошибка при обработке команды", exc_info=e)
 
     def sound_commands(self, command):
         commands = self.parse_command_flags(command)
-        value = self.extract_volume_value(command) if commands["na"] else None
+        value = self.extract_volume_value(command) if commands.get("na") else None
+        action_methods = {
+            "set": self.ac.volume_set,
+            "up": lambda v=None: self.ac.volume_up(v or 5),
+            "down": lambda v=None: self.ac.volume_down(v or 5),
+            "on": self.ac.volume_on,
+            "off": self.ac.volume_off,
+            "max": self.ac.volume_max,
+        }
 
-        if commands["set"] and value is not None:
-            self.ac.volume_set(value)
-        elif commands["up"]:
-            self.ac.volume_up(value if value is not None else 5)
-        elif commands["down"]:
-            self.ac.volume_down(value if value is not None else 5)
-        elif commands["on"]:
-            self.ac.volume_on()
-        elif commands["off"]:
-            self.ac.volume_off()
-        elif commands["max"]:
-            self.ac.volume_max()
-        elif commands["na"] and value is not None:
+        for action, method in action_methods.items():
+            if commands.get(action):
+                if action in ["set", "up", "down"] and value is not None:
+                    method(value)
+                elif action in ["up", "down"] and value is None:
+                    method()
+                else:
+                    method()
+                return
+
+        if commands.get("na") and value is not None:
             self.ac.volume_set(value)
         else:
+            log.warning('Не удалось определить действие для звуковой команды.')
             print('Уточните команду')
 
     @staticmethod
@@ -252,73 +296,73 @@ class VoiceCommands:
         num_words = [word for word in command.split() if word in word_to_num]
         if len(num_words) == 1:
             return word_to_num[num_words[0]]
-        elif len(num_words) > 1:
-            return word_to_num.get(num_words[0] + ' ' + num_words[1])
+        elif len(num_words) >= 2:
+            combined = ' '.join(num_words[:2])
+            return word_to_num.get(combined, word_to_num.get(num_words[0]))
+        log.warning("Не удалось извлечь значение громкости из команды.")
         print('Уточните команду')
         return None
 
-    def run_app_word(self, command):
-        word_count = 0
-        split_command = command.split()
-        for word in split_command:
-            word_count += 1
-            if word_count == 2:
-                for key_word in self.app_man.paths.keys():
-                    if key_word in word:
-                        self.app_man.run_app(key_word)
-                        return True
-        log.debug('run_app_word не сработала, команда передана дальше')
-        self.open_something(command)
-
     def run_app_words(self, command):
-        for key_words in self.app_man.paths.keys():
-            if key_words in command:
-                self.app_man.run_app(key_words)
+        for key_word in self.app_man.paths:
+            if key_word in command:
+                self.app_man.run_app(key_word)
+                log.info(f"Запущено приложение: {key_word}")
                 return True
-        log.debug('run_app_words не сработала, команда передана дальше')
-        self.run_app_word(command)
+        log.debug('run_app_words не нашёл подходящего приложения, передача команды в run_app_word.')
+        return self.run_app_word(command)
 
-    def open_something(self, command):
-        word_count = 0
-        second_word = None
+    def run_app_word(self, command):
         split_command = command.split()
-        for word in split_command:
-            word_count += 1
-            if word_count == 2:
-                second_word = word
-                if 'провод' in word:
-                    self.app_man.explorer()
+        if len(split_command) >= 2:
+            second_word = split_command[1]
+            for key_word in self.app_man.paths:
+                if key_word in second_word:
+                    self.app_man.run_app(key_word)
+                    log.info(f"Запущено приложение: {key_word}")
                     return True
-                elif 'кальк' in word:
-                    self.app_man.calc()
+            # Дополнительные приложения по ключевым словам
+            fallback_actions = {
+                'провод': app_management.explorer,
+                'кальк': app_management.calc,
+                'настр': app_management.settings
+            }
+            for keyword, action in fallback_actions.items():
+                if keyword in second_word:
+                    action()
+                    log.info(f"Запущено действие: {keyword}")
                     return True
-                elif 'настр' in word:
-                    self.app_man.settings()
-                    return True
-        log.info(f'Не удалось открыть {second_word}')
+            log.info(f'Не удалось открыть приложение для слова: {second_word}')
+        else:
+            log.warning('Недостаточно слов в команде для запуска приложения.')
+            print('Уточните команду')
+        return False
 
     def media_player(self, command):
-        play_pause = ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']
-        for word in play_pause:
-            if word in command:
-                self._media.play_pause()
-                return True
-        if 'следущ' in command or 'некс' in command:
+        if any(keyword in command for keyword in ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']):
+            self._media.play_pause()
+            return True
+        elif any(keyword in command for keyword in ['следущ', 'некс']):
             self._media.next_track()
-        elif 'предыдущ' in command or 'прошл' in command:
+            return True
+        elif any(keyword in command for keyword in ['предыдущ', 'прошл']):
             self._media.previous_track()
+            return True
         elif 'стоп' in command:
             self._media.stop()
+            return True
         else:
             log.debug(f'media_player не распознала команду: {command}')
             print('Уточните команду для медиа')
+            return False
 
-    def browser_search(self, command):
+    @staticmethod
+    def browser_search(command):
         split_command = command.split()
         if split_command[0] == 'за':
             split_command.pop(0)
         split_command.pop(0)
-        self.app_man.google_search(" ".join(split_command))
+        app_management.google_search(" ".join(split_command))
 
 
 if __name__ == '__main__':
