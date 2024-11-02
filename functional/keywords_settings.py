@@ -4,7 +4,7 @@ from voice_controller import VoiceCommands
 
 
 
-class keywords_settings:
+class KeywordsSettings:
     def __init__(self):
         self.vc = VoiceCommands()
 

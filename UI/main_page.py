@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBo
 
 from UI.styles.theme_manager import apply_theme
 from UI.ui_main_page import Ui_FormDock
-from functional.appmanagement import AppManagement
+from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QIcon

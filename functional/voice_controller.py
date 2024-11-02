@@ -2,8 +2,8 @@ import functional.sys_commands as sys_commands
 import pyaudio
 import json
 from vosk import Model, KaldiRecognizer
-from functional.text2numRUS import word_to_num
-import functional.appmanagement as app_management
+from functional.text_to_num_RUS import word_to_num
+import functional.app_management as app_management
 import functional.media_player as media_player
 import keyboard
 import time

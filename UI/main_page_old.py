@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget
 from UI.ui_main_page import Ui_FormDock
-from functional.appmanagement import AppManagement
+from functional.app_management import AppManagement
 
 
 class MainPage(QWidget, Ui_FormDock):
