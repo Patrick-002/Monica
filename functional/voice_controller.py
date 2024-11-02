@@ -65,6 +65,7 @@ class VoiceListening:
         op_mod_1 = False
         listen_timeout = 5
         last_press_time = None
+        hotkey = []
 
         while not self.stop_cycle:
             if self.vc.operating_mode == 0:
@@ -74,7 +75,7 @@ class VoiceListening:
                 command = self.read_the_command()
                 if command and command.lower().startswith(self.vc.keys["ultimate_key"]):
                     self.vc.command_recognition(command[len(self.vc.keys["ultimate_key"]) + 1:])
-                if op_mod_1:
+                if self.op_mod_1_active:
                     self.stop_thread()
 
 
@@ -113,7 +114,7 @@ class VoiceListening:
                 else:
                     self._stop_stream()
                     time.sleep(0.1)
-                if op_mod_1:
+                if self.op_mod_1_active:
                     self.stop_thread()
 
     def check_button(self):
@@ -302,8 +303,7 @@ class VoiceCommands:
                 elif 'настр' in word:
                     self.app_man.settings()
                     return True
-        log.info('Не удалось открыть {second_word}')
-        # print(f'Не удалось открыть {second_word}')
+        log.info(f'Не удалось открыть {second_word}')
 
     def media_player(self, command):
         play_pause = ['остан', 'продолж', 'вкл', 'выкл', 'пауз', 'плэй']
