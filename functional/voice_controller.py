@@ -31,10 +31,6 @@ class VoiceListening:
         self.vc = VoiceCommands()
         self.stop_cycle = True
         self.switch_button_flag = False
-        self.keys = {
-            "switch_button": "ctrl",
-            "hold_button": "ctrl"
-        }
         self.button_thread = None
         self.stop_button_thread = False
         self.op_mod_1_active = False
@@ -97,12 +93,12 @@ class VoiceListening:
                     time.sleep(0.1)
 
             elif self.vc.operating_mode == 2:
-                if keyboard.is_pressed(self.keys["hold_button"]):
+                if keyboard.is_pressed(self.vc.keys["hold_button"]):
                     print("Слушаю")
                     if not self.stream.is_active():
                         self.stream.start_stream()
                         log.debug('запущен поток модели')
-                    while keyboard.is_pressed(self.keys["hold_button"]):
+                    while keyboard.is_pressed(self.vc.keys["hold_button"]):
                         self.vc.command_recognition(self.read_the_command())
                 else:
                     self._stop_stream()
@@ -113,10 +109,10 @@ class VoiceListening:
     def check_button(self):
         # Проверка нажатия кнопки в отдельном потоке
         while not self.stop_button_thread:
-            if keyboard.is_pressed(self.keys["switch_button"]):
+            if keyboard.is_pressed(self.vc.keys["switch_button"]):
                 self.switch_button_flag = not self.switch_button_flag
                 print("Слушаю" if self.switch_button_flag else "Не слушаю")
-                while keyboard.is_pressed(self.keys["switch_button"]):
+                while keyboard.is_pressed(self.vc.keys["switch_button"]):
                     time.sleep(0.1)
             time.sleep(0.01)
 
@@ -160,6 +156,8 @@ class VoiceCommands:
             "run_app_key": ["откр", "запус"],
             "media_player_keys": ["музык", "медиа"],
             "search_keys": ["гугл", "найди"],
+            "switch_button": "ctrl",
+            "hold_button": "ctrl"
         }
         log.debug('создан объект класса VoiceCommands')
 
@@ -188,7 +186,7 @@ class VoiceCommands:
         word_on = False
         word_na = False
         word_max = False
-        # for word in split_command:
+
         if 'устан' in command:
             word_set = True
         if 'увел' in command or 'выш' in command:
