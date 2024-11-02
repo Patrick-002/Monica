@@ -205,7 +205,7 @@ class VoiceCommands:
             try:
                 self.sound_commands(command)
             except Exception as e:
-                log.warning("Говори по русски! " + e.__str__(), exc_info=True)
+                log.warning("Говори по русски!", exc_info=e)
         elif any(k in command for k in self._keys["run_app_key"]):
             self.run_app_words(command)
         elif any(k in command for k in self._keys["media_player_keys"]):
