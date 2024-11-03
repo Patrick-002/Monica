@@ -56,7 +56,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
                 widget.deleteLater()
 
         # Создаем и добавляем KeywordSpoiler для каждого ключа в словаре
-        for key, keywords in self.vc.keys.items():
+        for key, keywords in self.vc.keywords.items():
             spoiler = KeywordSpoiler(
                 key,
                 keywords,

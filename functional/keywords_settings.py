@@ -3,7 +3,6 @@ from logger.logger_config import logger as log
 from functional.voice_controller import VoiceCommands
 
 
-
 class KeywordsSettings:
     def __init__(self):
         self.vc = VoiceCommands()
@@ -32,10 +31,10 @@ class KeywordsSettings:
 
     def rebind_vc_keys(self, key):
         key_pressed = self.get_key_combination()
-        self.vc.keys[key][0] = key_pressed
+        self.vc.keywords[key][0] = key_pressed
 
-    def add_vc_keywords(self, key, new_keyword:str):
-        self.vc.keys[key].append(new_keyword)
+    def add_vc_keywords(self, key, new_keyword: str):
+        self.vc.keywords[key].append(new_keyword)
 
-    def rebind_vc_keywords(self, key, new_keyword:str, index):
-        self.vc.keys[key][index] = new_keyword
+    def rebind_vc_keywords(self, key, new_keyword: str, index):
+        self.vc.keywords[key][index] = new_keyword

@@ -72,13 +72,12 @@ class VoiceListening:
             elif self.vc.operating_mode == 2:
                 last_press_time = self._handle_mode_2(listen_timeout, last_press_time)
 
-
     def _handle_mode_0(self):
         """Режим 0: Распознавание по ключевому слову"""
         self._start_stream_if_not_active()
         command = self.read_the_command()
-        if command and command.lower().startswith(self.vc.keys["ultimate_key"]):
-            self.vc.command_recognition(command[len(self.vc.keys["ultimate_key"]) + 1:])
+        if command and command.lower().startswith(self.vc.keywords["ultimate_key"]):
+            self.vc.command_recognition(command[len(self.vc.keywords["ultimate_key"]) + 1:])
         if self.op_mod_1_active:
             self.stop_thread()
 
@@ -114,10 +113,10 @@ class VoiceListening:
 
     def check_button(self):
         while not self.stop_button_thread:
-            if keyboard.is_pressed(self.vc.keys["switch_button"][0]):
+            if keyboard.is_pressed(self.vc.keywords["switch_button"][0]):
                 self.switch_button_flag = not self.switch_button_flag
                 print("Слушаю" if self.switch_button_flag else "Не слушаю")
-                while keyboard.is_pressed(self.vc.keys["switch_button"][0]):
+                while keyboard.is_pressed(self.vc.keywords["switch_button"][0]):
                     time.sleep(0.1)
             time.sleep(0.01)
 
@@ -152,6 +151,7 @@ class VoiceListening:
             self.rec.Reset()
             log.debug('Поток модели остановлен и очищен буфер')
 
+
 class VoiceCommands:
     _instance = None
     _keywords_dict = {
@@ -160,6 +160,8 @@ class VoiceCommands:
         "run_app_key": ["откр", "запус"],
         "media_player_keys": ["музык", "медиа"],
         "search_keys": ["гугл", "найди"],
+    }
+    _keys_dict = {
         "switch_button": ["ctrl+a"],
         "hold_button": ["ctrl+a"]
     }
@@ -187,7 +189,8 @@ class VoiceCommands:
             if 'operating_mode' in self.kv:
                 self._operating_mode = self.kv.getInt('operating_mode')
             else:
-                log.warning('Не удалось найти сохранённую переменную "operating_mode", установлено значение по умолчанию - 0 (Распознавание по ключевому слову).')
+                log.warning(
+                    'Не удалось найти сохранённую переменную "operating_mode", установлено значение по умолчанию - 0 (Распознавание по ключевому слову).')
 
             if 'keys' not in self.kv:
                 try:
@@ -200,11 +203,15 @@ class VoiceCommands:
             log.error("Объект MMKV не найден.")
 
     @property
-    def keys(self):
+    def keywords(self):
         return self._keywords_dict
 
-    @keys.setter
-    def keys(self, value):
+    @property
+    def keys(self):
+        return self._keys_dict
+
+    @keywords.setter
+    def keywords(self, value):
         self._keywords_dict = value
         if self.kv:
             try:
@@ -214,7 +221,6 @@ class VoiceCommands:
                 log.error('Ошибка при сохранении ключей в MMKV.', exc_info=e)
         else:
             log.error("Невозможно сохранить ключи, объект MMKV не найден.")
-
 
     @property
     def operating_mode(self):
