@@ -29,6 +29,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
 
         self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
         self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voice_mode_combobox_changed)
+        self.theme_comboBox.setCurrentIndex(self.theme_manager.get_app_theme_index())
         self.theme_comboBox.currentIndexChanged.connect(self.on_theme_combobox_changed)
         log.debug('ComboBox установлен в начальный индекс')
 
@@ -133,5 +134,4 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
     def on_theme_combobox_changed(self, index):
         self.theme_manager.set_app_theme(index)
         self.theme_manager.apply_theme(self)
-        print(self.theme_manager.get_app_theme())
         log.debug(f'Тема приложения изменена на: {index}')

@@ -84,8 +84,8 @@ class ThemeManager:
         else:
             log.warning(f"Недопустимый индекс темы: {theme_id}.")
 
-    def get_app_theme(self) -> str:
+    def get_app_theme_index(self) -> str:
         """
         Возвращает текущую тему приложения.
         """
-        return self._themes[self._current_app_theme]
+        return self._current_app_theme
