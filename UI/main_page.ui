@@ -25,10 +25,10 @@
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>10</y>
-     <width>881</width>
-     <height>531</height>
+     <width>911</width>
+     <height>541</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -69,19 +69,19 @@
           <number>0</number>
          </property>
          <widget class="QWidget" name="another_settings">
-          <widget class="QTabWidget" name="tab_app_commands">
+          <widget class="QTabWidget" name="tab_monica_settings">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>612</width>
+             <width>641</width>
              <height>531</height>
             </rect>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>1</number>
            </property>
-           <widget class="QWidget" name="tab">
+           <widget class="QWidget" name="app_launch_tab">
             <attribute name="title">
              <string>Запуск приложений</string>
             </attribute>
@@ -214,7 +214,7 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>585</width>
+                    <width>614</width>
                     <height>362</height>
                    </rect>
                   </property>
@@ -226,10 +226,42 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="tab_2">
+           <widget class="QWidget" name="keywords_tab">
             <attribute name="title">
-             <string>Управление медиа</string>
+             <string>Ключевые слова</string>
             </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <widget class="QScrollArea" name="keyword_scrollArea">
+                 <property name="widgetResizable">
+                  <bool>true</bool>
+                 </property>
+                 <widget class="QWidget" name="scrollAreaWidgetContents_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>613</width>
+                    <height>480</height>
+                   </rect>
+                  </property>
+                  <layout class="QVBoxLayout" name="verticalLayout_9">
+                   <item>
+                    <layout class="QVBoxLayout" name="keyword_verticalLayout">
+                     <property name="spacing">
+                      <number>6</number>
+                     </property>
+                    </layout>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </widget>
           </widget>
          </widget>
@@ -443,7 +475,7 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>2</y>
+           <y>0</y>
            <width>250</width>
            <height>531</height>
           </rect>

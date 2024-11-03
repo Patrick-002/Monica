@@ -31,7 +31,7 @@ class Ui_MainPage_FormDock(object):
         MainPage_FormDock.setStyleSheet(u"")
         self.verticalLayoutWidget = QWidget(MainPage_FormDock)
         self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
-        self.verticalLayoutWidget.setGeometry(QRect(10, 10, 881, 531))
+        self.verticalLayoutWidget.setGeometry(QRect(0, 10, 911, 541))
         self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
@@ -55,26 +55,26 @@ class Ui_MainPage_FormDock(object):
 "    height: 0px; /* \u0421\u043a\u0440\u044b\u0442\u044c \u0432\u044b\u0441\u043e\u0442\u0443 \u043a\u043d\u043e\u043f\u043e\u043a */")
         self.another_settings = QWidget()
         self.another_settings.setObjectName(u"another_settings")
-        self.tab_app_commands = QTabWidget(self.another_settings)
-        self.tab_app_commands.setObjectName(u"tab_app_commands")
-        self.tab_app_commands.setGeometry(QRect(0, 0, 612, 531))
-        self.tab = QWidget()
-        self.tab.setObjectName(u"tab")
-        self.verticalLayout_7 = QVBoxLayout(self.tab)
+        self.tab_monica_settings = QTabWidget(self.another_settings)
+        self.tab_monica_settings.setObjectName(u"tab_monica_settings")
+        self.tab_monica_settings.setGeometry(QRect(0, 0, 641, 531))
+        self.app_launch_tab = QWidget()
+        self.app_launch_tab.setObjectName(u"app_launch_tab")
+        self.verticalLayout_7 = QVBoxLayout(self.app_launch_tab)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.label = QLabel(self.tab)
+        self.label = QLabel(self.app_launch_tab)
         self.label.setObjectName(u"label")
 
         self.verticalLayout_3.addWidget(self.label)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.keyword_lineEdit = QLineEdit(self.tab)
+        self.keyword_lineEdit = QLineEdit(self.app_launch_tab)
         self.keyword_lineEdit.setObjectName(u"keyword_lineEdit")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         sizePolicy1.setHorizontalStretch(0)
@@ -89,7 +89,7 @@ class Ui_MainPage_FormDock(object):
 
         self.horizontalLayout_2.addItem(self.horizontalSpacer_4)
 
-        self.path_lineEdit = QLineEdit(self.tab)
+        self.path_lineEdit = QLineEdit(self.app_launch_tab)
         self.path_lineEdit.setObjectName(u"path_lineEdit")
         self.path_lineEdit.setMinimumSize(QSize(360, 40))
 
@@ -104,7 +104,7 @@ class Ui_MainPage_FormDock(object):
 
         self.horizontalLayout_3.addItem(self.horizontalSpacer)
 
-        self.pushButton = QPushButton(self.tab)
+        self.pushButton = QPushButton(self.app_launch_tab)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setMinimumSize(QSize(110, 40))
 
@@ -113,13 +113,13 @@ class Ui_MainPage_FormDock(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
 
-        self.app_scrollArea = QScrollArea(self.tab)
+        self.app_scrollArea = QScrollArea(self.app_launch_tab)
         self.app_scrollArea.setObjectName(u"app_scrollArea")
         self.app_scrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 585, 362))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 614, 362))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -129,10 +129,35 @@ class Ui_MainPage_FormDock(object):
 
         self.verticalLayout_7.addLayout(self.verticalLayout_3)
 
-        self.tab_app_commands.addTab(self.tab, "")
-        self.tab_2 = QWidget()
-        self.tab_2.setObjectName(u"tab_2")
-        self.tab_app_commands.addTab(self.tab_2, "")
+        self.tab_monica_settings.addTab(self.app_launch_tab, "")
+        self.keywords_tab = QWidget()
+        self.keywords_tab.setObjectName(u"keywords_tab")
+        self.verticalLayout_8 = QVBoxLayout(self.keywords_tab)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.keyword_scrollArea = QScrollArea(self.keywords_tab)
+        self.keyword_scrollArea.setObjectName(u"keyword_scrollArea")
+        self.keyword_scrollArea.setWidgetResizable(True)
+        self.scrollAreaWidgetContents_2 = QWidget()
+        self.scrollAreaWidgetContents_2.setObjectName(u"scrollAreaWidgetContents_2")
+        self.scrollAreaWidgetContents_2.setGeometry(QRect(0, 0, 613, 480))
+        self.verticalLayout_9 = QVBoxLayout(self.scrollAreaWidgetContents_2)
+        self.verticalLayout_9.setObjectName(u"verticalLayout_9")
+        self.keyword_verticalLayout = QVBoxLayout()
+        self.keyword_verticalLayout.setSpacing(6)
+        self.keyword_verticalLayout.setObjectName(u"keyword_verticalLayout")
+
+        self.verticalLayout_9.addLayout(self.keyword_verticalLayout)
+
+        self.keyword_scrollArea.setWidget(self.scrollAreaWidgetContents_2)
+
+        self.verticalLayout_5.addWidget(self.keyword_scrollArea)
+
+
+        self.verticalLayout_8.addLayout(self.verticalLayout_5)
+
+        self.tab_monica_settings.addTab(self.keywords_tab, "")
         self.page_dock.addWidget(self.another_settings)
         self.monica_settings = QWidget()
         self.monica_settings.setObjectName(u"monica_settings")
@@ -240,7 +265,7 @@ class Ui_MainPage_FormDock(object):
         __qlistwidgetitem3 = QListWidgetItem(self.category_list)
         __qlistwidgetitem3.setFont(font);
         self.category_list.setObjectName(u"category_list")
-        self.category_list.setGeometry(QRect(0, 2, 250, 531))
+        self.category_list.setGeometry(QRect(0, 0, 250, 531))
         sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
         sizePolicy3.setHorizontalStretch(0)
         sizePolicy3.setVerticalStretch(0)
@@ -257,7 +282,7 @@ class Ui_MainPage_FormDock(object):
         self.retranslateUi(MainPage_FormDock)
 
         self.page_dock.setCurrentIndex(0)
-        self.tab_app_commands.setCurrentIndex(0)
+        self.tab_monica_settings.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainPage_FormDock)
@@ -275,8 +300,8 @@ class Ui_MainPage_FormDock(object):
         self.keyword_lineEdit.setInputMask("")
         self.keyword_lineEdit.setText("")
         self.pushButton.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
-        self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab), QCoreApplication.translate("MainPage_FormDock", u"\u0417\u0430\u043f\u0443\u0441\u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439", None))
-        self.tab_app_commands.setTabText(self.tab_app_commands.indexOf(self.tab_2), QCoreApplication.translate("MainPage_FormDock", u"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043c\u0435\u0434\u0438\u0430", None))
+        self.tab_monica_settings.setTabText(self.tab_monica_settings.indexOf(self.app_launch_tab), QCoreApplication.translate("MainPage_FormDock", u"\u0417\u0430\u043f\u0443\u0441\u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439", None))
+        self.tab_monica_settings.setTabText(self.tab_monica_settings.indexOf(self.keywords_tab), QCoreApplication.translate("MainPage_FormDock", u"\u041a\u043b\u044e\u0447\u0435\u0432\u044b\u0435 \u0441\u043b\u043e\u0432\u0430", None))
         self.keywordType_label.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0420\u0435\u0436\u0438\u043c \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438:", None))
         self.VoiceMode_comboBox.setItemText(0, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043a\u043b\u044e\u0447\u0435\u0432\u043e\u043c\u0443 \u0441\u043b\u043e\u0432\u0443", None))
         self.VoiceMode_comboBox.setItemText(1, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044e", None))

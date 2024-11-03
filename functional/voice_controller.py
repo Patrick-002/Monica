@@ -154,7 +154,7 @@ class VoiceListening:
 
 class VoiceCommands:
     _instance = None
-    _keys = {
+    _keywords_dict = {
         "ultimate_key": ["моника"],
         "sound_key": ["звук"],
         "run_app_key": ["откр", "запус"],
@@ -191,7 +191,7 @@ class VoiceCommands:
 
             if 'keys' not in self.kv:
                 try:
-                    self._keys = pickle.loads(self.kv.getBytes('keys'))
+                    self._keywords_dict = pickle.loads(self.kv.getBytes('keys'))
                 except Exception as e:
                     log.error('Ошибка при загрузке ключей из MMKV, используются ключи по умолчанию.', exc_info=e)
             else:
@@ -201,11 +201,11 @@ class VoiceCommands:
 
     @property
     def keys(self):
-        return self._keys
+        return self._keywords_dict
 
     @keys.setter
     def keys(self, value):
-        self._keys = value
+        self._keywords_dict = value
         if self.kv:
             try:
                 self.kv.set(pickle.dumps(value), 'keys')
@@ -238,13 +238,13 @@ class VoiceCommands:
 
         command = command.lower()
         try:
-            if any(keyword in command for keyword in self._keys["sound_key"]):
+            if any(keyword in command for keyword in self._keywords_dict["sound_key"]):
                 self.sound_commands(command)
-            elif any(keyword in command for keyword in self._keys["run_app_key"]):
+            elif any(keyword in command for keyword in self._keywords_dict["run_app_key"]):
                 self.run_app_words(command)
-            elif any(keyword in command for keyword in self._keys["media_player_keys"]):
+            elif any(keyword in command for keyword in self._keywords_dict["media_player_keys"]):
                 self.media_player(command)
-            elif any(keyword in command for keyword in self._keys["search_keys"]):
+            elif any(keyword in command for keyword in self._keywords_dict["search_keys"]):
                 self.browser_search(command)
             else:
                 log.debug(f"Не распознана команда: {command}")

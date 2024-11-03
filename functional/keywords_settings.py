@@ -1,6 +1,6 @@
 import keyboard
 from logger.logger_config import logger as log
-from voice_controller import VoiceCommands
+from functional.voice_controller import VoiceCommands
 
 
 
