@@ -3,18 +3,22 @@ from logger.logger_config import logger as log
 
 
 class MediaPlayer:
-    def play_pause(self):
+    @staticmethod
+    def play_pause():
         keyboard.send('play/pause media')
         log.info("Воспроизведение/Пауза")
 
-    def next_track(self):
+    @staticmethod
+    def next_track():
         keyboard.send('next track')
         log.info("Следующий трек")
 
-    def previous_track(self):
+    @staticmethod
+    def previous_track():
         keyboard.send('previous track')
         log.info("Предыдущий трек")
 
-    def stop(self):
+    @staticmethod
+    def stop():
         keyboard.send('stop media')
         log.info("Остановить воспроизведение")
