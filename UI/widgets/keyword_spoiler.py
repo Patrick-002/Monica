@@ -1,16 +1,28 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QSize
+from UI.theme_manager import ThemeManager
 
 
 class KeywordSpoiler(QWidget):
-    del_ico = 'res/icon-delete.png'
+
     def __init__(self, key, keywords, rebind_func, add_func, parent=None):
         super().__init__(parent)
         self.key = key
         self.keywords = keywords
         self.rebind_func = rebind_func
         self.add_func = add_func
+
+        self.theme_manager = ThemeManager()
+        self.theme_id = self.theme_manager.get_app_theme_index()
+        if self.theme_id == 0:
+            self.del_ico = 'res/icon-delete_dark.png'
+            self.right_arr_ico = 'res/arrow_right_dark.png'
+            self.down_arr_ico = 'res/arrow_down_dark.png'
+        else:
+            self.del_ico = 'res/icon-delete.png'
+            self.right_arr_ico = 'res/arrow_right.png'
+            self.down_arr_ico = 'res/arrow_down.png'
 
         # Основной макет для спойлера
         self.main_layout = QVBoxLayout(self)
@@ -20,7 +32,7 @@ class KeywordSpoiler(QWidget):
         self.toggle_button = QPushButton(key)
         self.toggle_button.setCheckable(True)
         self.toggle_button.setChecked(False)
-        self.toggle_button.setIcon(QIcon("res/arrow_right.png"))  # Иконка со стрелкой вправо
+        self.toggle_button.setIcon(QIcon(self.right_arr_ico))  # Иконка со стрелкой вправо
         self.toggle_button.clicked.connect(self.toggle_content)
         self.main_layout.addWidget(self.toggle_button)
 
@@ -66,7 +78,7 @@ class KeywordSpoiler(QWidget):
         """Показать/скрыть содержимое спойлера и изменить иконку."""
         is_checked = self.toggle_button.isChecked()
         self.content_widget.setVisible(is_checked)
-        arrow_icon = "res/arrow_down.png" if is_checked else "res/arrow_right.png"
+        arrow_icon = self.down_arr_ico if is_checked else self.right_arr_ico
         self.toggle_button.setIcon(QIcon(arrow_icon))
 
     def add_new_keyword(self):
