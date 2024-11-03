@@ -3,11 +3,12 @@ from logger.logger_config import logger as log
 
 
 class PageManager:
+
     def __init__(self):
         self.stacked_widget = QStackedWidget()
-        self.pages = {}
         self.current_index = 0
         self.previous_index = None
+        self.pages = {}
 
     def register_page(self, page_name, page_widget):
         """Регистрация страницы и её добавление в QStackedWidget"""

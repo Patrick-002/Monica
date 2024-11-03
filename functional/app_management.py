@@ -2,6 +2,7 @@ import subprocess
 import pickle
 import mmkv
 import os
+import sys
 import configparser
 import winshell
 import webbrowser
@@ -155,6 +156,7 @@ class AppManagement:
         if data:
             self.paths = pickle.loads(data)
 
+
 def current_app():
     hwnd = win32gui.GetForegroundWindow()
     if hwnd == 0:
@@ -182,3 +184,5 @@ def google_search(command):
     search_url = base_url + command.replace(" ", "+")
     webbrowser.open(search_url)
     log.info(f"Ищем в Google: {command}")
+
+

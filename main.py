@@ -78,9 +78,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     try:
+        mmkv.MMKV.initializeMMKV(rootDir='.\\mmkv', logLevel= MMKVLogLevel.Debug)
         app = QApplication(sys.argv)
-        mmkv.MMKV.initializeMMKV(rootDir='.\\mmkv', logLevel= MMKVLogLevel.NoLog)
-
         window = MainWindow()
         window.setWindowIcon(QIcon("res/icon.ico"))
         window.show()
