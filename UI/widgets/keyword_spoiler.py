@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit
 from PySide6.QtGui import QIcon
-from PySide6.QtCore import QSize
+from PySide6.QtCore import QSize, Qt  # Импортируем Qt для выравнивания
 from UI.theme_manager import ThemeManager
 
 
@@ -43,26 +43,24 @@ class KeywordSpoiler(QWidget):
         self.content_widget.setVisible(False)
         self.main_layout.addWidget(self.content_widget)
 
-        # Добавление LineEdit и кнопки удаления для каждого ключевого слова в две колонки
+        # Горизонтальный лейаут для двух колонок
+        self.columns_layout = QHBoxLayout()
+        self.left_column = QVBoxLayout()
+        self.right_column = QVBoxLayout()
+        self.columns_layout.addLayout(self.left_column)
+        self.columns_layout.addLayout(self.right_column)
+        self.content_layout.addLayout(self.columns_layout)
+
+        # Привязка колонок к верхнему краю и отключение растяжения
+        self.left_column.setAlignment(Qt.AlignTop)
+        self.right_column.setAlignment(Qt.AlignTop)
+
+        # Флаг для отслеживания текущей колонки
+        self.current_column = self.left_column
+
+        # Добавление LineEdit и кнопки удаления для каждого ключевого слова
         for index, keyword in enumerate(keywords):
-            keyword_layout = QHBoxLayout()
-
-            keyword_line = QLineEdit()
-            keyword_line.setText(keyword)
-            keyword_line.setPlaceholderText(keyword)  # Устанавливаем placeholder с текущим значением
-            keyword_line.textChanged.connect(
-                lambda text, idx=index: self.rebind_func(self.key, text, idx)
-            )
-
-            # Кнопка для удаления ключевого слова
-            delete_button = QPushButton()
-            delete_button.setIcon(QIcon(self.del_ico))  # Путь к иконке удаления
-            delete_button.setFixedSize(QSize(40, 40))
-            delete_button.clicked.connect(lambda _, idx=index: self.delete_keyword(idx))
-
-            keyword_layout.addWidget(keyword_line)
-            keyword_layout.addWidget(delete_button)
-            self.content_layout.addLayout(keyword_layout)
+            self.add_keyword_widget(keyword, index)
 
         # Поле для ввода нового ключевого слова
         self.new_keyword_line = QLineEdit()
@@ -86,51 +84,53 @@ class KeywordSpoiler(QWidget):
         new_keyword = self.new_keyword_line.text().strip()
         if new_keyword:
             self.add_func(self.key, new_keyword)
-            keyword_layout = QHBoxLayout()
-
-            new_keyword_line = QLineEdit(new_keyword)
-            new_keyword_line.setPlaceholderText(new_keyword)  # Устанавливаем placeholder для нового слова
-            new_keyword_line.textChanged.connect(
-                lambda text, idx=len(self.keywords): self.rebind_func(self.key, text, idx)
-            )
-
-            delete_button = QPushButton()
-            delete_button.setIcon(QIcon(self.del_ico))  # Иконка для кнопки удаления
-            delete_button.setFixedSize(QSize(40, 40))
-            delete_button.clicked.connect(lambda _, idx=len(self.keywords): self.delete_keyword(idx))
-
-            keyword_layout.addWidget(new_keyword_line)
-            keyword_layout.addWidget(delete_button)
-            self.content_layout.insertLayout(self.content_layout.count() - 2, keyword_layout)
-
             self.keywords.append(new_keyword)
+            self.add_keyword_widget(new_keyword, len(self.keywords) - 1)
             self.new_keyword_line.clear()
+
+    def add_keyword_widget(self, keyword, index):
+        """Добавить виджет для ключевого слова в одну из колонок."""
+        keyword_layout = QHBoxLayout()
+
+        keyword_line = QLineEdit(keyword)
+        keyword_line.setPlaceholderText(keyword)  # Устанавливаем placeholder с текущим значением
+        keyword_line.textChanged.connect(
+            lambda text, idx=index: self.rebind_func(self.key, text, idx)
+        )
+
+        # Кнопка для удаления ключевого слова
+        delete_button = QPushButton()
+        delete_button.setIcon(QIcon(self.del_ico))  # Путь к иконке удаления
+        delete_button.setFixedSize(QSize(40, 40))
+        delete_button.clicked.connect(lambda _, idx=index: self.delete_keyword(idx))
+
+        keyword_layout.addWidget(keyword_line)
+        keyword_layout.addWidget(delete_button)
+
+        # Добавляем виджет в текущую колонку и чередуем колонки
+        self.current_column.addLayout(keyword_layout)
+        self.current_column = self.right_column if self.current_column == self.left_column else self.left_column
 
     def delete_keyword(self, idx):
         """Удалить ключевое слово из словаря и обновить UI."""
         if 0 <= idx < len(self.keywords):
             del self.keywords[idx]
             self.rebind_func(self.key, "", idx)
-            # Обновляем UI или можно перерисовать полностью содержимое спойлера
-            while self.content_layout.count() > 0:
-                item = self.content_layout.takeAt(0)
+
+            # Очищаем текущие виджеты перед перерисовкой
+            while self.left_column.count() > 0:
+                item = self.left_column.takeAt(0)
                 widget = item.widget()
                 if widget:
                     widget.deleteLater()
+
+            while self.right_column.count() > 0:
+                item = self.right_column.takeAt(0)
+                widget = item.widget()
+                if widget:
+                    widget.deleteLater()
+
+            # Заново добавляем ключевые слова в обе колонки
+            self.current_column = self.left_column  # Сбрасываем колонку для чередования
             for index, keyword in enumerate(self.keywords):
-                keyword_layout = QHBoxLayout()
-
-                keyword_line = QLineEdit(keyword)
-                keyword_line.setPlaceholderText(keyword)
-                keyword_line.textChanged.connect(
-                    lambda text, idx=index: self.rebind_func(self.key, text, idx)
-                )
-
-                delete_button = QPushButton()
-                delete_button.setIcon(QIcon(self.del_ico))
-                delete_button.setFixedSize(QSize(40, 40))
-                delete_button.clicked.connect(lambda _, idx=index: self.delete_keyword(idx))
-
-                keyword_layout.addWidget(keyword_line)
-                keyword_layout.addWidget(delete_button)
-                self.content_layout.addLayout(keyword_layout)
+                self.add_keyword_widget(keyword, index)
