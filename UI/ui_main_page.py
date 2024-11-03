@@ -158,6 +158,16 @@ class Ui_MainPage_FormDock(object):
         self.verticalLayout_8.addLayout(self.verticalLayout_5)
 
         self.tab_monica_settings.addTab(self.keywords_tab, "")
+        self.tab = QWidget()
+        self.tab.setObjectName(u"tab")
+        self.verticalLayout_11 = QVBoxLayout(self.tab)
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.keys_verticalLayout = QVBoxLayout()
+        self.keys_verticalLayout.setObjectName(u"keys_verticalLayout")
+
+        self.verticalLayout_11.addLayout(self.keys_verticalLayout)
+
+        self.tab_monica_settings.addTab(self.tab, "")
         self.page_dock.addWidget(self.another_settings)
         self.monica_settings = QWidget()
         self.monica_settings.setObjectName(u"monica_settings")
@@ -302,6 +312,7 @@ class Ui_MainPage_FormDock(object):
         self.pushButton.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c", None))
         self.tab_monica_settings.setTabText(self.tab_monica_settings.indexOf(self.app_launch_tab), QCoreApplication.translate("MainPage_FormDock", u"\u0417\u0430\u043f\u0443\u0441\u043a \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0439", None))
         self.tab_monica_settings.setTabText(self.tab_monica_settings.indexOf(self.keywords_tab), QCoreApplication.translate("MainPage_FormDock", u"\u041a\u043b\u044e\u0447\u0435\u0432\u044b\u0435 \u0441\u043b\u043e\u0432\u0430", None))
+        self.tab_monica_settings.setTabText(self.tab_monica_settings.indexOf(self.tab), QCoreApplication.translate("MainPage_FormDock", u"\u0413\u043e\u0440\u044f\u0447\u0438\u0435 \u043a\u043b\u0430\u0432\u0438\u0448\u0438", None))
         self.keywordType_label.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0420\u0435\u0436\u0438\u043c \u0430\u043a\u0442\u0438\u0432\u0430\u0446\u0438\u0438:", None))
         self.VoiceMode_comboBox.setItemText(0, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043a\u043b\u044e\u0447\u0435\u0432\u043e\u043c\u0443 \u0441\u043b\u043e\u0432\u0443", None))
         self.VoiceMode_comboBox.setItemText(1, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044e", None))

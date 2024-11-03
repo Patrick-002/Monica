@@ -113,10 +113,10 @@ class VoiceListening:
 
     def check_button(self):
         while not self.stop_button_thread:
-            if keyboard.is_pressed(self.vc.keywords["switch_button"][0]):
+            if keyboard.is_pressed(self.vc.keys["switch_button"][0]):
                 self.switch_button_flag = not self.switch_button_flag
                 print("Слушаю" if self.switch_button_flag else "Не слушаю")
-                while keyboard.is_pressed(self.vc.keywords["switch_button"][0]):
+                while keyboard.is_pressed(self.vc.keys["switch_button"][0]):
                     time.sleep(0.1)
             time.sleep(0.01)
 

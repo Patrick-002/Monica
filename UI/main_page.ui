@@ -263,6 +263,16 @@
              </item>
             </layout>
            </widget>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>Горячие клавиши</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <layout class="QVBoxLayout" name="keys_verticalLayout"/>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
          <widget class="QWidget" name="monica_settings">

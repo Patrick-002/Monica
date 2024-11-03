@@ -1,8 +1,9 @@
-from PySide6.QtCore import QSize
+from PySide6.QtCore import QSize, Qt
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout
 from UI.theme_manager import ThemeManager
 from UI.ui_main_page import Ui_MainPage_FormDock
+from UI.widgets.key_bind_widget import KeyWidget
 from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
 from functional.keywords_settings import KeywordsSettings
@@ -18,16 +19,17 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         self.page_manager = page_manager
         self.setupUi(self)
 
-        # Инициализируем необходимые классы
+        # Инициализация необходимых классов
         self.vc = VoiceCommands()
         self.ks = KeywordsSettings()
         self.am = AppManagement()
         self.path_dict = self.am.paths
+        self.ks.keys_updated.connect(self.init_keys_view)
 
         # Регистрация страницы в менеджере страниц
         self.page_manager.register_page(self.__class__.__name__, self)
 
-        # Настраиваем элементы интерфейса
+        # Настройка элементов интерфейса
         self.pushButton.clicked.connect(self.on_add_button_click)
         self.keyword_lineEdit.setPlaceholderText('Ключевое слово')
         self.path_lineEdit.setPlaceholderText('Путь')
@@ -41,13 +43,29 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
 
         # Лейаут для отображения спойлеров и путей
         self.keyword_layout = QVBoxLayout()
+        self.keys_verticalLayout.setAlignment(Qt.AlignTop)
         self.keyword_verticalLayout.addLayout(self.keyword_layout)
         self.entry_layout = QVBoxLayout()
         self.init_keywords_view()
         self.init_dictionary_view()
+        self.init_keys_view()  # Вызов метода для инициализации ключей
 
         log.debug('Главная страница инициализирована')
         self.theme_manager.apply_theme(self)
+        self.init_keys_view()
+
+    def init_keys_view(self):
+        """Создаем виджеты для каждого ключа в словаре keys и добавляем их в keys_verticalLayout."""
+        # Очищаем layout перед добавлением новых виджетов
+        for i in reversed(range(self.keys_verticalLayout.count())):
+            widget = self.keys_verticalLayout.itemAt(i).widget()
+            if widget is not None:
+                widget.deleteLater()
+
+        # Создаем виджет для каждого ключа и комбинации из словаря keys
+        for key, key_combination in self.vc.keys.items():
+            key_widget = KeyWidget(key, key_combination, self.ks.rebind_vc_keys)
+            self.keys_verticalLayout.addWidget(key_widget)
 
     def init_keywords_view(self):
         """Создаем и добавляем KeywordSpoiler для каждого ключа в словаре ключевых слов."""
@@ -175,3 +193,4 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         """Переключение категории по индексу."""
         self.page_dock.setCurrentIndex(index)
         log.debug(f'Переключена категория на индекс: {index}')
+
