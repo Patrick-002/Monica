@@ -11,7 +11,7 @@
 from PySide6.QtCore import (QCoreApplication, QMetaObject)
 from PySide6.QtWidgets import (QWidget)
 
-from UI.theme_manager import apply_theme
+from UI.theme_manager import ThemeManager
 
 
 class Ui_MainWindow(object):
@@ -30,7 +30,8 @@ class Ui_MainWindow(object):
                                  "                font-size: 12pt;         /* \u0420\u0430\u0437\u043c\u0435\u0440 \u0448\u0440\u0438\u0444\u0442\u0430 */\n"
                                  "                color: white;            /* \u0426\u0432\u0435\u0442 \u0442\u0435\u043a\u0441\u0442\u0430 */")
         # apply_theme(MainWindow, "dark")
-        apply_theme(MainWindow)
+        theme_manager = ThemeManager()
+        theme_manager.apply_theme(MainWindow)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)

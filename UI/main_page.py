@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QPushButton, QHBoxLayout
 
-import UI.theme_manager as theme_manager
-from UI.ui_main_page import UiMainPageFormDock
+from UI.theme_manager import ThemeManager
+import page_manager
+from UI.ui_main_page import Ui_MainPage_FormDock
 from functional.app_management import AppManagement
 from functional.voice_controller import VoiceCommands
 from PySide6.QtCore import QSize
@@ -9,7 +10,8 @@ from PySide6.QtGui import QIcon
 from logger.logger_config import logger as log
 
 
-class MainPage(QWidget, UiMainPageFormDock):
+class MainPage(QWidget, Ui_MainPage_FormDock):
+    theme_manager = ThemeManager()
 
     def __init__(self, page_manager):
         super().__init__()
@@ -18,10 +20,8 @@ class MainPage(QWidget, UiMainPageFormDock):
         self.vc = VoiceCommands()
         self.am = AppManagement()
         self.path_dict = self.am.paths
-
         # Регистрация страницы в менеджере страниц
         self.page_manager.register_page(self.__class__.__name__, self)
-
         self.pushButton.clicked.connect(self.on_add_button_click)
 
         self.keyword_lineEdit.setPlaceholderText('Ключевое слово')
@@ -29,6 +29,7 @@ class MainPage(QWidget, UiMainPageFormDock):
 
         self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
         self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voice_mode_combobox_changed)
+        self.theme_comboBox.currentIndexChanged.connect(self.on_theme_combobox_changed)
         log.debug('ComboBox установлен в начальный индекс')
 
         image_path = "res/arrow_down.png"
@@ -40,9 +41,9 @@ class MainPage(QWidget, UiMainPageFormDock):
         self.entry_layout = QVBoxLayout()
         self.init_dictionary_view()
         log.debug('Главная страница инициализирована')
-        theme_manager.apply_theme(self)
-        theme_manager.apply_theme(self.VoiceMode_comboBox)
-
+        self.theme_manager.apply_theme(self)
+        self.theme_manager.apply_theme(self.VoiceMode_comboBox)
+        self.theme_manager.apply_theme(self.theme_comboBox)
 
     def init_dictionary_view(self):
         # Очищаем предыдущие элементы из scroll area, если они были
@@ -128,3 +129,8 @@ class MainPage(QWidget, UiMainPageFormDock):
     def on_voice_mode_combobox_changed(self, index):
         self.vc.operating_mode = index
         log.debug(f'Режим голосового управления изменен на: {index}')
+
+    def on_theme_combobox_changed(self, index):
+        self.theme_manager.set_app_theme(index)
+        print(self.theme_manager.get_app_theme())
+        log.debug(f'Тема приложения изменена на: {index}')

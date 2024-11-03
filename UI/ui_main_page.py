@@ -21,7 +21,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QHBoxLayout,
     QSpacerItem, QStackedWidget, QTabWidget, QVBoxLayout,
     QWidget)
 
-class UiMainPageFormDock(object):
+class Ui_MainPage_FormDock(object):
     def setupUi(self, MainPage_FormDock):
         if not MainPage_FormDock.objectName():
             MainPage_FormDock.setObjectName(u"MainPage_FormDock")
@@ -38,7 +38,23 @@ class UiMainPageFormDock(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.category_list = QListWidget(self.verticalLayoutWidget)
+        self.widget = QWidget(self.verticalLayoutWidget)
+        self.widget.setObjectName(u"widget")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
+        self.widget.setSizePolicy(sizePolicy)
+        self.widget.setMaximumSize(QSize(249, 16777215))
+        self.widget1 = QWidget(self.widget)
+        self.widget1.setObjectName(u"widget1")
+        self.widget1.setGeometry(QRect(0, 0, 252, 527))
+        self.verticalLayout_5 = QVBoxLayout(self.widget1)
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
+        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.category_list = QListWidget(self.widget1)
         font = QFont()
         font.setPointSize(11)
         font.setWeight(QFont.DemiBold)
@@ -51,9 +67,17 @@ class UiMainPageFormDock(object):
         __qlistwidgetitem3 = QListWidgetItem(self.category_list)
         __qlistwidgetitem3.setFont(font);
         self.category_list.setObjectName(u"category_list")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.category_list.sizePolicy().hasHeightForWidth())
+        self.category_list.setSizePolicy(sizePolicy1)
         self.category_list.setMaximumSize(QSize(250, 16777215))
 
-        self.horizontalLayout.addWidget(self.category_list)
+        self.verticalLayout_5.addWidget(self.category_list)
+
+
+        self.horizontalLayout.addWidget(self.widget)
 
         self.frame = QFrame(self.verticalLayoutWidget)
         self.frame.setObjectName(u"frame")
@@ -62,6 +86,11 @@ class UiMainPageFormDock(object):
         self.page_dock = QStackedWidget(self.frame)
         self.page_dock.setObjectName(u"page_dock")
         self.page_dock.setGeometry(QRect(0, 0, 621, 531))
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.page_dock.sizePolicy().hasHeightForWidth())
+        self.page_dock.setSizePolicy(sizePolicy2)
         self.page_dock.setStyleSheet(u"    alignment: center;\n"
 "    background: transparent;\n"
 "    height: 0px; /* \u0421\u043a\u0440\u044b\u0442\u044c \u0432\u044b\u0441\u043e\u0442\u0443 \u043a\u043d\u043e\u043f\u043e\u043a */")
@@ -88,11 +117,11 @@ class UiMainPageFormDock(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.keyword_lineEdit = QLineEdit(self.tab)
         self.keyword_lineEdit.setObjectName(u"keyword_lineEdit")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.keyword_lineEdit.sizePolicy().hasHeightForWidth())
-        self.keyword_lineEdit.setSizePolicy(sizePolicy)
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.keyword_lineEdit.sizePolicy().hasHeightForWidth())
+        self.keyword_lineEdit.setSizePolicy(sizePolicy3)
         self.keyword_lineEdit.setMinimumSize(QSize(160, 40))
 
         self.horizontalLayout_2.addWidget(self.keyword_lineEdit)
@@ -131,7 +160,7 @@ class UiMainPageFormDock(object):
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 99, 28))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 567, 362))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -189,9 +218,49 @@ class UiMainPageFormDock(object):
         self.page_dock.addWidget(self.monica_settings)
         self.interface_settings_page = QWidget()
         self.interface_settings_page.setObjectName(u"interface_settings_page")
-        self.label_2 = QLabel(self.interface_settings_page)
-        self.label_2.setObjectName(u"label_2")
-        self.label_2.setGeometry(QRect(210, 140, 171, 51))
+        self.horizontalLayout_7 = QHBoxLayout(self.interface_settings_page)
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.verticalLayout_6 = QVBoxLayout()
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
+        self.horizontalSpacer_7 = QSpacerItem(20, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_7)
+
+        self.keywordType_label_3 = QLabel(self.interface_settings_page)
+        self.keywordType_label_3.setObjectName(u"keywordType_label_3")
+        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy4.setHorizontalStretch(0)
+        sizePolicy4.setVerticalStretch(0)
+        sizePolicy4.setHeightForWidth(self.keywordType_label_3.sizePolicy().hasHeightForWidth())
+        self.keywordType_label_3.setSizePolicy(sizePolicy4)
+
+        self.horizontalLayout_8.addWidget(self.keywordType_label_3)
+
+        self.horizontalSpacer_8 = QSpacerItem(390, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_8)
+
+        self.theme_comboBox = QComboBox(self.interface_settings_page)
+        self.theme_comboBox.addItem("")
+        self.theme_comboBox.addItem("")
+        self.theme_comboBox.addItem("")
+        self.theme_comboBox.setObjectName(u"theme_comboBox")
+        self.theme_comboBox.setMinimumSize(QSize(0, 40))
+
+        self.horizontalLayout_8.addWidget(self.theme_comboBox)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_8)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 350, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+
+        self.verticalLayout_6.addItem(self.verticalSpacer_2)
+
+
+        self.horizontalLayout_7.addLayout(self.verticalLayout_6)
+
         self.page_dock.addWidget(self.interface_settings_page)
         self.voice_model_settings = QWidget()
         self.voice_model_settings.setObjectName(u"voice_model_settings")
@@ -208,7 +277,7 @@ class UiMainPageFormDock(object):
 
         self.retranslateUi(MainPage_FormDock)
 
-        self.page_dock.setCurrentIndex(1)
+        self.page_dock.setCurrentIndex(2)
         self.tab_app_commands.setCurrentIndex(0)
 
 
@@ -247,7 +316,11 @@ class UiMainPageFormDock(object):
         self.VoiceMode_comboBox.setItemText(1, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u043d\u0430\u0436\u0430\u0442\u0438\u044e", None))
         self.VoiceMode_comboBox.setItemText(2, QCoreApplication.translate("MainPage_FormDock", u"\u041f\u043e \u0443\u0434\u0435\u0440\u0436\u0430\u043d\u0438\u044e", None))
 
-        self.label_2.setText(QCoreApplication.translate("MainPage_FormDock", u"interface_settings_page", None))
+        self.keywordType_label_3.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0422\u0435\u043c\u0430:", None))
+        self.theme_comboBox.setItemText(0, QCoreApplication.translate("MainPage_FormDock", u"\u0422\u0451\u043c\u043d\u0430\u044f", None))
+        self.theme_comboBox.setItemText(1, QCoreApplication.translate("MainPage_FormDock", u"\u0421\u0432\u0435\u0442\u043b\u0430\u044f", None))
+        self.theme_comboBox.setItemText(2, QCoreApplication.translate("MainPage_FormDock", u"\u0420\u043e\u0437\u043e\u0432\u0430\u044f", None))
+
         self.label_4.setText(QCoreApplication.translate("MainPage_FormDock", u"voice_model_settings", None))
     # retranslateUi
 
