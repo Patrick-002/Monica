@@ -282,7 +282,7 @@ class Ui_MainPage_FormDock(object):
         self.retranslateUi(MainPage_FormDock)
 
         self.page_dock.setCurrentIndex(0)
-        self.tab_monica_settings.setCurrentIndex(1)
+        self.tab_monica_settings.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainPage_FormDock)
