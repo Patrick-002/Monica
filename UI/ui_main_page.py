@@ -38,59 +38,18 @@ class Ui_MainPage_FormDock(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.widget = QWidget(self.verticalLayoutWidget)
-        self.widget.setObjectName(u"widget")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.widget.sizePolicy().hasHeightForWidth())
-        self.widget.setSizePolicy(sizePolicy)
-        self.widget.setMaximumSize(QSize(249, 16777215))
-        self.widget1 = QWidget(self.widget)
-        self.widget1.setObjectName(u"widget1")
-        self.widget1.setGeometry(QRect(0, 0, 252, 527))
-        self.verticalLayout_5 = QVBoxLayout(self.widget1)
-        self.verticalLayout_5.setSpacing(0)
-        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
-        self.verticalLayout_5.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.category_list = QListWidget(self.widget1)
-        font = QFont()
-        font.setPointSize(11)
-        font.setWeight(QFont.DemiBold)
-        __qlistwidgetitem = QListWidgetItem(self.category_list)
-        __qlistwidgetitem.setFont(font);
-        __qlistwidgetitem1 = QListWidgetItem(self.category_list)
-        __qlistwidgetitem1.setFont(font);
-        __qlistwidgetitem2 = QListWidgetItem(self.category_list)
-        __qlistwidgetitem2.setFont(font);
-        __qlistwidgetitem3 = QListWidgetItem(self.category_list)
-        __qlistwidgetitem3.setFont(font);
-        self.category_list.setObjectName(u"category_list")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.category_list.sizePolicy().hasHeightForWidth())
-        self.category_list.setSizePolicy(sizePolicy1)
-        self.category_list.setMaximumSize(QSize(250, 16777215))
-
-        self.verticalLayout_5.addWidget(self.category_list)
-
-
-        self.horizontalLayout.addWidget(self.widget)
-
         self.frame = QFrame(self.verticalLayoutWidget)
         self.frame.setObjectName(u"frame")
         self.frame.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QFrame.Shadow.Raised)
         self.page_dock = QStackedWidget(self.frame)
         self.page_dock.setObjectName(u"page_dock")
-        self.page_dock.setGeometry(QRect(0, 0, 621, 531))
-        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
-        sizePolicy2.setHorizontalStretch(0)
-        sizePolicy2.setVerticalStretch(0)
-        sizePolicy2.setHeightForWidth(self.page_dock.sizePolicy().hasHeightForWidth())
-        self.page_dock.setSizePolicy(sizePolicy2)
+        self.page_dock.setGeometry(QRect(250, 0, 641, 531))
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.page_dock.sizePolicy().hasHeightForWidth())
+        self.page_dock.setSizePolicy(sizePolicy)
         self.page_dock.setStyleSheet(u"    alignment: center;\n"
 "    background: transparent;\n"
 "    height: 0px; /* \u0421\u043a\u0440\u044b\u0442\u044c \u0432\u044b\u0441\u043e\u0442\u0443 \u043a\u043d\u043e\u043f\u043e\u043a */")
@@ -106,8 +65,8 @@ class Ui_MainPage_FormDock(object):
         self.verticalLayout_3 = QVBoxLayout()
         self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setSizeConstraint(QLayout.SizeConstraint.SetDefaultConstraint)
-        self.verticalLayout_3.setContentsMargins(10, 0, 10, 0)
+        self.verticalLayout_3.setSizeConstraint(QLayout.SizeConstraint.SetMaximumSize)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.label = QLabel(self.tab)
         self.label.setObjectName(u"label")
 
@@ -117,11 +76,11 @@ class Ui_MainPage_FormDock(object):
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
         self.keyword_lineEdit = QLineEdit(self.tab)
         self.keyword_lineEdit.setObjectName(u"keyword_lineEdit")
-        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy3.setHorizontalStretch(0)
-        sizePolicy3.setVerticalStretch(0)
-        sizePolicy3.setHeightForWidth(self.keyword_lineEdit.sizePolicy().hasHeightForWidth())
-        self.keyword_lineEdit.setSizePolicy(sizePolicy3)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.keyword_lineEdit.sizePolicy().hasHeightForWidth())
+        self.keyword_lineEdit.setSizePolicy(sizePolicy1)
         self.keyword_lineEdit.setMinimumSize(QSize(160, 40))
 
         self.horizontalLayout_2.addWidget(self.keyword_lineEdit)
@@ -160,7 +119,7 @@ class Ui_MainPage_FormDock(object):
         self.app_scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QWidget()
         self.scrollAreaWidgetContents.setObjectName(u"scrollAreaWidgetContents")
-        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 567, 362))
+        self.scrollAreaWidgetContents.setGeometry(QRect(0, 0, 585, 362))
         self.verticalLayout_2 = QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.app_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -230,11 +189,11 @@ class Ui_MainPage_FormDock(object):
 
         self.keywordType_label_3 = QLabel(self.interface_settings_page)
         self.keywordType_label_3.setObjectName(u"keywordType_label_3")
-        sizePolicy4 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
-        sizePolicy4.setHorizontalStretch(0)
-        sizePolicy4.setVerticalStretch(0)
-        sizePolicy4.setHeightForWidth(self.keywordType_label_3.sizePolicy().hasHeightForWidth())
-        self.keywordType_label_3.setSizePolicy(sizePolicy4)
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.keywordType_label_3.sizePolicy().hasHeightForWidth())
+        self.keywordType_label_3.setSizePolicy(sizePolicy2)
 
         self.horizontalLayout_8.addWidget(self.keywordType_label_3)
 
@@ -268,6 +227,26 @@ class Ui_MainPage_FormDock(object):
         self.label_4.setObjectName(u"label_4")
         self.label_4.setGeometry(QRect(260, 170, 181, 61))
         self.page_dock.addWidget(self.voice_model_settings)
+        self.category_list = QListWidget(self.frame)
+        font = QFont()
+        font.setPointSize(11)
+        font.setWeight(QFont.DemiBold)
+        __qlistwidgetitem = QListWidgetItem(self.category_list)
+        __qlistwidgetitem.setFont(font);
+        __qlistwidgetitem1 = QListWidgetItem(self.category_list)
+        __qlistwidgetitem1.setFont(font);
+        __qlistwidgetitem2 = QListWidgetItem(self.category_list)
+        __qlistwidgetitem2.setFont(font);
+        __qlistwidgetitem3 = QListWidgetItem(self.category_list)
+        __qlistwidgetitem3.setFont(font);
+        self.category_list.setObjectName(u"category_list")
+        self.category_list.setGeometry(QRect(0, 2, 250, 531))
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Expanding)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.category_list.sizePolicy().hasHeightForWidth())
+        self.category_list.setSizePolicy(sizePolicy3)
+        self.category_list.setMaximumSize(QSize(250, 16777215))
 
         self.horizontalLayout.addWidget(self.frame)
 
@@ -277,7 +256,7 @@ class Ui_MainPage_FormDock(object):
 
         self.retranslateUi(MainPage_FormDock)
 
-        self.page_dock.setCurrentIndex(2)
+        self.page_dock.setCurrentIndex(0)
         self.tab_app_commands.setCurrentIndex(0)
 
 
@@ -286,19 +265,6 @@ class Ui_MainPage_FormDock(object):
 
     def retranslateUi(self, MainPage_FormDock):
         MainPage_FormDock.setWindowTitle(QCoreApplication.translate("MainPage_FormDock", u"Form", None))
-
-        __sortingEnabled = self.category_list.isSortingEnabled()
-        self.category_list.setSortingEnabled(False)
-        ___qlistwidgetitem = self.category_list.item(0)
-        ___qlistwidgetitem.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u043a\u0438 \u041c\u043e\u043d\u0438\u043a\u0438", None));
-        ___qlistwidgetitem1 = self.category_list.item(1)
-        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438", None));
-        ___qlistwidgetitem2 = self.category_list.item(2)
-        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430", None));
-        ___qlistwidgetitem3 = self.category_list.item(3)
-        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041f\u0440\u043e\u0447\u0438\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 ", None));
-        self.category_list.setSortingEnabled(__sortingEnabled)
-
         self.label.setText(QCoreApplication.translate("MainPage_FormDock", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u0443:", None))
 #if QT_CONFIG(tooltip)
         self.keyword_lineEdit.setToolTip("")
@@ -322,5 +288,18 @@ class Ui_MainPage_FormDock(object):
         self.theme_comboBox.setItemText(2, QCoreApplication.translate("MainPage_FormDock", u"\u0420\u043e\u0437\u043e\u0432\u0430\u044f", None))
 
         self.label_4.setText(QCoreApplication.translate("MainPage_FormDock", u"voice_model_settings", None))
+
+        __sortingEnabled = self.category_list.isSortingEnabled()
+        self.category_list.setSortingEnabled(False)
+        ___qlistwidgetitem = self.category_list.item(0)
+        ___qlistwidgetitem.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u043a\u0438 \u041c\u043e\u043d\u0438\u043a\u0438", None));
+        ___qlistwidgetitem1 = self.category_list.item(1)
+        ___qlistwidgetitem1.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u043e\u0439 \u043c\u043e\u0434\u0435\u043b\u0438", None));
+        ___qlistwidgetitem2 = self.category_list.item(2)
+        ___qlistwidgetitem2.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0438\u043d\u0442\u0435\u0440\u0444\u0435\u0439\u0441\u0430", None));
+        ___qlistwidgetitem3 = self.category_list.item(3)
+        ___qlistwidgetitem3.setText(QCoreApplication.translate("MainPage_FormDock", u"\u041f\u0440\u043e\u0447\u0438\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 ", None));
+        self.category_list.setSortingEnabled(__sortingEnabled)
+
     # retranslateUi
 

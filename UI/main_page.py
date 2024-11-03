@@ -78,13 +78,20 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         value_edit.setMinimumSize(QSize(300, 40))
 
         edit_button = QPushButton("")
-        edit_button.setIcon(QIcon("res/icon-diskette.png"))
         edit_button.setIconSize(QSize(20, 20))
         edit_button.setMinimumSize(QSize(40, 40))
+
         delete_button = QPushButton("")
-        delete_button.setIcon(QIcon("res/icon-delete.png"))
         delete_button.setIconSize(QSize(20, 20))
         delete_button.setMinimumSize(QSize(40, 40))
+
+        if self.theme_manager.get_app_theme_index() == 0:
+            edit_button.setIcon(QIcon("res/icon-diskette_dark.png"))
+            delete_button.setIcon(QIcon("res/icon-delete_dark.png"))
+
+        else:
+            edit_button.setIcon(QIcon("res/icon-diskette.png"))
+            delete_button.setIcon(QIcon("res/icon-delete.png"))
 
         edit_button.clicked.connect(lambda: self.edit_entry(key_edit, value_edit))
         delete_button.clicked.connect(lambda: self.delete_entry(block, key))
@@ -134,4 +141,5 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
     def on_theme_combobox_changed(self, index):
         self.theme_manager.set_app_theme(index)
         self.theme_manager.apply_theme(self)
+        self.init_dictionary_view()
         log.debug(f'Тема приложения изменена на: {index}')
