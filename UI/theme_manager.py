@@ -1,5 +1,4 @@
 import mmkv
-
 from logger.logger_config import logger as log
 from PySide6.QtWidgets import QWidget
 
@@ -21,10 +20,7 @@ class ThemeManager:
 
     def apply_theme(self, widget: QWidget, theme: str = None):
         """
-        Применяет выбранную тему к переданному виджету.
-
-        :param widget: Виджет, к которому применяется стиль.
-        :param theme: Название темы ('dark', 'light' или 'pink'). Если None, применяется текущая тема.
+        Применяет выбранную тему к переданному виджету, его родителям и всем дочерним элементам рекурсивно.
         """
         if theme is None:
             theme = self._themes[self._current_app_theme]
@@ -33,8 +29,13 @@ class ThemeManager:
         try:
             with open(style_file, "r") as file:
                 style = file.read()
-                widget.setStyleSheet(style)  # Применение стиля ко всему виджету
-                log.info(f"Тема '{theme}' применена к '{widget.objectName()}'.")
+                current_widget = widget
+                while current_widget is not None:
+                    current_widget.setStyleSheet(style)
+                    current_widget = current_widget.parentWidget()
+                for child in widget.findChildren(QWidget):
+                    child.setStyleSheet(style)
+                log.info(f"Тема '{theme}' применена рекурсивно к '{widget.objectName()}' и его родительским элементам.")
         except FileNotFoundError:
             log.debug(f"Файл стиля '{style_file}' не найден.")
 
@@ -47,7 +48,6 @@ class ThemeManager:
                     log.info(f'current_app_theme = {theme_id} сохранен в MMKV')
                 except Exception as e:
                     log.error('Ошибка при сохранении темы!', exc_info=e)
-
         else:
             log.warning(f"Недопустимый индекс темы: {theme_id}.")
 

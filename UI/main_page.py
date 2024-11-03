@@ -132,5 +132,6 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
 
     def on_theme_combobox_changed(self, index):
         self.theme_manager.set_app_theme(index)
+        self.theme_manager.apply_theme(self)
         print(self.theme_manager.get_app_theme())
         log.debug(f'Тема приложения изменена на: {index}')
