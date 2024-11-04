@@ -5,7 +5,6 @@ from UI.theme_manager import ThemeManager
 from UI.ui_main_page import Ui_MainPage_FormDock
 from UI.widgets.key_bind_widget import KeyWidget
 from functional.app_management import AppManagement
-from functional.voice_controller import VoiceCommands
 from functional.keywords_settings import KeywordsSettings
 from logger.logger_config import logger as log
 from UI.widgets.keyword_spoiler import KeywordSpoiler
@@ -20,7 +19,6 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         self.setupUi(self)
 
         # Инициализация необходимых классов
-        self.vc = VoiceCommands()
         self.ks = KeywordsSettings()
         self.am = AppManagement()
         self.path_dict = self.am.paths
@@ -33,7 +31,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         self.pushButton.clicked.connect(self.on_add_button_click)
         self.keyword_lineEdit.setPlaceholderText('Ключевое слово')
         self.path_lineEdit.setPlaceholderText('Путь')
-        self.VoiceMode_comboBox.setCurrentIndex(self.vc.operating_mode)
+        self.VoiceMode_comboBox.setCurrentIndex(self.ks.vc.operating_mode)
         self.VoiceMode_comboBox.currentIndexChanged.connect(self.on_voice_mode_combobox_changed)
         self.theme_comboBox.setCurrentIndex(self.theme_manager.get_app_theme_index())
         self.theme_comboBox.currentIndexChanged.connect(self.on_theme_combobox_changed)
@@ -63,7 +61,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
                 widget.deleteLater()
 
         # Создаем виджет для каждого ключа и комбинации из словаря keys
-        for key, key_combination in self.vc.keys.items():
+        for key, key_combination in self.ks.vc.keys.items():
             key_widget = KeyWidget(key, key_combination, self.ks.rebind_vc_keys)
             self.keys_verticalLayout.addWidget(key_widget)
 
@@ -76,7 +74,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
                 widget.deleteLater()
 
         # Создаем и добавляем KeywordSpoiler для каждого ключа в словаре
-        for key, keywords in self.vc.keywords.items():
+        for key, keywords in self.ks.vc.keywords.items():
             spoiler = KeywordSpoiler(
                 key,
                 keywords,
@@ -178,7 +176,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
 
     def on_voice_mode_combobox_changed(self, index):
         """Изменить режим голосового управления."""
-        self.vc.operating_mode = index
+        self.ks.vc.operating_mode = index
         log.debug(f'Режим голосового управления изменен на: {index}')
 
     def on_theme_combobox_changed(self, index):

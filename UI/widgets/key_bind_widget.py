@@ -1,10 +1,8 @@
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QLabel, QPushButton
 from PySide6.QtCore import QSize
-from functional.voice_controller import VoiceCommands
 
 
 class KeyWidget(QWidget):
-    vc = VoiceCommands()
 
     def __init__(self, key, key_combination, on_key_combination_clicked, parent=None):
         super().__init__(parent)

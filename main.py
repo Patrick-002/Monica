@@ -1,5 +1,3 @@
-import mmkv
-from mmkv import MMKVLogLevel
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import QApplication, QMainWindow, QSystemTrayIcon, QMenu
 from PySide6.QtCore import QThread, Qt, QEvent
@@ -50,10 +48,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if self.windowState() == Qt.WindowState.WindowMinimized:
                 self.hide()
 
-    def closeEvent(self, event):
-        mmkv.MMKV.unRegisterLogHandler()
-        super().closeEvent(event)
-
     def trey_gui(self):
         self.tray_icon.setIcon(QIcon("res/icon.png"))
         self.tray_icon.activated.connect(self.restore_window)
@@ -78,7 +72,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == '__main__':
     try:
-        mmkv.MMKV.initializeMMKV(rootDir='.\\mmkv', logLevel= MMKVLogLevel.Debug)
         app = QApplication(sys.argv)
         window = MainWindow()
         window.setWindowIcon(QIcon("res/icon.ico"))

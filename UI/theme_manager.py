@@ -10,7 +10,8 @@ class ThemeManager:
     _style_cache = {}
 
     def __init__(self):
-        mmkv.MMKV.initializeMMKV(rootDir='.\\mmkv')
+        if mmkv.MMKV.defaultMMKV() is None:
+            mmkv.MMKV.initializeMMKV(rootDir='.\\mmkv', logLevel=mmkv.MMKVLogLevel.Error)
         self.kv = mmkv.MMKV.defaultMMKV()
         if self.kv:
             if 'current_app_theme' in self.kv:
@@ -18,7 +19,7 @@ class ThemeManager:
             else:
                 log.info('Переменная current_app_theme не найдена, установлена тема по умолчанию')
         else:
-            log.warning('Не удалось инициализировать MMKV. Используется тема по умолчанию')
+            log.warning('MMKV не найден. Используется тема по умолчанию')
 
     def apply_theme(self, widget: QWidget, theme: str = None):
         """
