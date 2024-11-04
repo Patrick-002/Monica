@@ -177,7 +177,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
     def on_voice_mode_combobox_changed(self, index):
         """Изменить режим голосового управления."""
         self.ks.vc.operating_mode = index
-        log.debug(f'Режим голосового управления изменен на: {index}')
+        log.info(f'Режим голосового управления изменен на: {index}')
 
     def on_theme_combobox_changed(self, index):
         """Изменить тему приложения."""
@@ -185,7 +185,7 @@ class MainPage(QWidget, Ui_MainPage_FormDock):
         self.theme_manager.apply_theme(self)
         self.init_keywords_view()
         self.init_dictionary_view()
-        log.debug(f'Тема приложения изменена на: {index}')
+        log.info(f'Тема приложения изменена на: {index}')
 
     def on_category_changed(self, index):
         """Переключение категории по индексу."""

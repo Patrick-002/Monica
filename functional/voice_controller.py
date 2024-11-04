@@ -72,12 +72,28 @@ class VoiceListening:
             elif self.vc.operating_mode == 2:
                 last_press_time = self._handle_mode_2(listen_timeout, last_press_time)
 
+    def activate_mode(self, mode):
+        if mode != 1 and self.op_mod_1_active:
+            self.stop_thread()
+
+        if mode == 1:
+            if not self.op_mod_1_active:
+                self._start_button_thread()
+            log.debug("Активирован режим 1")
+        else:
+            if self.op_mod_1_active:
+                self.stop_thread()
+            log.debug(f"Активирован режим {mode}")
+
     def _handle_mode_0(self):
         """Режим 0: Распознавание по ключевому слову"""
         self._start_stream_if_not_active()
         command = self.read_the_command()
-        if command and command.lower().startswith(self.vc.keywords["ultimate_key"]):
-            self.vc.command_recognition(command[len(self.vc.keywords["ultimate_key"]) + 1:])
+        ultimate_keys = self.vc.keywords["ultimate_key"]
+        for key in ultimate_keys:
+            if command and command.lower().startswith(key):
+                self.vc.command_recognition(command[len(key) + 1:])
+                break
         if self.op_mod_1_active:
             self.stop_thread()
 
@@ -111,22 +127,30 @@ class VoiceListening:
             self.stop_thread()
         return last_press_time
 
+    def update_switch_button(self):
+        if self.button_thread and self.button_thread.is_alive():
+            self.stop_thread()
+        self._start_button_thread()
+
     def check_button(self):
         while not self.stop_button_thread:
-            if keyboard.is_pressed(self.vc.keys["switch_button"][0]):
-                self.switch_button_flag = not self.switch_button_flag
-                print("Слушаю" if self.switch_button_flag else "Не слушаю")
-                while keyboard.is_pressed(self.vc.keys["switch_button"][0]):
-                    time.sleep(0.1)
+            if self.vc.operating_mode == 1:
+                if keyboard.is_pressed(self.vc.keys["switch_button"][0]):
+                    self.switch_button_flag = not self.switch_button_flag
+                    print("Слушаю" if self.switch_button_flag else "Не слушаю")
+                    while keyboard.is_pressed(self.vc.keys["switch_button"][0]):
+                        time.sleep(0.1)
             time.sleep(0.01)
 
     def stop_thread(self):
         self.stop_button_thread = True
-        if self.button_thread:
+        if self.button_thread and self.button_thread.is_alive():
             self.button_thread.join()
+            log.debug('Поток для кнопки завершен.')
         self.switch_button_flag = False
         self.op_mod_1_active = False
-        log.debug('Остановлен поток для клавиши переключения')
+        self.stop_button_thread = False
+        log.debug('Флаги сброшены.')
 
     def _start_stream_if_not_active(self):
         if not self.stream.is_active():
@@ -138,10 +162,11 @@ class VoiceListening:
             self._stop_stream()
 
     def _start_button_thread(self):
-        self.button_thread = threading.Thread(target=self.check_button, daemon=True)
-        self.button_thread.start()
-        log.debug('Запущен поток для переключающей кнопки')
-        self.op_mod_1_active = True
+        if not self.button_thread or not self.button_thread.is_alive():
+            self.stop_button_thread = False
+            self.button_thread = threading.Thread(target=self.check_button, daemon=True)
+            self.button_thread.start()
+            log.debug('Запущен новый поток для кнопки.')
 
     def _stop_stream(self):
         if self.stream.is_active():
@@ -232,11 +257,14 @@ class VoiceCommands:
         if self.kv:
             try:
                 self.kv.set(value, 'operating_mode')
-                log.debug('Режим работы успешно сохранён в MMKV.')
+                log.debug(f'Режим работы {value} сохранён в MMKV.')
             except Exception as e:
                 log.error('Ошибка при сохранении режима работы в MMKV.', exc_info=e)
         else:
             log.error("Невозможно сохранить режим работы, объект MMKV не найден.")
+
+        voice_listener = VoiceListening()
+        voice_listener.activate_mode(value)
 
     def command_recognition(self, command):
         if not command:
