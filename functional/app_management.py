@@ -8,6 +8,7 @@ import win32process
 import win32gui
 from logger.logger_config import logger as log
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 class AppManagement:
@@ -39,11 +40,12 @@ class AppManagement:
 
     def add_path(self, keyword: str, path: str) -> bool:
         path_obj = Path(path.strip('"'))
-        if self._path_exists(path_obj):
+        if self._path_exists(path_obj) or is_url(path):
             self.paths[keyword] = str(path_obj)
             self._save_data()
-            log.info(f'Добавлен путь: {path_obj} для ключа: {keyword}')
+            log.info(f'Добавлено значение: {path_obj} для ключа: {keyword}')
             return True
+
         log.warning("Файл или папка не найдены")
         return False
 
@@ -133,3 +135,7 @@ def google_search(query: str):
     search_url = base_url + query.replace(" ", "+")
     webbrowser.open(search_url)
     log.info(f"Ищем в Google: {query}")
+
+def is_url(string: str) -> bool:
+    parsed = urlparse(string)
+    return all([parsed.scheme, parsed.netloc])

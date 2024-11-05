@@ -11,6 +11,7 @@ class KeyWidget(QWidget):
         self.on_key_combination_clicked = on_key_combination_clicked
 
         # Основной layout
+        
         layout = QHBoxLayout()
 
         # Лейбл для отображения ключа
