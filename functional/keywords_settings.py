@@ -63,3 +63,9 @@ class KeywordsSettings(QObject):
             self.keys_updated.emit()  # Вызываем сигнал, чтобы обновить ключи
         else:
             log.error(f"Ключ {key} не найден или индекс {index} вне диапазона для keywords")
+
+    def remove_vc_keywords(self, key, index):
+        if key in self.vc.keywords and index < len(self.vc.keywords[key]):
+            self.vc.keywords[key][index] = None
+            log.info(f"Ключевое слово для {key} удалено по индексу {index}")
+            self.keys_updated.emit()  # Вызываем сигнал, чтобы обновить ключи
