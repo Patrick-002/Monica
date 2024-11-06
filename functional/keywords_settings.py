@@ -19,6 +19,10 @@ class KeywordsSettings(QObject):
         while True:
             event = keyboard.read_event(suppress=True)
 
+            if event.event_type == keyboard.KEY_DOWN and event.name == 'esc':
+                log.info("Отмена ввода клавиши")
+                return None
+
             if event.event_type == keyboard.KEY_DOWN:
                 keys_pressed.add(event.name)
 
@@ -38,6 +42,8 @@ class KeywordsSettings(QObject):
         """Изменить комбинацию клавиш для голосовой команды."""
         if key in self.vc.keys:  # Проверяем, существует ли ключ
             key_pressed = self.get_key_combination()
+            if key_pressed is None:
+                return
             updated_keys = self.vc.keys
             updated_keys[key][0] = key_pressed
             self.vc.keys = updated_keys
