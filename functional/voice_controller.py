@@ -255,6 +255,18 @@ class VoiceCommands:
         else:
             log.error("Невозможно сохранить бинды, объект MMKV не найден.")
 
+    def update_keywords(self, key, new_keywords_list):
+        """Обновляет ключевые слова для заданного ключа и сохраняет в MMKV."""
+        self._keywords_dict[key] = new_keywords_list
+        if self.kv:
+            try:
+                self.kv.set(pickle.dumps(self._keywords_dict), 'keys')
+                log.info('Ключевые слова успешно обновлены и сохранены в MMKV.')
+            except Exception as e:
+                log.error('Ошибка при сохранении обновленных ключевых слов в MMKV.', exc_info=e)
+        else:
+            log.error("Невозможно сохранить ключевые слова, объект MMKV не найден.")
+
     @keywords.setter
     def keywords(self, value):
         self._keywords_dict = value

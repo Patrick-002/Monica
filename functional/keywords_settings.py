@@ -55,7 +55,9 @@ class KeywordsSettings(QObject):
     def add_vc_keywords(self, key, new_keyword: str):
         """Добавить новое ключевое слово к голосовой команде."""
         if key in self.vc.keywords:  # Проверяем, существует ли ключ
-            self.vc.keywords[key].append(new_keyword)
+            updated_keywords = self.vc.keywords[key]
+            updated_keywords.append(new_keyword)
+            self.vc.update_keywords(key, updated_keywords)  # Сохраняем изменения
             log.info(f"Добавлено новое ключевое слово '{new_keyword}' для ключа '{key}'")
             self.keys_updated.emit()  # Вызываем сигнал, чтобы обновить ключи
         else:
@@ -64,7 +66,9 @@ class KeywordsSettings(QObject):
     def rebind_vc_keywords(self, key, new_keyword: str, index):
         """Перепривязка ключевого слова по индексу."""
         if key in self.vc.keywords and index < len(self.vc.keywords[key]):
-            self.vc.keywords[key][index] = new_keyword
+            updated_keywords = self.vc.keywords[key]
+            updated_keywords[index] = new_keyword
+            self.vc.update_keywords(key, updated_keywords)  # Сохраняем изменения
             log.info(f"Ключевое слово для {key} обновлено на {new_keyword} по индексу {index}")
             self.keys_updated.emit()  # Вызываем сигнал, чтобы обновить ключи
         else:
@@ -72,6 +76,10 @@ class KeywordsSettings(QObject):
 
     def remove_vc_keywords(self, key, index):
         if key in self.vc.keywords and index < len(self.vc.keywords[key]):
-            self.vc.keywords[key][index] = None
+            updated_keywords = self.vc.keywords.copy()
+            del updated_keywords[key][index]
+            self.vc.update_keywords(updated_keywords)
             log.info(f"Ключевое слово для {key} удалено по индексу {index}")
             self.keys_updated.emit()  # Вызываем сигнал, чтобы обновить ключи
+        else:
+            log.error(f"Ключ {key} не найден или индекс {index} вне диапазона для keywords")
