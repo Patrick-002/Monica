@@ -217,7 +217,7 @@ class VoiceCommands:
                 log.warning(
                     'Не удалось найти сохранённую переменную "operating_mode", установлено значение по умолчанию - 0 (Распознавание по ключевому слову).')
 
-            if 'keys' not in self.kv:
+            if 'keys' in self.kv:
                 try:
                     self._keywords_dict = pickle.loads(self.kv.getBytes('keys'))
                 except Exception as e:
@@ -225,7 +225,7 @@ class VoiceCommands:
             else:
                 log.warning('Не удалось найти сохранённую переменную "_keywords_dict", используются ключи по умолчанию.')
 
-            if 'binds' not in self.kv:
+            if 'binds' in self.kv:
                 try:
                     self._keys_dict = pickle.loads(self.kv.getBytes('binds'))
                 except Exception as e:
