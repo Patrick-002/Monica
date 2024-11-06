@@ -223,7 +223,15 @@ class VoiceCommands:
                 except Exception as e:
                     log.error('Ошибка при загрузке ключей из MMKV, используются ключи по умолчанию.', exc_info=e)
             else:
-                log.warning('Не удалось найти сохранённую переменную "keys", используются ключи по умолчанию.')
+                log.warning('Не удалось найти сохранённую переменную "_keywords_dict", используются ключи по умолчанию.')
+
+            if 'binds' not in self.kv:
+                try:
+                    self._keys_dict = pickle.loads(self.kv.getBytes('binds'))
+                except Exception as e:
+                    log.error('Ошибка при загрузке биндов из MMKV, используются ключи по умолчанию.', exc_info=e)
+            else:
+                log.warning('Не удалось найти сохранённую переменную "_keys_dict", используются ключи по умолчанию.')
         else:
             log.error("Объект MMKV не найден.")
 
@@ -235,13 +243,25 @@ class VoiceCommands:
     def keys(self):
         return self._keys_dict
 
+    @keys.setter
+    def keys(self, value):
+        self._keys_dict = value
+        if self.kv:
+            try:
+                self.kv.set(pickle.dumps(value), 'binds')
+                log.info('Ключи успешно сохранены в MMKV.')
+            except Exception as e:
+                log.error('Ошибка при сохранении биндов в MMKV.', exc_info=e)
+        else:
+            log.error("Невозможно сохранить бинды, объект MMKV не найден.")
+
     @keywords.setter
     def keywords(self, value):
         self._keywords_dict = value
         if self.kv:
             try:
                 self.kv.set(pickle.dumps(value), 'keys')
-                log.debug('Ключи успешно сохранены в MMKV.')
+                log.info('Ключи успешно сохранены в MMKV.')
             except Exception as e:
                 log.error('Ошибка при сохранении ключей в MMKV.', exc_info=e)
         else:

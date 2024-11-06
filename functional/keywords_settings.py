@@ -38,7 +38,9 @@ class KeywordsSettings(QObject):
         """Изменить комбинацию клавиш для голосовой команды."""
         if key in self.vc.keys:  # Проверяем, существует ли ключ
             key_pressed = self.get_key_combination()
-            self.vc.keys[key][0] = key_pressed
+            updated_keys = self.vc.keys
+            updated_keys[key][0] = key_pressed
+            self.vc.keys = updated_keys
             log.info(f"Комбинация для ключа {key} успешно изменена на {key_pressed}")
             self.keys_updated.emit()  # Вызываем сигнал, чтобы обновить ключи
         else:
